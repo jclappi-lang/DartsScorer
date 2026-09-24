@@ -24,10 +24,9 @@
     --red:#ff4d6d;
     --shadow:0 18px 40px -18px rgba(0,0,0,.9);
     --r:18px;
-    /* fallback chain: dvh (modern, tracks toolbar) -> vh */
-    --vh: 100vh;
+    --vh:100vh;
   }
-  @supports (height: 100dvh){ :root{ --vh: 100dvh; } }
+  @supports (height:100dvh){ :root{ --vh:100dvh; } }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
   html,body{min-height:100%;overflow-x:hidden}
   body{
@@ -120,10 +119,7 @@
   .game-top .meta h2{font-size:17px;font-weight:900;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .game-top .meta .sub{font-size:11px;margin-top:0}
   .view-toggle{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:3px}
-  .view-toggle button{
-    border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:800;
-    font-size:10.5px;letter-spacing:.5px;padding:8px 10px;border-radius:8px;cursor:pointer;
-  }
+  .view-toggle button{border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:800;font-size:10.5px;letter-spacing:.5px;padding:8px 10px;border-radius:8px;cursor:pointer}
   .view-toggle button.on{background:var(--accent2);color:#062018}
 
   /* scoreboard strip */
@@ -138,39 +134,49 @@
   .pcard.turn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
   .pcard .nm{font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .pcard.turn .nm{color:#fff}
-  .pcard .sc{font-size:clamp(20px,2.4vw,30px);font-weight:900;letter-spacing:-1.5px;margin-top:1px;font-variant-numeric:tabular-nums;line-height:1.1}
+  .pcard .sc{font-size:clamp(20px,2.4vw,30px);font-weight:900;letter-spacing:-1.5px;margin-top:1px;font-variant-numeric:tabular-nums;line-height:1.1;transition:color .15s}
+  .pcard .sc.finish{color:var(--gold)}
+  .pcard .sc.bust{color:var(--red);font-size:clamp(16px,1.9vw,23px)}
   .pcard .meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:1px}
   .pcard .darts{display:flex;gap:4px;margin-top:5px}
   .pcard .darts i{width:100%;height:4px;border-radius:3px;background:rgba(255,255,255,.12)}
   .pcard .darts i.on{background:var(--accent)}
   .pcard:not(.turn) .darts i.on{background:var(--accent2)}
 
-  /* main two-column area (tablet) */
   .play-area{flex:1;min-height:0;display:flex;gap:10px;padding:4px 14px 10px}
-  .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+  .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:7px}
   .keypad-col{width:min(48%,440px);min-height:0;display:flex;flex-direction:column;min-width:0}
 
-  .turn-banner{
-    border-radius:14px;padding:10px 15px;background:var(--panel);border:1px solid var(--line);
-    display:flex;align-items:center;gap:12px;flex-shrink:0;
-  }
+  .turn-banner{border-radius:14px;padding:9px 15px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-shrink:0}
   .turn-banner .who{font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .turn-banner .hint{color:var(--muted);font-size:12px;font-weight:700;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .turn-banner .hint.bust{color:var(--red)}
   .turn-banner .left-count{margin-left:auto;text-align:right;flex-shrink:0}
   .turn-banner .left-count b{font-size:21px;font-weight:900;font-variant-numeric:tabular-nums}
+  .turn-banner .left-count b.bust{color:var(--red);font-size:16px}
   .turn-banner .left-count span{display:block;font-size:9.5px;letter-spacing:1.5px;color:var(--muted);font-weight:800}
 
   .slot-row{display:flex;gap:7px;flex-shrink:0}
-  .slot{
-    flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);
-    height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
-  }
+  .slot{flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
   .slot.filled{border-style:solid;border-color:var(--accent2);background:rgba(0,224,198,.09)}
-  .slot .big{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
+  .slot .big{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
   .slot .lbl{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted)}
   .slot.filled .lbl{color:var(--accent2)}
 
-  .panel-area{flex:1;min-height:0;display:flex;flex-direction:column}
+  .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
+
+  /* checkout card */
+  .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;
+    border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
+  .finish-card.bogey{border-color:rgba(255,211,92,.35);background:linear-gradient(120deg,rgba(255,211,92,.10),rgba(255,255,255,.02))}
+  .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
+  .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1}
+  .finish-card.bust .fnum{color:var(--red);font-size:16px;letter-spacing:0}
+  .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
+  .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums}
+  .farrow{color:var(--muted);font-size:11px;font-weight:800}
+  .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
 
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
@@ -180,30 +186,44 @@
   .hrow .hv{font-weight:900;width:48px;text-align:right;font-variant-numeric:tabular-nums}
   .hrow .hv.bust{color:var(--red)}
 
-  /* keypad fills its column */
+  /* keypad */
   .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:9px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0}
-  .pad-display{display:flex;align-items:center;gap:10px;background:#0b1020;border-radius:11px;padding:7px 13px;flex-shrink:0}
-  .pad-display .v{font-size:clamp(20px,2.2vw,28px);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;flex:1;line-height:1.1}
-  .pad-display .m{font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--accent2);text-align:right}
+  .pad-display{display:flex;align-items:center;gap:10px;background:#0b1020;border-radius:11px;padding:6px 12px;flex-shrink:0}
+  .pad-display .armed{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:19px;color:#062018;background:linear-gradient(135deg,var(--accent2),#29ff8f);transition:background .15s}
+  .pad-display .armed.m2{background:linear-gradient(135deg,var(--gold),#ffb03a)}
+  .pad-display .armed.m3{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
+  .pad-display .armed-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.3px;color:var(--muted);line-height:1.35}
+  .pad-display .armed-lbl b{display:block;color:var(--txt);font-size:13px;letter-spacing:.4px}
+  .pad-display .last{margin-left:auto;text-align:right;font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.35}
+  .pad-display .last b{display:block;color:var(--accent2);font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
   .mult-row{display:flex;gap:6px;flex-shrink:0}
-  .mult{
-    flex:1;border-radius:10px;padding:8px 0;font-weight:900;font-size:13.5px;cursor:pointer;
-    background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;
-  }
+  .mult{flex:1;border-radius:10px;padding:8px 0;font-weight:900;font-size:13.5px;cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s}
+  .mult:active{transform:scale(.95)}
   .mult.on{background:linear-gradient(135deg,var(--accent2),#29ff8f);color:#062018;border-color:transparent}
+  .mult.on[data-mult="2"]{background:linear-gradient(135deg,var(--gold),#ffb03a)}
+  .mult.on[data-mult="3"]{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
   .mult small{display:block;font-size:8px;letter-spacing:1px;font-weight:800;opacity:.7;margin-top:1px}
-  .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0}
+
+  .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:1fr}
   .key{
     border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);
     font-size:clamp(14px,1.8vw,19px);font-weight:800;cursor:pointer;font-family:inherit;
-    display:grid;place-items:center;min-height:0;transition:transform .08s,background .15s;
+    display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;
     font-variant-numeric:tabular-nums;
   }
   .key:active{transform:scale(.93);background:#2b3654}
+  .key.locked{opacity:.28;pointer-events:none}
   .key.bull{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(10px,1.3vw,13px)}
   .key.zero{background:rgba(255,255,255,.03);color:var(--muted);font-size:clamp(10px,1.3vw,13px)}
   .key.back{background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;grid-column:span 2;font-size:clamp(10px,1.2vw,12.5px);letter-spacing:.4px}
-  .key.enter{background:linear-gradient(135deg,var(--green),#19c98d);color:#052018;border-color:transparent;grid-column:span 3;font-size:clamp(11px,1.4vw,14px);letter-spacing:.8px;font-weight:900}
+  .key.enter{
+    grid-column:span 5;background:var(--panel2);border:1px solid var(--line);color:var(--muted);
+    font-size:clamp(12px,1.5vw,15px);letter-spacing:1px;font-weight:900;
+  }
+  .key.enter.ready{background:linear-gradient(135deg,var(--green),#19c98d);color:#052018;border-color:transparent;box-shadow:0 8px 22px -10px var(--green)}
+  .key.enter.armed{animation:pulseG 1.3s infinite}
+  @keyframes pulseG{0%,100%{box-shadow:0 8px 22px -10px var(--green)}50%{box-shadow:0 8px 30px -4px var(--green)}}
+  .key.enter.bust{background:linear-gradient(135deg,var(--red),#c9203f);color:#fff;border-color:transparent;box-shadow:0 8px 22px -10px var(--red)}
 
   /* ---------- MODAL ---------- */
   .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
@@ -239,14 +259,11 @@
   /* =========================================================
      VIEW MODES
      ========================================================= */
-  /* --- FIT MODE: lock to visible viewport, everything on one screen --- */
   body.view-fit{overflow:hidden}
   body.view-fit #app{height:var(--vh);min-height:0;overflow:hidden}
   body.view-fit #scr-game{flex:1;min-height:0;overflow:hidden}
   body.view-fit .play-area{overflow:hidden}
-  body.view-fit .keys{grid-auto-rows:1fr}
 
-  /* --- SCROLL MODE (phone-friendly) --- */
   body.view-scroll{overflow-y:auto}
   body.view-scroll #app{min-height:var(--vh);height:auto}
   body.view-scroll #scr-game{flex:none}
@@ -255,17 +272,15 @@
   body.view-scroll .side{flex:none}
   body.view-scroll .pad{flex:none;min-height:0}
   body.view-scroll .keys{grid-auto-rows:52px;flex:none}
-  body.view-scroll .hist{flex:none;max-height:none;height:42vh}
+  body.view-scroll .hist{flex:none;max-height:none;height:38vh}
   body.view-scroll .panel-area{flex:none;min-height:0}
 
-  /* portrait tablets: stack, guarantee keypad height, still fit vertically */
   @media (max-aspect-ratio: 1/1){
     body.view-fit .play-area{flex-direction:column;gap:8px}
-    body.view-fit .keypad-col{width:100%;flex:0 0 auto;min-height:0;height:46%}
+    body.view-fit .keypad-col{width:100%;flex:0 0 auto;min-height:0;height:48%}
     body.view-fit .side{flex:1 1 auto;min-height:0}
     body.view-fit .hist{max-height:none}
   }
-  /* phones: fit mode degrades to scroll (a 46%-height keypad is unusable) */
   @media (max-width:700px){
     body.view-fit{overflow-y:auto}
     body.view-fit #app{height:auto;min-height:var(--vh);overflow:visible}
@@ -275,7 +290,7 @@
     body.view-fit .side{flex:none}
     body.view-fit .pad{flex:none}
     body.view-fit .keys{grid-auto-rows:44px;flex:none}
-    body.view-fit .hist{height:34vh}
+    body.view-fit .hist{height:30vh}
   }
   .hide{display:none !important}
 </style>
@@ -377,13 +392,14 @@
       <div class="keypad-col">
         <div class="pad" id="padBox">
           <div class="pad-display">
-            <div class="v" id="padValue">0</div>
-            <div class="m" id="padMultLbl">SINGLE</div>
+            <div class="armed" id="padArmed">S</div>
+            <div class="armed-lbl">ARMED<b id="padMultLbl">SINGLE</b></div>
+            <div class="last">LAST<b id="padLast">—</b></div>
           </div>
           <div class="mult-row" id="multRow">
-            <div class="mult on" data-mult="1">S<small>SINGLE</small></div>
+            <div class="mult" data-mult="1">S<small>SINGLE</small></div>
             <div class="mult" data-mult="2">D<small>DOUBLE</small></div>
-            <div class="mult" data-mult="3">T<small>TREBLE</small></div>
+            <div class="mult on" data-mult="3">T<small>TREBLE</small></div>
           </div>
           <div class="keys" id="keys"></div>
         </div>
@@ -444,12 +460,78 @@ let state = {
 };
 
 /* =========================================================
+   CHECKOUT ROUTE SOLVER
+   ========================================================= */
+const DART_OPTS = (()=>{
+  const a=[];
+  for(let n=1;n<=20;n++){
+    a.push({v:n,mult:3,label:'T'+n});
+    a.push({v:n,mult:1,label:'S'+n});
+    a.push({v:n,mult:2,label:'D'+n});
+  }
+  a.push({v:50,mult:1,label:'BULL'});
+  return a;
+})();
+const DOUBLES = DART_OPTS.filter(d=>d.mult===2||d.v===50);
+const FIN_RANK = {20:0,16:1,18:2,12:3,10:4,8:5,4:6,2:7,1:8,14:9,15:10,13:11,11:12,9:13,7:14,5:15,6:16,3:17};
+const finRank = d => (d.v===50 ? 6 : (FIN_RANK[d.v]!==undefined ? FIN_RANK[d.v] : 20));
+
+function cmpRoute(x,y){
+  const rx=finRank(x[x.length-1]), ry=finRank(y[y.length-1]);
+  if(rx!==ry) return rx-ry;
+  for(let i=0;i<x.length-1;i++){
+    const xv=DART_OPTS.indexOf(x[i]), yv=DART_OPTS.indexOf(y[i]);
+    if(xv!==yv) return yv-xv; // lower index = higher value = preferred
+  }
+  return 0;
+}
+
+const routeCache = new Map();
+function routeFor(score){
+  if(score<2 || score>170) return null;
+  if(score%2 !== 0) return null;               // double-out: odd numbers never check out
+  if(routeCache.has(score)) return routeCache.get(score);
+
+  // one dart
+  for(const d of DOUBLES){
+    if(d.v*d.mult===score){ routeCache.set(score,[d]); return [d]; }
+  }
+  // two darts
+  let best=null;
+  for(const a of DART_OPTS){
+    const av=a.v*a.mult;
+    for(const d of DOUBLES){
+      if(av + d.v*d.mult === score){
+        const r=[a,d];
+        if(!best || cmpRoute(r,best)<0) best=r;
+      }
+    }
+  }
+  if(best){ routeCache.set(score,best); return best; }
+  // three darts
+  for(const a of DART_OPTS){
+    const av=a.v*a.mult;
+    for(const b of DART_OPTS){
+      const bv=av + b.v*b.mult;
+      if(bv >= score) continue;
+      for(const d of DOUBLES){
+        if(bv + d.v*d.mult === score){
+          const r=[a,b,d];
+          if(!best || cmpRoute(r,best)<0) best=r;
+        }
+      }
+    }
+  }
+  routeCache.set(score,best||null);
+  return best||null;
+}
+
+/* =========================================================
    UTILITIES
    ========================================================= */
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 
-/* Live viewport height variable — tracks iPad Safari toolbars */
 function syncVh(){
   const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   document.documentElement.style.setProperty('--vh', h + 'px');
@@ -476,16 +558,15 @@ function setView(v){
 }
 function vibrate(ms){ if(navigator.vibrate) try{navigator.vibrate(ms)}catch(e){} }
 
-/* Fullscreen toggle */
 function toggleFullscreen(){
   const el = document.documentElement;
-  const isFs = document.fullscreenElement || document.webkitFullscreenElement || document.webkitDisplayingFullscreen;
+  const isFs = document.fullscreenElement || document.webkitFullscreenElement;
   if(!isFs){
     const req = el.requestFullscreen || el.webkitRequestFullscreen;
-    if(req) { try{ req.call(el).catch(()=>{}); }catch(e){} }
+    if(req){ try{ const r=req.call(el); if(r&&r.catch) r.catch(()=>{}); }catch(e){} }
   } else {
     const exit = document.exitFullscreen || document.webkitExitFullscreen;
-    if(exit) { try{ exit.call(document).catch(()=>{}); }catch(e){} }
+    if(exit){ try{ exit.call(document); }catch(e){} }
   }
   setTimeout(syncVh, 350);
 }
@@ -639,7 +720,9 @@ $('#btnRules').addEventListener('click', ()=>{
       ${MODES.map(m=>`<div style="margin-bottom:16px"><div style="font-weight:900;font-size:15px">${m.ico} ${m.name}</div>
       <div style="color:var(--muted);font-size:13px;font-weight:600;line-height:1.55;margin-top:5px">${m.rules}</div></div>`).join('')}
       <div style="border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;font-weight:600">
-        Keypad: choose S / D / T then the number. Extra buttons: <b>25</b> = outer bull, <b>BULL</b> = 50 (double bull), <b>0</b> = miss.
+        Entering darts: pick S / D / T (the multiplier stays armed), then tap a number — the dart is recorded instantly.
+        Tap <b>⌫ DELETE</b> to remove the last dart, then <b>ENTER TURN</b> once your three darts are in.
+        <b>25</b> = outer bull, <b>BULL</b> = 50 (double bull), <b>MISS</b> = no score.
       </div>
     </div>
     <div class="row"><button class="btn primary" data-close>Got it</button></div>`);
@@ -656,7 +739,7 @@ function startGame(){
   }));
   const g = {
     mode: state.mode.id, variant: state.variant, players, turn: 0,
-    dartsThrown: {}, history: [], aiPending: false, over:false, _visit:{}
+    dartsThrown: {}, history: [], aiPending: false, over:false, _visit:{}, _locked:false, _tapAt:0
   };
   players.forEach(p => g.dartsThrown[p.id] = 0);
 
@@ -673,6 +756,7 @@ function startGame(){
   }
   if(g.mode==='free') players.forEach(p=>{ p.score = 0; });
 
+  lastDart = null;
   state.g = g;
   show('scr-game');
   setView(state.view);
@@ -685,49 +769,89 @@ function startGame(){
 /* =========================================================
    KEYPAD
    ========================================================= */
-let pad = { value:0, mult:1 };
+let padMult = 3;     // armed multiplier — stays until changed
+let lastDart = null; // {v,mult}
 
 function buildKeypad(){
   let html = '';
-  for(let n=1;n<=20;n++) html += `<button class="key" data-num="${n}">${n}</button>`;
+  for(let n=1;n<=20;n++) html += `<button class="key num" data-num="${n}">${n}</button>`;
   html += `<button class="key bull" data-num="25">25</button>`;
   html += `<button class="key bull" data-num="50">BULL</button>`;
   html += `<button class="key zero" data-num="0">MISS</button>`;
   html += `<button class="key back" data-back>⌫ DELETE</button>`;
-  html += `<button class="key enter" data-enter>ENTER DART</button>`;
+  html += `<button class="key enter" data-enter>ENTER TURN</button>`;
   $('#keys').innerHTML = html;
 
   $$('#keys .key[data-num]').forEach(k => k.addEventListener('click', ()=>{
-    pad.value = +k.dataset.num;
-    if(pad.value>=25) pad.mult = 1;
-    renderPad(); vibrate(6);
+    enterDart(+k.dataset.num, padMult);
   }));
   $$('#multRow .mult').forEach(m => m.addEventListener('click', ()=>{
-    pad.mult = +m.dataset.mult; renderPad(); vibrate(6);
+    padMult = +m.dataset.mult; renderPad(); vibrate(6);
   }));
-  $('#keys [data-back]').addEventListener('click', ()=>{
-    const g = state.g; if(!g) return;
+  const back = $('#keys [data-back]');
+  if(back) back.addEventListener('click', ()=>{
+    const g = state.g; if(!g || g._locked) return;
     const cur = g.players[g.turn];
     if((g._visit[cur.id]||[]).length){
       g._visit[cur.id].pop();
       g.dartsThrown[cur.id] = Math.max(0,(g.dartsThrown[cur.id]||1)-1);
+      lastDart = (g._visit[cur.id]||[]).slice(-1)[0] || null;
       rebuildAll(); renderGame();
     }
     vibrate(10);
   });
-  $('#keys [data-enter]').addEventListener('click', enterDart);
+  const enter = $('#keys [data-enter]');
+  if(enter) enter.addEventListener('click', ()=>{
+    const g = state.g; if(!g || g._locked || g.over) return;
+    const p = g.players[g.turn];
+    if(p.cpu) return;
+    if(!(g._visit[p.id]||[]).length){ vibrate(20); return; }
+    endVisit();
+  });
 }
 
 function renderPad(){
-  $('#padValue').textContent = pad.value || 0;
-  $('#padMultLbl').textContent = pad.value===0 ? 'MISS' : (pad.value===25 ? 'OUTER BULL' : pad.value===50 ? 'DOUBLE BULL' : pad.mult===1?'SINGLE':pad.mult===2?'DOUBLE':'TREBLE');
-  $$('#multRow .mult').forEach(m => m.classList.toggle('on', +m.dataset.mult===pad.mult));
-  $$('#keys .key[data-num]').forEach(k => {
-    const on = +k.dataset.num === pad.value;
-    k.style.outline = on ? '2px solid var(--accent2)' : 'none';
-    k.style.outlineOffset = '-2px';
-  });
+  const g = state.g;
+  const p = g ? g.players[g.turn] : null;
+  const darts = (g && p) ? (g._visit[p.id]||[]) : [];
+  const full = darts.length >= 3;
+
+  const el = $('#padArmed');
+  el.textContent = padMult===1?'S':padMult===2?'D':'T';
+  el.className = 'armed m'+padMult;
+  $('#padMultLbl').textContent = padMult===1?'SINGLE':padMult===2?'DOUBLE':'TREBLE';
+
+  if(lastDart){
+    const sc = dartScore(lastDart.v,lastDart.mult);
+    $('#padLast').textContent = (lastDart.v===0?'MISS':dartLabel(lastDart.v,lastDart.mult)) + ' · ' + sc;
+  } else {
+    $('#padLast').textContent = '—';
+  }
+
+  $$('#multRow .mult').forEach(m => m.classList.toggle('on', +m.dataset.mult===padMult));
+
+  const blocked = !g || g.over || (p && p.cpu) || g.aiPending || g._locked;
+  const lockNums = blocked || full;
+  $$('#keys .key.num, #keys .key.bull, #keys .key.zero').forEach(k => k.classList.toggle('locked', lockNums));
+
+  const back = $('#keys [data-back]');
+  if(back) back.classList.toggle('locked', blocked || darts.length===0);
+
+  const eb = $('#keys [data-enter]');
+  if(eb){
+    let cls = 'key enter';
+    let label = 'ENTER TURN';
+    const ev = (g && g.mode==='x01' && p) ? x01Live(p) : null;
+    if(blocked){ /* leave idle */ }
+    else if(ev && ev.bust){ cls += ' bust'; label = 'BUST — ENTER TURN'; }
+    else if(darts.length===0){ /* idle */ }
+    else if(full){ cls += ' ready armed'; label = 'ENTER TURN ✓'; }
+    else { cls += ' ready'; label = 'ENTER TURN'; }
+    eb.className = cls;
+    eb.textContent = label;
+  }
 }
+
 function dartScore(v, mult){ if(v===0) return 0; if(v===50) return 50; return v*mult; }
 function dartName(v, mult){
   if(v===0) return 'Miss';
@@ -743,27 +867,67 @@ function dartLabel(v,mult){
 }
 
 /* =========================================================
-   ENTER DART
+   THROW A DART (instant — no per-dart confirm)
    ========================================================= */
-function enterDart(){
+function enterDart(v, mult){
   const g = state.g;
-  if(!g || g.over) return;
+  if(!g || g.over || g._locked) return;
   const p = g.players[g.turn];
   if(p.cpu || g.aiPending) return;
-  if((g._visit[p.id]||[]).length >= 3) return;
+  const darts = g._visit[p.id] || [];
+  if(darts.length >= 3){ vibrate(20); return; }
 
-  const v = pad.value, m = v>=25 ? 1 : pad.mult;
+  const now = Date.now();
+  if(now - (g._tapAt||0) < 150) return;  // debounce double-taps
+  g._tapAt = now;
+
+  const m = v>=25 ? 1 : mult;
   g.dartsThrown[p.id] = (g.dartsThrown[p.id]||0)+1;
   if(!g._visit[p.id]) g._visit[p.id] = [];
-  g._visit[p.id].push({ v, mult:m, score: dartScore(v,m) });
+  const dart = { v, mult:m, score: dartScore(v,m) };
+  g._visit[p.id].push(dart);
+  lastDart = dart;
 
   applyDart(p, v, m);
-  pad.value = 0; pad.mult = 1; renderPad();
   renderGame();
   vibrate(12);
 
   if(g.over) return;
-  if((g._visit[p.id]||[]).length >= 3) endVisit();
+
+  // auto-commit when the visit is definitively decided
+  if(g.mode==='x01'){
+    const ev = x01Live(p);
+    if(ev.checkout){ finishVisitSoon(); return; }
+  } else if((g.mode==='rtc'||g.mode==='atw') && p.target>20){
+    finishVisitSoon(); return;
+  }
+}
+
+function finishVisitSoon(){
+  const g = state.g;
+  g._locked = true;
+  renderGame();
+  setTimeout(()=>{
+    if(state.g !== g) return;
+    g._locked = false;
+    endVisit();
+  }, 750);
+}
+
+/* live evaluation of the current visit for x01 */
+function x01Live(p){
+  const g = state.g;
+  const darts = g._visit[p.id] || [];
+  const total = darts.reduce((a,d)=>a+d.score,0);
+  const rem = p.score - total;
+  const last = darts[darts.length-1];
+  const lastIsDouble = !!(last && (last.mult===2 || last.v===50));
+  let bust=false, checkout=false;
+  if(darts.length){
+    if(rem===0){ if(lastIsDouble) checkout=true; else bust=true; }
+    else if(rem<0 || rem===1) bust=true;
+  }
+  return { darts, total, rem, bust, checkout };
 }
 
 function applyDart(p, v, m){
@@ -862,26 +1026,20 @@ function rebuildAll(){
    ========================================================= */
 function endVisit(){
   const g = state.g;
+  if(!g || g.over) return;
   const p = g.players[g.turn];
   const darts = [...(g._visit[p.id] || [])];
+  if(!darts.length) return;
   const total = darts.reduce((a,d)=>a+d.score,0);
   const entry = { player:p.id, darts, total, bust:false, checkout:false };
 
   if(g.mode==='x01'){
-    const remaining = p.score - total;
-    const last = darts[darts.length-1];
-    const lastIsDouble = last && (last.mult===2 || last.v===50);
-    let checkout=false, bust=false;
-    if(remaining === 0){ if(lastIsDouble) checkout=true; else bust=true; }
-    else if(remaining < 0 || remaining === 1) bust = true;
-    if(bust) entry.bust = true;
-    else {
-      p.score = remaining;
-      if(checkout){
-        entry.checkout = true; g.over = true; g.winner = p;
-        g.winReason = `${g.startValue} checked out in ${countDartsUsed(p.id)+darts.length} darts`;
-      }
-    }
+    const ev = x01Live(p);
+    if(ev.bust){ entry.bust = true; }
+    else if(ev.checkout){
+      p.score = 0; entry.checkout = true; g.over = true; g.winner = p;
+      g.winReason = `${g.startValue} checked out in ${countDartsUsed(p.id)+darts.length} darts`;
+    } else { p.score = ev.rem; }
   }
   else if(g.mode==='cricket'){
     if(state.variant!=='cricket_noscore') computeCricketScores();
@@ -937,6 +1095,7 @@ function endVisit(){
   g._visit[p.id] = [];
   g.dartsThrown[p.id] = 0;
   if(g.mode==='quack') p._visitNums = [];
+  lastDart = null;
 
   if(g.over){ renderGame(); setTimeout(announceWin, 320); return; }
   advanceTurn();
@@ -987,24 +1146,32 @@ function maybeCpuTurn(){
   const g = state.g;
   if(!g || g.over) return;
   const p = g.players[g.turn];
-  if(!p.cpu){ g.aiPending=false; return; }
+  if(!p.cpu){ g.aiPending=false; renderPad(); return; }
   g.aiPending = true;
-  setTimeout(()=>cpuThrow(p), 620);
+  renderPad();
+  setTimeout(()=>cpuThrow(p), 640);
 }
 function cpuThrow(p){
   const g = state.g;
-  if(g.over || !p.cpu){ g.aiPending=false; return; }
+  if(g.over || !p.cpu){ g.aiPending=false; renderPad(); return; }
   if((g._visit[p.id]||[]).length >= 3){ endVisit(); return; }
 
   const dart = chooseCpuDart(p);
   g.dartsThrown[p.id] = (g.dartsThrown[p.id]||0)+1;
   if(!g._visit[p.id]) g._visit[p.id]=[];
-  g._visit[p.id].push({...dart, score:dartScore(dart.v,dart.mult)});
+  const d = {...dart, score:dartScore(dart.v,dart.mult)};
+  g._visit[p.id].push(d);
+  lastDart = d;
   applyDart(p, dart.v, dart.mult);
 
-  pad.value=0; pad.mult=1; renderPad();
   renderGame();
   if(g.over) return;
+
+  if(g.mode==='x01'){
+    const ev = x01Live(p);
+    if(ev.checkout || ev.bust){ finishVisitSoon(); return; }
+  } else if((g.mode==='rtc'||g.mode==='atw') && p.target>20){ finishVisitSoon(); return; }
+
   if((g._visit[p.id]||[]).length >= 3) endVisit();
   else setTimeout(()=>cpuThrow(p), 560);
 }
@@ -1015,8 +1182,11 @@ function chooseCpuDart(p){
     const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
     const rem = p.score - used;
     if(rem <= 170 && rem >= 2){
-      const path = findCheckout(rem);
-      if(path && path.length){ const d = path[path.length-1]; return {v:d.v, mult:d.mult}; }
+      const path = routeFor(rem);
+      if(path && path.length){
+        const nxt = path[0];
+        return {v:nxt.v, mult:nxt.mult};
+      }
     }
     const target = (rem-40);
     const aim = [60,57,54,51,50,45,40,36,32,20,19,18];
@@ -1051,22 +1221,6 @@ function chooseCpuDart(p){
   const mr=rnd();
   return {v:1+Math.floor(rnd()*20), mult: mr<.62?1:mr<.87?2:3};
 }
-function findCheckout(score){
-  if(score>170 || score<2) return null;
-  const doubles=[];
-  for(let d=1;d<=20;d++) doubles.push({v:d,mult:2,score:d*2});
-  doubles.push({v:50,mult:1,score:50});
-  if(score<=40){ const d = doubles.find(x=>x.score===score); return d?[d]:null; }
-  for(let n=20;n>=1;n--){
-    const t={v:n,mult:3,score:n*3}, rest=score-t.score;
-    if(rest>=2 && rest<=40){ const d=doubles.find(x=>x.score===rest); if(d) return [t,d]; }
-  }
-  for(let n=20;n>=1;n--){
-    const s={v:n,mult:1,score:n}, rest=score-s.score;
-    if(rest>=2 && rest<=40){ const d=doubles.find(x=>x.score===rest); if(d) return [s,d]; }
-  }
-  return null;
-}
 
 /* =========================================================
    RENDER GAME
@@ -1075,6 +1229,7 @@ function renderGame(){
   const g = state.g;
   if(!g) return;
   const p = g.players[g.turn];
+  const ev = (g.mode==='x01') ? x01Live(p) : null;
 
   $('#gTitle').textContent = titleFor(g);
   $('#gSub').textContent = subtitleFor(g);
@@ -1082,17 +1237,33 @@ function renderGame(){
   $('#scoreHead').innerHTML = g.players.map(pl => {
     const thrown = g.dartsThrown[pl.id]||0;
     const isTurn = pl.id===g.turn && !g.over;
+    let val = '', cls = '';
+    if(g.mode==='x01'){
+      if(isTurn && ev){ val = ev.bust ? 'BUST' : ev.rem; if(ev.bust) cls='bust'; else if(ev.rem<=170 && routeFor(ev.rem)) cls='finish'; }
+      else val = pl.score;
+    } else { val = bigScore(pl); }
     return `<div class="pcard ${isTurn?'turn':''}">
       <div class="nm" style="color:${isTurn?'#fff':pl.color}">${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
-      <div class="sc">${bigScore(pl)}</div>
+      <div class="sc ${cls}">${val}</div>
       <div class="meta">${metaScore(pl)}</div>
       <div class="darts">${[0,1,2].map(i=>`<i class="${i<thrown?'on':''}"></i>`).join('')}</div>
     </div>`;
   }).join('');
 
   $('#turnWho').textContent = g.over ? 'Game over' : `${p.name}${p.cpu?' (CPU)':''} to throw`;
-  $('#turnHint').textContent = hintFor(g, p);
-  $('#turnLeft').textContent = (g.dartsThrown[p.id]||0)+'/3';
+  const hint = $('#turnHint');
+  hint.textContent = hintFor(g, p, ev);
+  hint.className = 'hint' + ((ev&&ev.bust) ? ' bust' : '');
+  const tl = $('#turnLeft');
+  if(g.mode==='x01'){
+    tl.textContent = ev.bust ? 'BUST' : ev.rem;
+    tl.className = ev.bust ? 'bust' : '';
+    $('#turnLeftLbl').textContent = 'LEFT';
+  } else {
+    tl.textContent = (g.dartsThrown[p.id]||0)+'/3';
+    tl.className = '';
+    $('#turnLeftLbl').textContent = 'DARTS';
+  }
 
   const visit = g._visit[p.id] || [];
   $('#slotRow').innerHTML = [0,1,2].map(i=>{
@@ -1103,10 +1274,10 @@ function renderGame(){
     </div>`;
   }).join('');
 
-  renderModePanel(g, p);
+  renderModePanel(g, p, ev);
 
-  const blocked = g.over || p.cpu || g.aiPending;
-  $('#padBox').style.opacity = blocked ? '.42' : '1';
+  const blocked = g.over || p.cpu || g.aiPending || g._locked;
+  $('#padBox').style.opacity = blocked ? '.45' : '1';
   $('#padBox').style.pointerEvents = blocked ? 'none' : 'auto';
   renderPad();
 }
@@ -1124,7 +1295,7 @@ function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<
 
 function bigScore(p){
   const g=state.g;
-  if(g.mode==='x01'||g.mode==='cricket') return p.score;
+  if(g.mode==='cricket') return p.score;
   if(g.mode==='rtc'||g.mode==='atw') return p.target>20 ? '✓' : p.target;
   if(g.mode==='quack'){
     if(g.variant==='quack') return p.score;
@@ -1147,15 +1318,18 @@ function metaScore(p){
   if(g.mode==='free'){ const d=countDartsUsed(p.id); return d? (p.score/d*3).toFixed(1)+' avg/3' : 'no darts yet'; }
   return '';
 }
-function hintFor(g,p){
+function hintFor(g,p,ev){
   if(g.over) return g.winReason || '';
   if(p.cpu) return 'CPU is throwing…';
-  const th = g.dartsThrown[p.id]||0;
   if(g.mode==='x01'){
-    const left = p.score;
-    if(left<=170){ const out=findCheckout(left); if(out) return 'Checkout: ' + out.map(d=>dartName(d.v,d.mult)).join(' → '); }
-    return th===0 ? 'Up to 3 darts this visit' : (3-th)+' dart'+((3-th)>1?'s':'')+' left this visit';
+    if(ev && ev.bust) return 'Bust — press ENTER TURN to void this visit';
+    const rem = ev ? ev.rem : p.score;
+    const route = routeFor(rem);
+    if(route) return 'Finish: ' + route.map(d=>d.label).join(' → ');
+    if(rem<=170) return 'No 3-dart finish from '+rem+' — set up a double';
+    return 'Aim T20 to bring it down';
   }
+  const th = g.dartsThrown[p.id]||0;
   if(g.mode==='cricket') return 'Close 20→15 and the bull, then score';
   if(g.mode==='rtc') return 'Aim for '+(p.target>20?'the BULLSEYE':p.target+(state.variant==='rtc_double'?' (double only)':''));
   if(g.mode==='atw') return 'Aim for '+(p.target>20?'the BULLSEYE':p.target);
@@ -1164,11 +1338,36 @@ function hintFor(g,p){
     if(g.variant==='kill') return p.killer? 'Hit an opponent’s double to strip a life' : 'Hit any double to become a killer';
     if(g.variant==='baseball') return 'Inning '+Math.min(9,p.inning)+' — runs on '+Math.min(9,p.inning);
   }
-  return 'Throw your darts';
+  return th===0 ? 'Throw your darts' : (3-th)+' dart'+((3-th)>1?'s':'')+' left';
 }
 
-function renderModePanel(g,p){
+function renderModePanel(g,p,ev){
   const box = $('#modePanel');
+
+  if(g.mode==='x01'){
+    let card;
+    if(ev && ev.bust){
+      card = `<div class="finish-card bust">
+        <div class="fnum">BUST</div>
+        <div><div class="flabel">VISIT VOIDED</div>
+        <div class="froute"><span class="note">Score stays at ${p.score}</span></div></div>
+      </div>`;
+    } else {
+      const rem = ev ? ev.rem : p.score;
+      const route = routeFor(rem);
+      card = `<div class="finish-card ${route?'':'bogey'}">
+        <div class="fnum">${rem}</div>
+        <div><div class="flabel">CHECKOUT ROUTE</div>
+        <div class="froute">${
+          route ? route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')
+                : `<span class="note">${rem>170 ? 'Too high — reduce to 170 or less' : 'No 3-dart finish — set up a double'}</span>`
+        }</div></div>
+      </div>`;
+    }
+    box.innerHTML = card + `<div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+    return;
+  }
+
   if(g.mode==='rtc'){
     box.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;min-height:0">
       <div style="font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800">CLOCK · ${escapeHtml(p.name)}</div>
@@ -1198,10 +1397,7 @@ function renderModePanel(g,p){
     </div>`;
     return;
   }
-  box.innerHTML = `<div class="hist">
-    <div class="hh">VISIT LOG</div>
-    ${histRows(g)}
-  </div>`;
+  box.innerHTML = `<div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
 }
 function histRows(g){
   const rows = [...g.history].slice(-40).reverse();
@@ -1269,11 +1465,12 @@ $('#btnQuit').addEventListener('click', ()=>{
   });
 });
 $('#btnUndo').addEventListener('click', ()=>{
-  const g = state.g; if(!g) return;
+  const g = state.g; if(!g || g._locked) return;
   const p = g.players[g.turn];
   if((g._visit[p.id]||[]).length){
     g._visit[p.id].pop();
     g.dartsThrown[p.id] = Math.max(0,(g.dartsThrown[p.id]||1)-1);
+    lastDart = (g._visit[p.id]||[]).slice(-1)[0] || null;
     rebuildAll(); renderGame(); vibrate(10); return;
   }
   const last = g.history.pop();
@@ -1281,6 +1478,7 @@ $('#btnUndo').addEventListener('click', ()=>{
   g.turn = g.players.findIndex(x=>x.id===last.player);
   g._visit[last.player] = last.darts.map(d=>({...d}));
   g.dartsThrown[last.player] = last.darts.length;
+  lastDart = (g._visit[last.player]||[]).slice(-1)[0] || null;
   rebuildAll(); renderGame(); vibrate(10);
 });
 
@@ -1292,6 +1490,7 @@ document.addEventListener('webkitfullscreenchange', ()=>setTimeout(syncVh,200));
    INIT
    ========================================================= */
 renderModes();
+buildKeypad();
 renderPad();
 setView('fit');
 document.addEventListener('dblclick', e=>e.preventDefault(), {passive:false});
