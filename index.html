@@ -10,21 +10,10 @@
 <title>Darts Scorer</title>
 <style>
   :root{
-    --bg:#0a0e17;
-    --panel:#151c2e;
-    --panel2:#1c2438;
-    --pad:#101728;
-    --line:rgba(255,255,255,.08);
-    --txt:#eef2ff;
-    --muted:#8b96b4;
-    --accent:#ff2d68;
-    --accent2:#00e0c6;
-    --gold:#ffd35c;
-    --green:#2ee6a8;
-    --red:#ff4d6d;
-    --shadow:0 18px 40px -18px rgba(0,0,0,.9);
-    --r:18px;
-    --vh:100vh;
+    --bg:#0a0e17;--panel:#151c2e;--panel2:#1c2438;--pad:#101728;
+    --line:rgba(255,255,255,.08);--txt:#eef2ff;--muted:#8b96b4;
+    --accent:#ff2d68;--accent2:#00e0c6;--gold:#ffd35c;--green:#2ee6a8;--red:#ff4d6d;
+    --shadow:0 18px 40px -18px rgba(0,0,0,.9);--r:18px;--vh:100vh;--turn:#00e0c6;
   }
   @supports (height:100dvh){ :root{ --vh:100dvh; } }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
@@ -32,23 +21,17 @@
   body{
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
     background:radial-gradient(1200px 800px at 15% -10%,#1d2743 0%,transparent 55%),
-               radial-gradient(900px 700px at 110% 110%,#2a1230 0%,transparent 55%),
-               var(--bg);
-    background-attachment:fixed;
-    color:var(--txt);
-    -webkit-font-smoothing:antialiased;
-    user-select:none;
-    touch-action:manipulation;
+               radial-gradient(900px 700px at 110% 110%,#2a1230 0%,transparent 55%), var(--bg);
+    background-attachment:fixed;color:var(--txt);
+    -webkit-font-smoothing:antialiased;user-select:none;touch-action:manipulation;
   }
   #app{
-    min-height:var(--vh);
-    display:flex;flex-direction:column;
+    min-height:var(--vh);display:flex;flex-direction:column;
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   .screen{display:none;flex-direction:column}
   .screen.active{display:flex;animation:fade .28s ease}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
   .topbar{display:flex;align-items:center;gap:12px;padding:14px 18px;flex-shrink:0}
   .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.5px;font-size:19px}
   .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
@@ -67,12 +50,10 @@
   .btn.sm{padding:9px 14px;font-size:13px;min-height:40px;border-radius:11px}
   .btn[disabled]{opacity:.35;pointer-events:none}
   .icon-btn{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:18px}
-
   h2.title{font-size:26px;font-weight:800;letter-spacing:-.4px}
   .sub{color:var(--muted);font-size:13px;font-weight:600;margin-top:4px}
+  #scr-home, #scr-players{position:relative}
   .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 18px}
-
-  /* ---------- HOME ---------- */
   .hero{padding:8px 18px 14px;flex-shrink:0}
   .hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1}
   .hero h1 span{background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -92,8 +73,6 @@
   .mode-card h3{font-size:19px;font-weight:800}
   .mode-card p{color:var(--muted);font-size:12.5px;font-weight:600;margin-top:5px;line-height:1.45}
   .mode-card .tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--accent2);border:1px solid rgba(0,224,198,.35);padding:4px 9px;border-radius:20px}
-
-  /* ---------- PLAYERS ---------- */
   .plist{display:flex;flex-direction:column;gap:10px;margin-top:6px}
   @media (min-width:900px){ .plist{display:grid;grid-template-columns:1fr 1fr;gap:12px} }
   .prow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:10px 12px}
@@ -102,15 +81,20 @@
   .pname-input::placeholder{color:#5a6580}
   .del{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:17px;cursor:pointer}
   .del:active{color:var(--red);border-color:var(--red)}
+  .ctag{font-size:10px;font-weight:900;letter-spacing:1.2px;padding:4px 8px;border-radius:8px;border:1px solid currentColor;white-space:nowrap}
   .setup-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:16px}
   .setup-box h4{font-size:12px;letter-spacing:1.8px;color:var(--muted);font-weight:800;margin-bottom:12px}
   .chip-row{display:flex;gap:8px;flex-wrap:wrap}
   .chip{padding:10px 16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:700;font-size:14px;cursor:pointer;color:var(--muted)}
   .chip.on{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff;border-color:transparent}
   .warn{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.35);color:#ffb3c1;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;margin-top:12px}
-  .footer-bar{flex-shrink:0;padding:12px 18px;border-top:1px solid var(--line);background:rgba(10,14,23,.9)}
-
-  /* difficulty cards */
+  .footer-bar{
+    position:sticky;bottom:0;z-index:20;flex-shrink:0;
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(10,14,23,.82),rgba(10,14,23,.98));
+    backdrop-filter:blur(12px);
+  }
   .lvl-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   @media (min-width:760px){ .lvl-grid{grid-template-columns:repeat(4,1fr)} }
   .lvl-card{border-radius:14px;padding:11px 12px;background:var(--panel2);border:1px solid var(--line);cursor:pointer;text-align:left;transition:transform .1s,border-color .2s}
@@ -122,10 +106,6 @@
   .lvl-card .lv-name{font-size:14.5px;font-weight:900}
   .lvl-card .lv-meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:5px;line-height:1.5}
   .lvl-card .lv-meta b{color:var(--txt);font-variant-numeric:tabular-nums}
-
-  /* =========================================================
-     GAME SCREEN
-     ========================================================= */
   #scr-game{flex:1;min-height:0}
   .game-top{display:flex;align-items:center;gap:8px;padding:8px 14px 4px;flex-shrink:0}
   .game-top .meta{min-width:0}
@@ -134,33 +114,24 @@
   .view-toggle{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:3px}
   .view-toggle button{border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:800;font-size:10.5px;letter-spacing:.5px;padding:8px 10px;border-radius:8px;cursor:pointer}
   .view-toggle button.on{background:var(--accent2);color:#062018}
-
-  /* scoreboard strip */
-  .board{display:flex;gap:8px;padding:6px 14px 2px;flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+  .board{display:grid;gap:8px;padding:6px 14px 2px;flex-shrink:0;grid-auto-flow:column;grid-auto-columns:minmax(132px,1fr);overflow-x:auto;scrollbar-width:none}
   .board::-webkit-scrollbar{display:none}
-  .pcard{
-    flex:1 1 0;min-width:124px;border-radius:14px;padding:9px 13px;
-    background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden;
-    transition:border-color .2s,background .2s;
-  }
-  .pcard.turn{border-color:var(--accent);background:linear-gradient(160deg,rgba(255,45,104,.16),var(--panel))}
-  .pcard.turn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
-  .pcard .nm{font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pcard.turn .nm{color:#fff}
-  .pcard .sc{font-size:clamp(20px,2.4vw,30px);font-weight:900;letter-spacing:-1.5px;margin-top:1px;font-variant-numeric:tabular-nums;line-height:1.1;transition:color .15s}
-  .pcard .sc.finish{color:var(--gold)}
-  .pcard .sc.bust{color:var(--red);font-size:clamp(16px,1.9vw,23px)}
-  .pcard .meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:1px}
+  .pcard{min-width:132px;border-radius:14px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden;transition:border-color .2s,background .2s}
+  .pcard.turn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--turn)}
+  .pcard .toprow{display:flex;align-items:center;gap:6px}
+  .pcard .nm{flex:1;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06)}
+  .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:3px}
+  .pcard .sc{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02}
   .pcard .darts{display:flex;gap:4px;margin-top:5px}
   .pcard .darts i{width:100%;height:4px;border-radius:3px;background:rgba(255,255,255,.12)}
-  .pcard .darts i.on{background:var(--accent)}
-  .pcard:not(.turn) .darts i.on{background:var(--accent2)}
-
+  .pcard .darts i.on{background:var(--accent2)}
+  .pcard.turn .darts i.on{background:var(--turn)}
   .play-area{flex:1;min-height:0;display:flex;gap:10px;padding:4px 14px 10px}
   .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:7px}
   .keypad-col{width:min(48%,440px);min-height:0;display:flex;flex-direction:column;min-width:0}
-
-  .turn-banner{border-radius:14px;padding:9px 15px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .turn-banner{border-radius:14px;padding:9px 15px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
+  .turn-banner.active{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 14px 40px -26px var(--turn)}
   .turn-banner .who{font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .turn-banner .hint{color:var(--muted);font-size:12px;font-weight:700;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .turn-banner .hint.bust{color:var(--red)}
@@ -168,19 +139,14 @@
   .turn-banner .left-count b{font-size:21px;font-weight:900;font-variant-numeric:tabular-nums}
   .turn-banner .left-count b.bust{color:var(--red);font-size:16px}
   .turn-banner .left-count span{display:block;font-size:9.5px;letter-spacing:1.5px;color:var(--muted);font-weight:800}
-
   .slot-row{display:flex;gap:7px;flex-shrink:0}
-  .slot{flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+  .slot{flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
   .slot.filled{border-style:solid;border-color:var(--accent2);background:rgba(0,224,198,.09)}
   .slot .big{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
   .slot .lbl{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted)}
   .slot.filled .lbl{color:var(--accent2)}
-
   .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
-
-  /* checkout card */
-  .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;
-    border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
+  .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
   .finish-card.bogey{border-color:rgba(255,211,92,.35);background:linear-gradient(120deg,rgba(255,211,92,.10),rgba(255,255,255,.02))}
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
   .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1}
@@ -190,7 +156,6 @@
   .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums}
   .farrow{color:var(--muted);font-size:11px;font-weight:800}
   .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
-
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
   .hrow{display:flex;align-items:center;gap:10px;padding:6px 6px;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}
@@ -198,9 +163,8 @@
   .hrow .hd{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
   .hrow .hv{font-weight:900;width:48px;text-align:right;font-variant-numeric:tabular-nums}
   .hrow .hv.bust{color:var(--red)}
-
-  /* keypad */
-  .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:9px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0}
+  .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:9px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0;transition:border-color .25s,box-shadow .25s}
+  .pad.turn-glow{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 16px 46px -26px var(--turn)}
   .pad-display{display:flex;align-items:center;gap:10px;background:#0b1020;border-radius:11px;padding:6px 12px;flex-shrink:0}
   .pad-display .armed{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:19px;color:#062018;background:linear-gradient(135deg,var(--accent2),#29ff8f);transition:background .15s}
   .pad-display .armed.m2{background:linear-gradient(135deg,var(--gold),#ffb03a)}
@@ -216,38 +180,20 @@
   .mult.on[data-mult="2"]{background:linear-gradient(135deg,var(--gold),#ffb03a)}
   .mult.on[data-mult="3"]{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
   .mult small{display:block;font-size:8px;letter-spacing:1px;font-weight:800;opacity:.7;margin-top:1px}
-
   .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:1fr}
-  .key{
-    border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);
-    font-size:clamp(14px,1.8vw,19px);font-weight:800;cursor:pointer;font-family:inherit;
-    display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;
-    font-variant-numeric:tabular-nums;
-  }
+  .key{border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:clamp(14px,1.8vw,19px);font-weight:800;cursor:pointer;font-family:inherit;display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;font-variant-numeric:tabular-nums}
   .key:active{transform:scale(.93);background:#2b3654}
   .key.locked{opacity:.28;pointer-events:none}
   .key.bull{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(10px,1.3vw,13px)}
   .key.zero{background:rgba(255,255,255,.03);color:var(--muted);font-size:clamp(10px,1.3vw,13px)}
   .key.back{grid-column:span 2;background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;font-size:clamp(10px,1.2vw,12.5px);letter-spacing:.4px}
-
-  /* ---------- ENTER MODAL (popup) ---------- */
-  .enter-sheet{
-    position:fixed;left:0;right:0;bottom:0;z-index:60;
-    padding:14px 16px calc(16px + env(safe-area-inset-bottom));
-    background:linear-gradient(180deg,rgba(21,28,46,.96),rgba(12,17,30,.99));
-    border-top:1px solid var(--line);border-radius:22px 22px 0 0;
-    box-shadow:0 -20px 50px -16px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.03);
-    transform:translateY(115%);transition:transform .28s cubic-bezier(.2,1.2,.5,1);
-    backdrop-filter:blur(14px);
-  }
+  .enter-sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:14px 16px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(21,28,46,.96),rgba(12,17,30,.99));border-top:1px solid var(--line);border-radius:22px 22px 0 0;box-shadow:0 -20px 50px -16px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.03);transform:translateY(115%);transition:transform .28s cubic-bezier(.2,1.2,.5,1);backdrop-filter:blur(14px)}
   .enter-sheet.show{transform:translateY(0)}
   .enter-sheet.bust{background:linear-gradient(180deg,rgba(60,18,34,.97),rgba(28,10,20,.99));border-top-color:rgba(255,77,109,.5)}
+  .enter-sheet.win{background:linear-gradient(180deg,rgba(18,58,44,.97),rgba(8,28,22,.99));border-top-color:rgba(46,230,168,.55)}
   .enter-sheet .es-top{display:flex;align-items:center;gap:12px}
   .enter-sheet .es-darts{display:flex;gap:7px;flex:1;min-width:0}
-  .es-chip{
-    flex:1;min-width:0;border-radius:13px;padding:9px 6px;text-align:center;
-    background:rgba(255,255,255,.05);border:1px solid var(--line);
-  }
+  .es-chip{flex:1;min-width:0;border-radius:13px;padding:9px 6px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--line)}
   .es-chip .b{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
   .es-chip .l{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted);margin-top:2px}
   .enter-sheet .es-sum{margin-left:auto;text-align:right;flex-shrink:0;padding-left:8px}
@@ -256,83 +202,60 @@
   .enter-sheet.bust .es-sum .n{color:var(--red)}
   .enter-sheet .es-verdict{font-size:12.5px;font-weight:800;color:var(--muted);margin-top:9px;text-align:center}
   .enter-sheet .es-verdict.bust{color:var(--red)}
-  .enter-sheet .es-verdict.finish{color:var(--gold)}
-  .enter-sheet .es-row{display:flex;gap:10px;margin-top:11px}
-  .enter-sheet .es-row .btn{flex:1;min-height:58px;font-size:16px}
-  .enter-sheet .es-go{
-    flex:2;background:linear-gradient(135deg,var(--green),#19c98d);border:none;color:#052018;
-    box-shadow:0 10px 28px -10px var(--green);font-size:18px;letter-spacing:.5px;
-  }
+  .enter-sheet .es-verdict.win{color:var(--green)}
+  .enter-sheet .es-row3{display:flex;gap:8px;margin-top:11px}
+  .enter-sheet .es-row3 .btn{flex:1;min-height:56px;font-size:14px}
+  .enter-sheet .es-go{flex:2;background:linear-gradient(135deg,var(--green),#19c98d);border:none;color:#052018;box-shadow:0 10px 28px -10px var(--green);font-size:18px;letter-spacing:.5px}
   .enter-sheet.bust .es-go{background:linear-gradient(135deg,var(--red),#c9203f);color:#fff;box-shadow:0 10px 28px -10px var(--red)}
-
-  /* target mode */
-  .target-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-    border-radius:16px;border:1px solid rgba(0,224,198,.32);
-    background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));
-    padding:14px;flex:1;min-height:0}
-  .target-box .tlabel{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--muted)}
-  .target-box .tbig{font-size:clamp(40px,7vw,84px);font-weight:900;letter-spacing:-3px;line-height:1;
-    background:linear-gradient(120deg,var(--accent2),#29ff8f);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .target-box .tbig.hard{background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text}
-  .target-box .tsub{font-size:13px;font-weight:800;color:var(--muted)}
-  .target-stats{display:flex;gap:10px;margin-top:10px;width:100%}
-  .tstat{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;text-align:center}
-  .tstat b{display:block;font-size:19px;font-weight:900;font-variant-numeric:tabular-nums}
-  .tstat span{font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted)}
-
-  /* ---------- DARTBOARD (Round the Clock) ---------- */
-  .board-wrap{
-    flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
-    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;
-    overflow:hidden;position:relative;
-  }
-  #rtcBoard{width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1;display:block}
-  .seg{transition:fill .35s ease, opacity .35s ease}
-  .seg.hit{opacity:.13}
+  .points-flash{position:fixed;left:50%;top:26%;transform:translate(-50%,-50%) scale(.82);z-index:67;pointer-events:none;opacity:0;transition:opacity .22s,transform .22s cubic-bezier(.2,1.4,.5,1);text-align:center;padding:10px 30px}
+  .points-flash.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .points-flash .pf-who{font-size:clamp(14px,2.6vw,20px);font-weight:900;letter-spacing:2px;opacity:.9}
+  .points-flash .pf-pts{font-size:clamp(64px,17vw,180px);font-weight:900;letter-spacing:-6px;line-height:.9;margin-top:2px;text-shadow:0 0 40px currentColor}
+  .turn-flash{position:fixed;left:50%;top:32%;transform:translate(-50%,-50%) scale(.92);z-index:65;pointer-events:none;opacity:0;transition:opacity .2s,transform .2s;padding:16px 28px;border-radius:20px;text-align:center;background:linear-gradient(160deg,rgba(21,28,46,.97),rgba(10,15,26,.98));border:2px solid var(--tf,#fff);box-shadow:0 0 0 1px var(--tf,#fff),0 26px 70px -22px var(--tf,#fff);min-width:min(80vw,500px)}
+  .turn-flash.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .turn-flash .tf-top{font-size:11px;letter-spacing:2.6px;font-weight:800;color:var(--muted)}
+  .turn-flash .tf-name{font-size:clamp(24px,5vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.1;margin-top:5px}
+  .turn-flash .tf-sub{font-size:12.5px;font-weight:900;letter-spacing:2px;margin-top:6px}
+  .target-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:16px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));padding:14px;flex:1;min-height:0}
+  .target-box .tlabel{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--muted);text-align:center}
+  .target-box .tbig{font-size:clamp(52px,9vw,104px);font-weight:900;letter-spacing:-4px;line-height:.95;background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .target-box .tbig.plain{background:linear-gradient(120deg,var(--accent2),#29ff8f);-webkit-background-clip:text;background-clip:text}
+  .target-box .tbig.win{background:linear-gradient(120deg,var(--green),#29ff8f);-webkit-background-clip:text;background-clip:text}
+  .checkout-live{display:flex;flex-direction:column;align-items:center;gap:2px;background:#0b1020;border:1px solid var(--line);border-radius:14px;padding:9px 20px;min-width:min(72%,330px)}
+  .checkout-live .cl-num{font-size:clamp(24px,3.8vw,38px);font-weight:900;letter-spacing:-1px;line-height:1.05;font-variant-numeric:tabular-nums;text-align:center}
+  .checkout-live .cl-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
+  .board-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;overflow:hidden;position:relative}
+  #rtcBoard,#cricketBoard{width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1;display:block}
+  .seg{transition:fill .35s ease,opacity .35s ease}
+  .seg.hit,.seg.dead{opacity:.13}
   .seg.next{animation:neonPulse 1.5s ease-in-out infinite}
-  @keyframes neonPulse{
-    0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}
-    50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}
-  }
+  .seg.score{animation:goldPulse 1.9s ease-in-out infinite}
+  @keyframes neonPulse{0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}}
+  @keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 2px #ffb03a) brightness(1.05)}50%{filter:drop-shadow(0 0 11px #ffd35c) brightness(1.55)}}
   .numlabel{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
-  .blbl{font-weight:900;font-family:'Inter',sans-serif}
-  .rtc-status{position:absolute;left:12px;bottom:10px;font-size:10px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
-  .rtc-status b{color:var(--gold)}
-
-  /* ---------- MODAL ---------- */
+  .cr-tick{transition:fill .3s}
+  .cr-strip{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;flex:none;scrollbar-width:none;padding-bottom:2px}
+  .cr-strip::-webkit-scrollbar{display:none}
+  .cr-strip .mc{flex:none;display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:5px 8px;font-size:11px;font-weight:900}
+  .cr-strip .mc.closed{border-color:rgba(46,230,168,.5);background:rgba(46,230,168,.12)}
+  .cr-strip .mc i{width:7px;height:7px;border-radius:50%;display:inline-block}
   .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}
   .overlay.show{display:flex;animation:fade .2s}
-  .modal{
-    background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);
-    border-radius:22px;padding:26px 22px;max-width:450px;width:100%;text-align:center;
-    box-shadow:0 30px 70px -20px #000;animation:pop .3s cubic-bezier(.2,1.4,.5,1);
-    max-height:90vh;overflow-y:auto;
-  }
+  .modal{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:26px 22px;max-width:460px;width:100%;text-align:center;box-shadow:0 30px 70px -20px #000;animation:pop .3s cubic-bezier(.2,1.4,.5,1);max-height:90vh;overflow-y:auto}
   @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-  .modal .trophy{font-size:50px;line-height:1}
-  .modal h2{font-size:26px;font-weight:900;margin-top:10px;letter-spacing:-.6px}
-  .modal .win{font-size:17px;font-weight:900;color:var(--gold);margin-top:7px}
-  .modal p{color:var(--muted);font-size:13px;font-weight:600;margin-top:10px;line-height:1.55}
+  .modal .trophy{font-size:46px;line-height:1}
+  .modal .bigwin{font-size:clamp(26px,6vw,40px);font-weight:900;letter-spacing:-1px;margin-top:8px;line-height:1.05}
+  .modal .win{font-size:15px;font-weight:800;color:var(--muted);margin-top:8px}
   .modal .row{display:flex;gap:10px;margin-top:20px}
   .modal .row .btn{flex:1}
-
-  .cricket-panel{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0;overflow-y:auto}
-  .cr-row{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:7px 10px}
-  .cr-num{font-size:15px;font-weight:900;color:var(--muted)}
-  .cr-marks{display:flex;gap:5px;flex-wrap:wrap}
-  .mchip{padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.05);font-size:11px;font-weight:800;color:var(--muted);border:1px solid var(--line);display:flex;gap:5px;align-items:center}
-  .mchip b{color:var(--txt)}
-  .mchip.hit{border-color:rgba(0,224,198,.5);background:rgba(0,224,198,.12)}
-  .mchip.closed{border-color:rgba(46,230,168,.55);background:rgba(46,230,168,.16);color:var(--green)}
-
-  /* =========================================================
-     VIEW MODES
-     ========================================================= */
+  .scoretally{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .tallyrow{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:12px;padding:12px 16px}
+  .tallyrow .tn{flex:1;text-align:left;font-weight:900;font-size:16px}
+  .tallyrow .tv{font-weight:900;font-size:24px;font-variant-numeric:tabular-nums}
   body.view-fit{overflow:hidden}
   body.view-fit #app{height:var(--vh);min-height:0;overflow:hidden}
   body.view-fit #scr-game{flex:1;min-height:0;overflow:hidden}
   body.view-fit .play-area{overflow:hidden}
-
   body.view-scroll{overflow-y:auto}
   body.view-scroll #app{min-height:var(--vh);height:auto}
   body.view-scroll #scr-game{flex:none}
@@ -342,8 +265,8 @@
   body.view-scroll .pad{flex:none;min-height:0}
   body.view-scroll .keys{grid-auto-rows:52px;flex:none}
   body.view-scroll .hist{flex:none;max-height:none;height:38vh}
+  body.view-scroll .board-wrap{height:62vh;flex:none}
   body.view-scroll .panel-area{flex:none;min-height:0}
-
   @media (max-aspect-ratio: 1/1){
     body.view-fit .play-area{flex-direction:column;gap:8px}
     body.view-fit .keypad-col{width:100%;flex:0 0 auto;min-height:0;height:48%}
@@ -360,8 +283,7 @@
     body.view-fit .pad{flex:none}
     body.view-fit .keys{grid-auto-rows:44px;flex:none}
     body.view-fit .hist{height:30vh}
-    body.view-fit .board-wrap{min-height:340px}
-    .rtc-grid{grid-template-columns:repeat(5,1fr)}
+    body.view-fit .board-wrap{min-height:320px}
   }
   .hide{display:none !important}
 </style>
@@ -369,7 +291,6 @@
 <body class="view-fit">
 <div id="app">
 
-  <!-- ============ HOME ============ -->
   <section id="scr-home" class="screen active">
     <div class="topbar">
       <div class="brand"><span class="dot"></span><div>DARTS<small>SCORER</small></div></div>
@@ -380,15 +301,10 @@
       <h1>Pick your <span>game</span></h1>
       <p>Tap a mode, set up the players, and throw.</p>
     </div>
-    <div class="scroll">
-      <div class="grid" id="modeGrid"></div>
-    </div>
-    <div class="footer-bar">
-      <button class="btn primary wide" id="btnToPlayers">Continue &nbsp;→</button>
-    </div>
+    <div class="scroll"><div class="grid" id="modeGrid"></div></div>
+    <div class="footer-bar"><button class="btn primary wide" id="btnToPlayers">Continue &nbsp;→</button></div>
   </section>
 
-  <!-- ============ PLAYERS ============ -->
   <section id="scr-players" class="screen">
     <div class="topbar">
       <button class="btn sm ghost icon-btn" data-back="scr-home">←</button>
@@ -405,6 +321,19 @@
       </div>
 
       <div class="setup-box">
+        <h4>DISPLAY</h4>
+        <div class="chip-row" id="viewRow">
+          <div class="chip on" data-view="fit">🖥️ Tablet</div>
+          <div class="chip" data-view="scroll">📱 Phone</div>
+        </div>
+      </div>
+
+      <div class="setup-box hide" id="matchBox">
+        <h4 id="matchTitle">MATCH</h4>
+        <div class="chip-row" id="matchRow"></div>
+      </div>
+
+      <div class="setup-box">
         <h4>OPPONENTS</h4>
         <div class="chip-row" id="oppRow">
           <div class="chip" data-opp="human">👥 Local players</div>
@@ -417,44 +346,27 @@
         </div>
       </div>
 
-      <div class="setup-box">
-        <h4>DISPLAY</h4>
-        <div class="chip-row" id="viewRow">
-          <div class="chip on" data-view="fit">🖥️ Tablet — all on one screen</div>
-          <div class="chip" data-view="scroll">📱 Phone — scrolling</div>
-        </div>
-      </div>
-
       <div class="warn hide" id="warnBox"></div>
     </div>
-    <div class="footer-bar">
-      <button class="btn primary wide" id="btnStart">Start Game</button>
-    </div>
+    <div class="footer-bar"><button class="btn primary wide" id="btnStart">Start Game</button></div>
   </section>
 
-  <!-- ============ SCORER ============ -->
   <section id="scr-game" class="screen">
     <div class="game-top">
       <button class="btn sm ghost icon-btn" id="btnQuit">←</button>
-      <div class="meta">
-        <h2 id="gTitle">501</h2>
-        <div class="sub" id="gSub">–</div>
-      </div>
+      <div class="meta"><h2 id="gTitle">501</h2><div class="sub" id="gSub">–</div></div>
       <div class="spacer"></div>
       <div class="view-toggle" id="viewToggle">
-        <button data-v="fit" class="on">FIT</button>
-        <button data-v="scroll">SCROLL</button>
+        <button data-v="fit" class="on">FIT</button><button data-v="scroll">SCROLL</button>
       </div>
       <button class="btn sm ghost icon-btn" id="btnFullscreen" title="Fullscreen">⛶</button>
       <button class="btn sm ghost" id="btnUndo">↶</button>
       <button class="btn sm ghost icon-btn" id="btnRestart">⟳</button>
     </div>
-
     <div class="board" id="scoreHead"></div>
-
     <div class="play-area">
       <div class="side">
-        <div class="turn-banner">
+        <div class="turn-banner" id="turnBanner">
           <div style="min-width:0">
             <div class="who" id="turnWho">–</div>
             <div class="hint" id="turnHint">Throw your darts</div>
@@ -474,7 +386,7 @@
           <div class="mult-row" id="multRow">
             <div class="mult" data-mult="1">S<small>SINGLE</small></div>
             <div class="mult" data-mult="2">D<small>DOUBLE</small></div>
-            <div class="mult" data-mult="3">T<small>TREBLE</small></div>
+            <div class="mult on" data-mult="3">T<small>TREBLE</small></div>
           </div>
           <div class="keys" id="keys"></div>
         </div>
@@ -482,91 +394,95 @@
     </div>
   </section>
 
-  <!-- ============ POPUP ENTER SCORE ============ -->
+  <div class="turn-flash" id="turnFlash"></div>
+  <div class="points-flash" id="pointsFlash"></div>
   <div class="enter-sheet" id="enterSheet"></div>
-
-  <!-- ============ MODAL ============ -->
-  <div class="overlay" id="overlay">
-    <div class="modal" id="modalBody"></div>
-  </div>
+  <div class="overlay" id="overlay"><div class="modal" id="modalBody"></div></div>
 </div>
 
 <script>
 /* =========================================================
-   STATE
+   SEAT COLOURS
    ========================================================= */
-const PALETTE = ['#ff2d68','#00e0c6','#ffd35c','#8b7bff','#2ee6a8','#ff8a3d','#4da3ff','#ff5ec4'];
+const SEAT = [
+  {color:'#ff3b3b', name:'RED'},{color:'#2ee6a8', name:'GREEN'},
+  {color:'#4da3ff', name:'BLUE'},{color:'#ffd35c', name:'GOLD'},
+  {color:'#a78bfa', name:'PURPLE'},{color:'#ff8a3d', name:'ORANGE'},
+  {color:'#ff5ec4', name:'PINK'},{color:'#00e0c6', name:'CYAN'}
+];
+function seat(i){ return SEAT[i % SEAT.length]; }
+function hexA(hex,a){
+  const h=hex.replace('#','');
+  const r=parseInt(h.slice(0,2),16), g=parseInt(h.slice(2,4),16), b=parseInt(h.slice(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
 
+/* =========================================================
+   MODES
+   ========================================================= */
 const MODES = [
-  {
-    id:'x01', name:'301 / 501 / 701', ico:'🎯', tag:'CLASSIC',
+  { id:'x01', name:'301 / 501 / 701', ico:'🎯', tag:'CLASSIC',
+    unit:'legs', defaultMatch:1,
     desc:'Count down to exactly zero. Finish on a double to win.',
     variants:[{id:'301',label:'301'},{id:'501',label:'501'},{id:'701',label:'701'}],
-    def:'501', minPlayers:2, maxPlayers:8,
-    rules:'Start from 301/501/701. Each visit is up to 3 darts. Reduce your total; reach exactly 0 on a double (or bullseye) to win. Going below 2, or hitting 0 without a double, is a BUST — the visit is void and your total resets. A score of 1 left also busts.'
-  },
-  {id:'cricket', name:'Cricket', ico:'🦗', tag:'TACTIC', desc:'Close 20→15 and bull, then pile on the points.',
-   variants:[{id:'cricket',label:'Standard (20→15 + Bull)'},{id:'cricket_noscore',label:'No Score (first to close wins)'}],
-   def:'cricket', minPlayers:2, maxPlayers:8,
-   rules:'Mark 20, 19, 18, 17, 16, 15 and the bullseye. Three marks closes a number. Once you close a number, further hits score its value — but only if an opponent hasn’t closed it. Win by closing everything with the highest score (or first to close everything in No Score mode).'},
-  {id:'rtc', name:'Round the Clock', ico:'🕐', tag:'TRAINING', desc:'Hit 1 through 20 in order, finishing on bull.',
-    variants:[{id:'rtc',label:'Any segment (1→20→Bull)'},{id:'rtc_double',label:'Doubles only (hard mode)'}],
-    def:'rtc', minPlayers:1, maxPlayers:8,
-    rules:'Hit numbers in ascending order: 1, 2, 3 … 20, then the bullseye. Any segment of the target number counts (or doubles only in hard mode). A hit advances you to the next number — misses mean you stay put. First to hit the bull wins.'},
-  {id:'target', name:'Target Practice', ico:'🎲', tag:'CHALLENGE', desc:'A random number, double or checkout route is thrown at you. Nail it.',
+    def:'501', minPlayers:2, maxPlayers:8, targetRounds:0,
+    rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST.' },
+  { id:'cricket', name:'Cricket', ico:'🦗', tag:'TACTIC', unit:'games', defaultMatch:1,
+    desc:'Close 20→15 and bull, then pile on the points.',
+    variants:[{id:'cricket',label:'Standard'},{id:'cricket_noscore',label:'No Score'}],
+    def:'cricket', minPlayers:2, maxPlayers:8, targetRounds:0,
+    rules:'Mark 20, 19, 18, 17, 16, 15 and the bullseye. Three marks closes a number. Once closed, further hits score its value if an opponent is still open. The board shows your marks on the outer ring and glows gold on your scoring zones.'},
+  { id:'rtc', name:'Round the Clock', ico:'🕐', tag:'TRAINING', unit:'games', defaultMatch:1,
+    desc:'Hit 1 through 20 in order, finishing on bull.',
+    variants:[{id:'rtc',label:'Any segment'},{id:'rtc_double',label:'Doubles only'}],
+    def:'rtc', minPlayers:1, maxPlayers:8, targetRounds:0,
+    rules:'Hit numbers in ascending order: 1 → 20, then the bullseye. Completed numbers black out and the next target glows red neon on the board. First to hit the bull wins.'},
+  { id:'target', name:'Target Practice', ico:'🎲', tag:'CHALLENGE', unit:'none', defaultMatch:1,
+    desc:'Shared targets, race to clear. Single 1 pt · Double 2 · Checkout 3.',
     variants:[
       {id:'target_num',label:'Random number'},
       {id:'target_double',label:'Random double'},
       {id:'target_checkout',label:'Random checkout'},
       {id:'target_mix',label:'Mixed bag'}
     ],
-    def:'target_mix', minPlayers:1, maxPlayers:8,
-    rules:'The scorer picks a target at random and you have three darts to nail it. Random number: hit a segment of the shown number. Random double: hit the shown double (or bull). Random checkout: hit the shown number in exactly the darts allowed, finishing on a double. Mixed bag rotates all three. Hit the target to bank a point and a new one appears — accuracy is tracked in your stats.'},
-  {id:'quack', name:'Shanghai', ico:'⚡', tag:'CLUTCH', desc:'1→20, but a single+double+treble of the number wins instantly.',
-    variants:[{id:'quack',label:'Shanghai (instant win on S+D+T)'},{id:'kill',label:'Killer'},{id:'baseball',label:'Baseball (9 innings)'}],
-    def:'quack', minPlayers:2, maxPlayers:8,
-    rules:'Shanghai: work 1→20 in order. Hit single, double AND treble of the same number in one visit and you win immediately — otherwise score accumulates and the highest total after 20 wins. Killer: become a killer by hitting your double, then hit an opponent’s double to strip a life. Baseball: 9 innings, each worth the runs you score on that number.'},
-  {id:'free', name:'Free Practice', ico:'🧘', tag:'SANDBOX', desc:'No rules, no pressure — just track your darts and averages.',
+    def:'target_mix', minPlayers:1, maxPlayers:8, targetRounds:10,
+    rules:'Ten targets, shared. A random player throws first each target, and whoever CLEARS it first takes the points: single = 1, double = 2, checkout = 3. Checkouts (11–60) must finish on a double, with three fresh darts. Highest total after 10 targets wins.'},
+  { id:'quack', name:'Shanghai', ico:'⚡', tag:'CLUTCH', unit:'games', defaultMatch:1,
+    desc:'1→20, but a single+double+treble of the number wins instantly.',
+    variants:[{id:'quack',label:'Shanghai'},{id:'kill',label:'Killer'},{id:'baseball',label:'Baseball'}],
+    def:'quack', minPlayers:2, maxPlayers:8, targetRounds:0,
+    rules:'Shanghai: work 1→20 in order. Hit single, double AND treble of the same number in one visit and you win instantly — otherwise the highest total after 20 wins. Killer: hit your double to become a killer, then hit opponents’ doubles to strip lives. Baseball: 9 innings.'},
+  { id:'free', name:'Free Practice', ico:'🧘', tag:'SANDBOX', unit:'none', defaultMatch:1,
+    desc:'No rules, no pressure — just track your darts and averages.',
     variants:[{id:'free',label:'Unlimited throws'}],
-    def:'free', minPlayers:1, maxPlayers:8,
-    rules:'A calm practice board. Every dart is recorded, visit averages and checkout percentages are shown, and there is no losing. Perfect for warming up or testing a new set of flights.'}
+    def:'free', minPlayers:1, maxPlayers:8, targetRounds:0,
+    rules:'A calm practice board. Every dart is recorded and visit averages shown. No winning, no losing.'}
 ];
 
-/* ---- CPU DIFFICULTY LEVELS ----
-   acc   = chance a dart lands on the intended segment (scatter otherwise)
-   t20   = chance the bot goes for treble 20 rather than a fat single
-   co    = checkout competence: chance of attempting the proper double-out route
-   coHit = chance the chosen double actually lands
-   Targeting is calibrated so 501 3-dart averages fall in the requested bands. */
 const LEVELS = [
-  { id:1, name:'Beginner',    short:'Beginner',
-    darts:'30–45 darts', avg:'34–50 avg',
+  { id:1, name:'Beginner',    darts:'30–45 darts', avg:'34–50 avg',
     acc:.30, t20:.18, scatterSpread:14, co:.15, coHit:.20, scoreSeg:1 },
-  { id:2, name:'Amateur',     short:'Amateur',
-    darts:'24–30 darts', avg:'50–63 avg',
+  { id:2, name:'Amateur',     darts:'24–30 darts', avg:'50–63 avg',
     acc:.44, t20:.35, scatterSpread:11, co:.40, coHit:.32, scoreSeg:2 },
-  { id:3, name:'Club Player', short:'Club',
-    darts:'18–24 darts', avg:'63–83 avg',
+  { id:3, name:'Club Player', darts:'18–24 darts', avg:'63–83 avg',
     acc:.58, t20:.62, scatterSpread:8,  co:.72, coHit:.44, scoreSeg:3 },
-  { id:4, name:'Pro',         short:'Pro',
-    darts:'15–18 darts', avg:'83–100 avg',
+  { id:4, name:'Pro',         darts:'15–18 darts', avg:'83–100 avg',
     acc:.72, t20:.85, scatterSpread:6,  co:.95, coHit:.58, scoreSeg:3 }
 ];
 const levelById = id => LEVELS.find(l=>l.id===id) || LEVELS[2];
 
+const MATCH_OPTIONS = [1,3,5];
+
 let state = {
-  mode: MODES[0],
-  variant: '501',
-  players: [],
-  opponent: 'human',
-  cpuCount: 1,
-  cpuLevel: 2,
-  view: 'fit',
-  g: null
+  mode: MODES[0], variant:'501', players:[],
+  opponent:'human', cpuCount:1, cpuLevel:2,
+  matchTarget:1,
+  view:'fit',
+  g:null, m:null
 };
 
 /* =========================================================
-   CHECKOUT ROUTE SOLVER
+   CHECKOUT SOLVER
    ========================================================= */
 const DART_OPTS = (()=>{
   const a=[];
@@ -581,7 +497,6 @@ const DART_OPTS = (()=>{
 const DOUBLES = DART_OPTS.filter(d=>d.mult===2||d.v===50);
 const FIN_RANK = {20:0,16:1,18:2,12:3,10:4,8:5,4:6,2:7,1:8,14:9,15:10,13:11,11:12,9:13,7:14,5:15,6:16,3:17};
 const finRank = d => (d.v===50 ? 6 : (FIN_RANK[d.v]!==undefined ? FIN_RANK[d.v] : 20));
-
 function cmpRoute(x,y){
   const rx=finRank(x[x.length-1]), ry=finRank(y[y.length-1]);
   if(rx!==ry) return rx-ry;
@@ -591,51 +506,34 @@ function cmpRoute(x,y){
   }
   return 0;
 }
-
 const routeCache = new Map();
 function routeFor(score){
   if(score<2 || score>170) return null;
-  if(score%2 !== 0) return null;
   if(routeCache.has(score)) return routeCache.get(score);
-
-  for(const d of DOUBLES){
-    if(d.v*d.mult===score){ routeCache.set(score,[d]); return [d]; }
-  }
+  for(const d of DOUBLES){ if(d.v*d.mult===score){ routeCache.set(score,[d]); return [d]; } }
   let best=null;
-  for(const a of DART_OPTS){
-    const av=a.v*a.mult;
-    for(const d of DOUBLES){
-      if(av + d.v*d.mult === score){
-        const r=[a,d];
-        if(!best || cmpRoute(r,best)<0) best=r;
-      }
-    }
+  for(const a of DART_OPTS){ const av=a.v*a.mult;
+    for(const d of DOUBLES){ if(av + d.v*d.mult === score){ const r=[a,d]; if(!best||cmpRoute(r,best)<0) best=r; } }
   }
   if(best){ routeCache.set(score,best); return best; }
-  for(const a of DART_OPTS){
-    const av=a.v*a.mult;
-    for(const b of DART_OPTS){
-      const bv=av + b.v*b.mult;
-      if(bv >= score) continue;
-      for(const d of DOUBLES){
-        if(bv + d.v*d.mult === score){
-          const r=[a,b,d];
-          if(!best || cmpRoute(r,best)<0) best=r;
-        }
-      }
+  for(const a of DART_OPTS){ const av=a.v*a.mult;
+    for(const b of DART_OPTS){ const bv=av + b.v*b.mult; if(bv>=score) continue;
+      for(const d of DOUBLES){ if(bv + d.v*d.mult === score){ const r=[a,b,d]; if(!best||cmpRoute(r,best)<0) best=r; } }
     }
   }
   routeCache.set(score,best||null);
   return best||null;
 }
-/* A setup dart for a big number: aim to leave a nice even double. */
+function routeLeft(rem, dartsLeft){
+  const r = routeFor(rem);
+  return (r && r.length <= dartsLeft) ? r : null;
+}
 function setupDart(rem){
   const wants = [60,57,54,51,50,45,40,36,32,34,38,28,24,20,16];
   const target = rem-32;
   let best=wants[0], bd=Infinity;
   wants.forEach(w=>{ const d=Math.abs(w-target); if(d<bd){bd=d;best=w;} });
-  const v=Math.max(1,Math.min(20,Math.round(best/3)));
-  return {v, mult:3};
+  return {v:Math.max(1,Math.min(20,Math.round(best/3))), mult:3};
 }
 
 /* =========================================================
@@ -643,7 +541,6 @@ function setupDart(rem){
    ========================================================= */
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-
 function syncVh(){
   const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   document.documentElement.style.setProperty('--vh', h + 'px');
@@ -655,10 +552,9 @@ if(window.visualViewport){
   window.visualViewport.addEventListener('resize', syncVh);
   window.visualViewport.addEventListener('scroll', syncVh);
 }
-
 function show(id){
   $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
-  if(id !== 'scr-game') hideEnterSheet();
+  if(id !== 'scr-game'){ hideEnterSheet(); $('#turnFlash').classList.remove('show'); $('#pointsFlash').classList.remove('show'); }
   if(state.view !== 'fit') window.scrollTo({top:0,behavior:'instant'});
 }
 function setView(v){
@@ -670,19 +566,42 @@ function setView(v){
   syncVh();
 }
 function vibrate(ms){ if(navigator.vibrate) try{navigator.vibrate(ms)}catch(e){} }
-
 function toggleFullscreen(){
   const el = document.documentElement;
   const isFs = document.fullscreenElement || document.webkitFullscreenElement;
-  if(!isFs){
-    const req = el.requestFullscreen || el.webkitRequestFullscreen;
-    if(req){ try{ const r=req.call(el); if(r&&r.catch) r.catch(()=>{}); }catch(e){} }
-  } else {
-    const exit = document.exitFullscreen || document.webkitExitFullscreen;
-    if(exit){ try{ exit.call(document); }catch(e){} }
-  }
+  if(!isFs){ const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if(req){ try{ const r=req.call(el); if(r&&r.catch) r.catch(()=>{}); }catch(e){} } }
+  else { const exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if(exit){ try{ exit.call(document); }catch(e){} } }
   setTimeout(syncVh, 350);
 }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function turnColor(c){ document.documentElement.style.setProperty('--turn', c || '#00e0c6'); }
+let flashTimer=null, ptsTimer=null;
+function flashTurn(p, top, sub){
+  const el = $('#turnFlash'); if(!el) return;
+  const col = p ? p.color : '#fff';
+  el.style.setProperty('--tf', col);
+  el.innerHTML = `<div class="tf-top">${escapeHtml(top)}</div>
+    <div class="tf-name" style="color:${col}">${escapeHtml(p?p.name:'')}</div>
+    <div class="tf-sub" style="color:${col}">${escapeHtml(sub)}</div>`;
+  el.classList.add('show');
+  clearTimeout(flashTimer);
+  flashTimer = setTimeout(()=>el.classList.remove('show'), 1150);
+}
+/* big points flash. the ONLY place points are shown at the moment of winning.
+   onDone fires when it clears, so the next round can be revealed afterwards. */
+function flashPoints(p, pts, onDone){
+  const el = $('#pointsFlash'); if(!el) return;
+  const col = p ? p.color : '#fff';
+  el.style.color = col;
+  el.innerHTML = `<div class="pf-who" style="color:${col}">${escapeHtml(p?p.name:'')}</div>
+    <div class="pf-pts" style="color:${col}">+${pts}</div>`;
+  el.classList.add('show');
+  clearTimeout(ptsTimer);
+  ptsTimer = setTimeout(()=>{ el.classList.remove('show'); if(onDone) onDone(); }, 2400);
+}
+function hidePoints(){ const el=$('#pointsFlash'); if(el) el.classList.remove('show'); }
 
 /* =========================================================
    HOME
@@ -690,67 +609,54 @@ function toggleFullscreen(){
 function renderModes(){
   $('#modeGrid').innerHTML = MODES.map(m => `
     <button class="mode-card ${state.mode.id===m.id?'sel':''}" data-mode="${m.id}">
-      <span class="tag">${m.tag}</span>
-      <span class="ico">${m.ico}</span>
-      <h3>${m.name}</h3>
-      <p>${m.desc}</p>
+      <span class="tag">${m.tag}</span><span class="ico">${m.ico}</span>
+      <h3>${m.name}</h3><p>${m.desc}</p>
     </button>`).join('');
   $$('#modeGrid .mode-card').forEach(el => el.addEventListener('click', () => {
     state.mode = MODES.find(m => m.id === el.dataset.mode);
     state.variant = state.mode.def;
+    state.matchTarget = state.mode.defaultMatch;
     renderModes(); vibrate(8);
   }));
 }
-
 $('#btnToPlayers').addEventListener('click', () => {
-  renderVariants();
-  ensurePlayerCount();
-  renderPlayers();
-  renderOpp();
-  renderLevels();
-  show('scr-players');
-  vibrate(10);
+  renderVariants(); ensurePlayerCount(); renderPlayers(); renderOpp(); renderLevels();
+  show('scr-players'); vibrate(10);
 });
 
 /* =========================================================
    PLAYERS
    ========================================================= */
 const NAMES = ['Player 1','Player 2','Player 3','Player 4','Player 5','Player 6','Player 7','Player 8'];
-
 function ensurePlayerCount(){
   const m = state.mode;
-  if(state.players.length === 0){
-    for(let i=0;i<Math.max(m.minPlayers,2);i++) addPlayer(false);
-  }
+  if(state.players.length === 0){ for(let i=0;i<Math.max(m.minPlayers,2);i++) addPlayer(false); }
   while(state.players.length < m.minPlayers) addPlayer(false);
   if(state.players.length > m.maxPlayers) state.players = state.players.slice(0, m.maxPlayers);
   reindexNames();
 }
-function reindexNames(){
-  state.players.forEach((p,i)=>{ if(!p.custom) p.name = NAMES[i] || 'Player '+(i+1); });
-}
+function reindexNames(){ state.players.forEach((p,i)=>{ if(!p.custom) p.name = NAMES[i] || 'Player '+(i+1); }); }
 function addPlayer(rend = true){
   if(state.players.length >= state.mode.maxPlayers) return;
   const i = state.players.length;
-  state.players.push({ name: NAMES[i] || 'Player '+(i+1), color: PALETTE[i % PALETTE.length], custom:false, cpu:false });
+  const s = seat(i);
+  state.players.push({ name: NAMES[i] || 'Player '+(i+1), color:s.color, colourName:s.name, custom:false, cpu:false });
   if(rend) renderPlayers();
 }
 $('#btnAddPlayer').addEventListener('click', ()=>{
-  if(state.players.length >= state.mode.maxPlayers) return;
-  addPlayer(true); vibrate(8);
+  if(state.players.length >= state.mode.maxPlayers) return; addPlayer(true); vibrate(8);
 });
-
 function renderPlayers(){
   const m = state.mode;
   $('#modeLabel').textContent = m.name + ' · ' + (m.variants.find(v=>v.id===state.variant)?.label || '');
   $('#playerList').innerHTML = state.players.map((p,i)=>`
-    <div class="prow">
+    <div class="prow" style="border-color:${hexA(p.color,.45)}">
       <div class="avatar" style="background:${p.color}">${(p.name.trim()[0]||'?').toUpperCase()}</div>
       <input class="pname-input" data-i="${i}" value="${p.name.replace(/"/g,'&quot;')}" placeholder="Name" maxlength="16" autocomplete="off">
-      ${p.cpu ? `<span style="font-size:11px;font-weight:800;color:var(--accent2);border:1px solid rgba(0,224,198,.4);padding:4px 8px;border-radius:8px">CPU L${state.cpuLevel}</span>` : ''}
+      <span class="ctag" style="color:${p.color}">${p.colourName}</span>
+      ${p.cpu ? `<span class="ctag" style="color:var(--accent2)">L${state.cpuLevel}</span>` : ''}
       <button class="del" data-del="${i}">✕</button>
     </div>`).join('');
-
   $$('#playerList .pname-input').forEach(inp => {
     inp.addEventListener('input', e => {
       const i = +e.target.dataset.i;
@@ -762,25 +668,19 @@ function renderPlayers(){
   });
   $$('#playerList .del').forEach(b => b.addEventListener('click', ()=>{
     const i = +b.dataset.del;
-    if(state.players.length <= m.minPlayers){ flashWarn(`Need at least ${m.minPlayers} player${m.minPlayers>1?'s':''} for ${m.name}.`); return; }
+    if(state.players.length <= m.minPlayers){ flashWarn(`Need at least ${m.minPlayers} player${m.minPlayers>1?'s':''}.`); return; }
     state.players.splice(i,1);
+    state.players.forEach((pl,k)=>{ const s=seat(k); pl.color=s.color; pl.colourName=s.name; });
     if(state.opponent === 'cpu'){ state.cpuCount = Math.min(state.cpuCount, Math.max(1,state.players.length-1)); reapplyCpu(); }
     reindexNames(); renderPlayers(); vibrate(12);
   }));
-
   $('#btnAddPlayer').disabled = state.players.length >= m.maxPlayers;
   validate();
 }
-
 function flashWarn(msg){
-  const w = $('#warnBox');
-  w.textContent = '⚠️ ' + msg;
-  w.classList.remove('hide');
-  clearTimeout(flashWarn._t);
-  flashWarn._t = setTimeout(()=>w.classList.add('hide'), 2600);
-  vibrate(30);
+  const w = $('#warnBox'); w.textContent = '⚠️ ' + msg; w.classList.remove('hide');
+  clearTimeout(flashWarn._t); flashWarn._t = setTimeout(()=>w.classList.add('hide'), 2600); vibrate(30);
 }
-
 function renderVariants(){
   $('#variantBox').classList.remove('hide');
   $('#variantRow').innerHTML = state.mode.variants.map(v =>
@@ -788,11 +688,19 @@ function renderVariants(){
   $$('#variantRow .chip').forEach(c => c.addEventListener('click', ()=>{
     state.variant = c.dataset.v; renderVariants(); renderPlayers(); vibrate(8);
   }));
+  renderMatch();
 }
-
-function reapplyCpu(){
-  state.players.forEach((p,i)=>{ p.cpu = state.opponent==='cpu' && i >= state.players.length - state.cpuCount; });
+function renderMatch(){
+  const box = $('#matchBox');
+  if(state.mode.unit==='none'){ box.classList.add('hide'); return; }
+  box.classList.remove('hide');
+  const unit = state.mode.unit;
+  $('#matchTitle').textContent = (unit==='legs' ? 'LEGS PER MATCH' : 'GAMES PER MATCH');
+  $('#matchRow').innerHTML = MATCH_OPTIONS.map(n=>
+    `<div class="chip ${state.matchTarget===n?'on':''}" data-match="${n}">${n===1?'Single':('First to '+n)}</div>`).join('');
+  $$('#matchRow .chip').forEach(c=>c.addEventListener('click',()=>{ state.matchTarget = +c.dataset.match; renderMatch(); vibrate(8); }));
 }
+function reapplyCpu(){ state.players.forEach((p,i)=>{ p.cpu = state.opponent==='cpu' && i >= state.players.length - state.cpuCount; }); }
 function renderOpp(){
   $$('#oppRow .chip').forEach(c => c.classList.toggle('on', c.dataset.opp === state.opponent));
   const cr = $('#cpuRow');
@@ -811,15 +719,11 @@ function renderLevels(){
   wrap.classList.remove('hide');
   $('#lvlRow').innerHTML = LEVELS.map(l=>`
     <button class="lvl-card ${state.cpuLevel===l.id?'on':''}" data-lvl="${l.id}">
-      <div class="lv-top">
-        <span class="lv-num">${l.id}</span>
-        <span class="lv-name">${l.name}</span>
-      </div>
-      <div class="lv-meta"><b>${l.darts}</b> to finish 501<br>approx. <b>${l.avg}</b></div>
+      <div class="lv-top"><span class="lv-num">${l.id}</span><span class="lv-name">${l.name}</span></div>
+      <div class="lv-meta"><b>${l.darts}</b><br><b>${l.avg}</b></div>
     </button>`).join('');
   $$('#lvlRow .lvl-card').forEach(b=>b.addEventListener('click', ()=>{
-    state.cpuLevel = +b.dataset.lvl;
-    renderLevels(); renderPlayers(); vibrate(8);
+    state.cpuLevel = +b.dataset.lvl; renderLevels(); renderPlayers(); vibrate(8);
   }));
 }
 $$('#oppRow .chip').forEach(c => c.addEventListener('click', ()=>{
@@ -828,10 +732,8 @@ $$('#oppRow .chip').forEach(c => c.addEventListener('click', ()=>{
   else { state.cpuCount = 1; reapplyCpu(); }
   renderOpp(); renderPlayers(); vibrate(8);
 }));
-
 $$('#viewRow .chip').forEach(c => c.addEventListener('click', ()=>{ setView(c.dataset.view); vibrate(8); }));
 $$('#viewToggle button').forEach(b => b.addEventListener('click', ()=>{ setView(b.dataset.v); vibrate(8); }));
-
 function validate(){
   const m = state.mode, n = state.players.length;
   let msg = '';
@@ -841,51 +743,94 @@ function validate(){
   $('#warnBox').classList.toggle('hide', !msg);
   if(msg) $('#warnBox').textContent = '⚠️ ' + msg;
 }
-
-$('#btnStart').addEventListener('click', startGame);
-
+$('#btnStart').addEventListener('click', startMatch);
 $('#btnRules').addEventListener('click', ()=>{
   openModal(`
-    <div class="trophy">📖</div>
-    <h2>How to play</h2>
-    <div style="text-align:left;margin-top:16px">
-      ${MODES.map(m=>`<div style="margin-bottom:16px"><div style="font-weight:900;font-size:15px">${m.ico} ${m.name}</div>
-      <div style="color:var(--muted);font-size:13px;font-weight:600;line-height:1.55;margin-top:5px">${m.rules}</div></div>`).join('')}
-      <div style="border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;font-weight:600">
-        <b style="color:var(--txt)">CPU difficulty.</b> Level 1 Beginner throws like a novice (roughly 30–45 darts per leg of 501);
-        Level 2 Amateur sits around 50–63 per three darts; Level 3 Club Player is a solid pub player at 63–83;
-        Level 4 Pro lands 83–100 and checks out like a tour player.<br><br>
-        Entering darts: pick S / D / T (the pad drops back to SINGLE after each dart), then tap a number.
-        Tap <b>⌫ DELETE</b> to remove the last dart. When three darts are in, a big <b>ENTER SCORE</b> panel pops up.
-        <b>25</b> = outer bull, <b>BULL</b> = 50, <b>MISS</b> = no score.
-      </div>
+    <div class="trophy">📖</div><h2>How to play</h2>
+    <div style="text-align:left">
+      <div style="font-weight:900;font-size:14px;margin-top:10px">🎨 Colour = whose turn</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${SEAT.slice(0,4).map(s=>`<div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted)"><i style="width:14px;height:14px;border-radius:5px;display:inline-block;background:${s.color}"></i>${s.name}</div>`).join('')}</div>
+      <div style="color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:8px">
+        A big banner flashes your name and the keypad glows in your colour.</div>
+      <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px"></div>
+      ${MODES.map(m=>`<div style="margin-bottom:15px"><div style="font-weight:900;font-size:15px">${m.ico} ${m.name}</div>
+      <div style="color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:5px">${m.rules}</div></div>`).join('')}
     </div>
     <div class="row"><button class="btn primary" data-close>Got it</button></div>`);
 });
-
 $$('[data-back]').forEach(b => b.addEventListener('click', ()=>{ show(b.dataset.back); vibrate(8); }));
 
 /* =========================================================
-   GAME SETUP
+   TARGET SPECS
    ========================================================= */
-function startGame(){
+function variantKind(v){
+  if(v==='target_num') return 'num';
+  if(v==='target_double') return 'double';
+  if(v==='target_checkout') return 'checkout';
+  const r = Math.random();
+  return r<.35 ? 'num' : (r<.65 ? 'double' : 'checkout');
+}
+const CHECKOUT_POOL = (()=>{
+  const pool=[];
+  for(let n=11;n<=60;n++){
+    if(n===50) continue;
+    if(n%2===0 && n<=40) continue;
+    const r = routeFor(n);
+    if(!r || r.length < 2) continue;
+    pool.push(n);
+  }
+  return pool;
+})();
+function drawTargetSpec(){
+  const kind = variantKind(state.variant);
+  if(kind==='num'){
+    const n = 1 + Math.floor(Math.random()*20);
+    return {kind:'num', num:n, text:'S'+n, pay:1};
+  }
+  if(kind==='double'){
+    const n = 1 + Math.floor(Math.random()*20);
+    return {kind:'double', num:n, text:'D'+n, pay:2};
+  }
+  const sc = CHECKOUT_POOL[Math.floor(Math.random()*CHECKOUT_POOL.length)];
+  return {kind:'checkout', num:sc, text:String(sc), route: routeFor(sc), pay:3};
+}
+
+/* =========================================================
+   MATCH + GAME SETUP
+   ========================================================= */
+function startMatch(){
   const players = state.players.map((p,i)=>({
-    id:i, name:(p.name.trim()||('Player '+(i+1))), color:p.color, cpu:p.cpu
+    id:i, name:(p.name.trim()||('Player '+(i+1))), color:p.color, colourName:p.colourName, cpu:p.cpu
   }));
+  const unit = state.mode.unit;
+  state.m = {
+    players, modeId: state.mode.id, unit,
+    target: (unit==='none') ? 1 : state.matchTarget,
+    targetRounds: state.mode.targetRounds || 10,
+    wins: {}, played: 0, over:false
+  };
+  players.forEach(p => state.m.wins[p.id] = 0);
+  startGame();
+}
+function startGame(){
+  const m = state.m;
+  const players = (m ? m.players : state.players).map(p=>({...p}));
   const g = {
     mode: state.mode.id, variant: state.variant, players, turn: 0,
-    dartsThrown: {}, history: [], aiPending: false, over:false, _visit:{}, _locked:false, _tapAt:0,
-    level: state.cpuLevel
+    dartsThrown:{}, history:[], aiPending:false, over:false, _visit:{}, _locked:false, _tapAt:0,
+    level: state.cpuLevel, flashFirst:false, _awarded:false, hushTurn:false
   };
   players.forEach(p => g.dartsThrown[p.id] = 0);
 
-  if(g.mode==='x01'){
-    g.startValue = +g.variant.replace('x','') || 501;
-    players.forEach(p=>{ p.score = g.startValue; });
-  }
+  if(g.mode==='x01'){ g.startValue = +g.variant.replace('x','') || 501; players.forEach(p=>{ p.score = g.startValue; }); }
   if(g.mode==='cricket') players.forEach(p=>{ p.marks = {20:0,19:0,18:0,17:0,16:0,15:0,25:0}; p.score = 0; });
   if(g.mode==='rtc') players.forEach(p=>{ p.target = 1; p.hits = 0; });
-  if(g.mode==='target') players.forEach(p=>{ p.hits = 0; p.misses = 0; p.streak = 0; p.bestStreak = 0; newTarget(p); });
+  if(g.mode==='target'){
+    g.targetRounds = m ? m.targetRounds : 10;
+    g.round = 1;
+    players.forEach(p=>{ p.score = 0; p.hits = 0; p.cleared = false; p.gaveUp = false; p.tRemain = null; p.tBust = false; });
+    setupRound(g);
+  }
   if(g.mode==='quack'){
     if(g.variant==='quack') players.forEach(p=>{ p.target = 1; p.score = 0; });
     if(g.variant==='kill') players.forEach(p=>{ p.lives = 3; p.killer = false; p.targetAssigned = false; });
@@ -893,10 +838,9 @@ function startGame(){
   }
   if(g.mode==='free') players.forEach(p=>{ p.score = 0; });
 
-  lastDart = null;
-  padMult = 1;
+  lastDart = null; padMult = 1;
   state.g = g;
-  hideEnterSheet();
+  hideEnterSheet(); hidePoints();
   show('scr-game');
   setView(state.view);
   buildKeypad();
@@ -904,45 +848,12 @@ function startGame(){
   vibrate(20);
   beginTurn();
 }
-
-/* =========================================================
-   TARGET GENERATION (Target Practice)
-   ========================================================= */
-function variantKind(v){
-  if(v==='target_num') return 'num';
-  if(v==='target_double') return 'double';
-  if(v==='target_checkout') return 'checkout';
-  const r = Math.random();
-  return r<.4 ? 'num' : (r<.7 ? 'double' : 'checkout');
-}
-function newTarget(p){
-  const kind = variantKind(state.variant);
-  if(kind==='num'){
-    p.tKind = 'num';
-    p.tNum = 1 + Math.floor(Math.random()*20);
-    p.tText = 'S'+p.tNum;
-    p.tSub = 'hit the '+p.tNum+' segment (any ring)';
-    p.tDarts = 3;
-  } else if(kind==='double'){
-    const dbl = 1 + Math.floor(Math.random()*20);
-    p.tKind = 'double';
-    p.tNum = dbl;
-    p.tText = 'D' + dbl;
-    p.tSub = Math.random()<0.35 ? 'or the bullseye counts too' : 'double ' + dbl + ' only';
-    p.tBullOk = p.tSub.indexOf('bull') >= 0;
-    p.tDarts = 3;
-  } else {
-    let sc;
-    do { sc = 41 + Math.floor(Math.random()*80); } while(!routeFor(sc));
-    const route = routeFor(sc);
-    p.tKind = 'checkout';
-    p.tNum = sc;
-    p.tText = sc;
-    p.tSub = route ? (route.map(d=>d.label).join(' → ') + '  (' + route.length + ' dart' + (route.length>1?'s':'') + ')') : '';
-    p.tRoute = route;
-    p.tDarts = 3;
-  }
-  p.tHit = false;
+function setupRound(g){
+  g.spec = drawTargetSpec();
+  g.firstId = g.players[Math.floor(Math.random()*g.players.length)].id;
+  g.turn = g.firstId;
+  g.flashFirst = true;
+  g.players.forEach(p=>{ p.spec = g.spec; p.cleared = false; p.gaveUp = false; p.tRemain = null; p.tBust = false; });
 }
 
 /* =========================================================
@@ -950,7 +861,6 @@ function newTarget(p){
    ========================================================= */
 let padMult = 1;
 let lastDart = null;
-
 function buildKeypad(){
   let html = '';
   for(let n=1;n<=20;n++) html += `<button class="key num" data-num="${n}">${n}</button>`;
@@ -960,12 +870,8 @@ function buildKeypad(){
   html += `<button class="key back" data-back>⌫ DELETE</button>`;
   $('#keys').innerHTML = html;
 
-  $$('#keys .key[data-num]').forEach(k => k.addEventListener('click', ()=>{
-    enterDart(+k.dataset.num, padMult);
-  }));
-  $$('#multRow .mult').forEach(m => m.addEventListener('click', ()=>{
-    padMult = +m.dataset.mult; renderPad(); vibrate(6);
-  }));
+  $$('#keys .key[data-num]').forEach(k => k.addEventListener('click', ()=>{ enterDart(+k.dataset.num, padMult); }));
+  $$('#multRow .mult').forEach(m => m.addEventListener('click', ()=>{ padMult = +m.dataset.mult; renderPad(); vibrate(6); }));
   const back = $('#keys [data-back]');
   if(back) back.addEventListener('click', ()=>{
     const g = state.g; if(!g || g._locked) return;
@@ -974,48 +880,32 @@ function buildKeypad(){
       g._visit[cur.id].pop();
       g.dartsThrown[cur.id] = Math.max(0,(g.dartsThrown[cur.id]||1)-1);
       lastDart = (g._visit[cur.id]||[]).slice(-1)[0] || null;
-      padMult = 1;
-      rebuildAll(); renderGame();
+      padMult = 1; rebuildAll(); renderGame();
     }
     vibrate(10);
   });
 }
-
 function renderPad(){
   const g = state.g;
   const p = g ? g.players[g.turn] : null;
   const darts = (g && p) ? (g._visit[p.id]||[]) : [];
   const full = darts.length >= 3;
-
   const el = $('#padArmed');
   el.textContent = padMult===1?'S':padMult===2?'D':'T';
   el.className = 'armed m'+padMult;
   $('#padMultLbl').textContent = padMult===1?'SINGLE':padMult===2?'DOUBLE':'TREBLE';
-
   if(lastDart){
     const sc = dartScore(lastDart.v,lastDart.mult);
     $('#padLast').textContent = (lastDart.v===0?'MISS':dartLabel(lastDart.v,lastDart.mult)) + ' · ' + sc;
-  } else {
-    $('#padLast').textContent = '—';
-  }
-
+  } else { $('#padLast').textContent = '—'; }
   $$('#multRow .mult').forEach(m => m.classList.toggle('on', +m.dataset.mult===padMult));
-
   const blocked = !g || g.over || (p && p.cpu) || g.aiPending || g._locked;
   const lockNums = blocked || full;
   $$('#keys .key.num, #keys .key.bull, #keys .key.zero').forEach(k => k.classList.toggle('locked', lockNums));
-
   const back = $('#keys [data-back]');
   if(back) back.classList.toggle('locked', blocked || darts.length===0);
 }
-
 function dartScore(v, mult){ if(v===0) return 0; if(v===50) return 50; return v*mult; }
-function dartName(v, mult){
-  if(v===0) return 'Miss';
-  if(v===25) return 'Outer Bull (25)';
-  if(v===50) return 'Bullseye (50)';
-  return (mult===1?'':mult===2?'Double ':'Treble ') + v;
-}
 function dartLabel(v,mult){
   if(v===0) return '–';
   if(v===25) return 'OB';
@@ -1033,7 +923,6 @@ function enterDart(v, mult){
   if(p.cpu || g.aiPending) return;
   const darts = g._visit[p.id] || [];
   if(darts.length >= 3){ vibrate(20); return; }
-
   const now = Date.now();
   if(now - (g._tapAt||0) < 120) return;
   g._tapAt = now;
@@ -1044,38 +933,24 @@ function enterDart(v, mult){
   const dart = { v, mult:m, score: dartScore(v,m) };
   g._visit[p.id].push(dart);
   lastDart = dart;
-
   applyDart(p, v, m);
-  padMult = 1;   // drop to single after every dart
-
+  padMult = 1;
   renderGame();
   vibrate(12);
-
   if(g.over) return;
 
-  if(g.mode==='x01'){
-    const ev = x01Live(p);
-    if(ev.checkout){ finishVisitSoon(); return; }
-  } else if(g.mode==='rtc' && p.target>20){
-    finishVisitSoon(); return;
-  }
+  if(g.mode==='x01'){ const ev = x01Live(p); if(ev.checkout){ finishVisitSoon(); return; } }
+  else if(g.mode==='rtc' && p.target>20){ finishVisitSoon(); return; }
+  else if(g.mode==='target' && p.cleared){ finishVisitSoon(); return; }
 
   const after = g._visit[p.id] || [];
   if(after.length >= 3) showEnterSheet();
 }
-
 function finishVisitSoon(){
   const g = state.g;
-  g._locked = true;
-  hideEnterSheet();
-  renderGame();
-  setTimeout(()=>{
-    if(state.g !== g) return;
-    g._locked = false;
-    endVisit();
-  }, 750);
+  g._locked = true; hideEnterSheet(); renderGame();
+  setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 800);
 }
-
 function x01Live(p){
   const g = state.g;
   const darts = g._visit[p.id] || [];
@@ -1090,7 +965,6 @@ function x01Live(p){
   }
   return { darts, total, rem, bust, checkout };
 }
-
 function applyDart(p, v, m){
   const g = state.g;
   if(g.mode==='rtc'){
@@ -1100,16 +974,19 @@ function applyDart(p, v, m){
     else if(v===25 || v===50){ p.target++; p.hits++; }
   }
   else if(g.mode==='target'){
-    if(v===0){ if(!p.tHit){ p.misses++; p.streak=0; } return; }
-    let hit=false;
-    if(p.tKind==='num'){ hit = (v===p.tNum); }
-    else if(p.tKind==='double'){ hit = (m===2 && v===p.tNum) || (v===50); }
-    else if(p.tKind==='checkout'){
-      const need = p.tRoute ? p.tRoute.map(d=>d.label) : [];
-      hit = need.includes(dartLabel(v,m));
+    if(p.spec.kind==='num'){
+      if(v===p.spec.num){ p.tHit = true; p.cleared = true; }
+    } else if(p.spec.kind==='double'){
+      if((m===2 && v===p.spec.num) || v===50){ p.tHit = true; p.cleared = true; }
+    } else if(p.spec.kind==='checkout'){
+      if(p.tBust || p.cleared) return;
+      const cur = (p.tRemain==null ? p.spec.num : p.tRemain);
+      const rem = cur - dartScore(v,m);
+      const isDouble = (m===2 || v===50);
+      if(rem < 0){ p.tBust = true; return; }
+      if(rem === 0){ if(isDouble){ p.tRemain = 0; p.cleared = true; } else { p.tBust = true; } return; }
+      p.tRemain = rem;
     }
-    if(hit){ p.tHit = true; p.hits++; p.streak++; p.bestStreak=Math.max(p.bestStreak,p.streak); }
-    else { p.misses++; p.streak=0; }
   }
   else if(g.mode==='quack'){
     if(g.variant==='quack'){
@@ -1118,7 +995,7 @@ function applyDart(p, v, m){
         if(!p._visitNums) p._visitNums = [];
         p._visitNums.push(m);
         if(p._visitNums.includes(1) && p._visitNums.includes(2) && p._visitNums.includes(3)){
-          g.over = true; g.winner = p; g.winReason = 'SHANGHAI! Single + Double + Treble of ' + t;
+          g.over = true; g.winner = p; g.winReason = 'SHANGHAI! S+D+T of ' + t;
         }
         p.score += dartScore(v,m);
       } else if(v!==0){ p.score += dartScore(v,m); }
@@ -1130,19 +1007,16 @@ function applyDart(p, v, m){
         if(victim) victim.lives--;
       }
     }
-    else if(g.variant==='baseball'){
-      if(v===p.inning) p.runs += dartScore(v,m);
-    }
+    else if(g.variant==='baseball'){ if(v===p.inning) p.runs += dartScore(v,m); }
   }
   else if(g.mode==='free'){ p.score += dartScore(v,m); }
 }
-
 function rebuildAll(){
   const g = state.g;
   if(g.mode==='x01') g.players.forEach(p=>p.score=g.startValue);
   if(g.mode==='cricket'){ g.players.forEach(p=>p.marks={20:0,19:0,18:0,17:0,16:0,15:0,25:0}); g.players.forEach(p=>p.score=0); }
   if(g.mode==='rtc') g.players.forEach(p=>{p.target=1;p.hits=0;});
-  if(g.mode==='target') g.players.forEach(p=>{p.hits=0;p.misses=0;p.streak=0;p.bestStreak=0;newTarget(p);});
+  if(g.mode==='target') g.players.forEach(p=>{ p.cleared=false; p.tRemain=null; p.tBust=false; p.tHit=false; });
   if(g.mode==='quack'){
     if(g.variant==='quack') g.players.forEach(p=>{p.target=1;p.score=0;p._visitNums=[];});
     if(g.variant==='kill') g.players.forEach(p=>{p.lives=3;p.killer=false;p.targetAssigned=false;});
@@ -1152,39 +1026,33 @@ function rebuildAll(){
   g.over=false; g.winner=null; g.winReason=null;
 
   if(g.mode==='x01'){
-    g.history.forEach(h=>{
-      const p = g.players.find(x=>x.id===h.player); if(!p) return;
-      if(!h.bust) p.score -= h.total;
-    });
+    g.history.forEach(h=>{ const p=g.players.find(x=>x.id===h.player); if(!p) return; if(!h.bust) p.score -= h.total; });
   }
   const allDarts = [];
   g.history.forEach(h=>h.darts.forEach(d=>allDarts.push({pid:h.player,d})));
   if(g.mode==='cricket'){
     const keys=[20,19,18,17,16,15,25];
-    const marks = {}; g.players.forEach(p=>marks[p.id]={20:0,19:0,18:0,17:0,16:0,15:0,25:0});
+    const marks={}; g.players.forEach(p=>marks[p.id]={20:0,19:0,18:0,17:0,16:0,15:0,25:0});
     const oppOpen=(key,pid)=>g.players.some(o=>o.id!==pid && (marks[o.id][key]||0)<3);
     allDarts.forEach(({pid,d})=>{
       const p=g.players.find(x=>x.id===pid); if(!p) return;
-      const key = d.v>=25?25:d.v; if(!keys.includes(key)) return;
-      const add = d.v===50?2:d.mult;
-      const before = marks[pid][key]; const after = Math.min(3,before+add);
+      const key=d.v>=25?25:d.v; if(!keys.includes(key)) return;
+      const add=d.v===50?2:d.mult;
+      const before=marks[pid][key]; const after=Math.min(3,before+add);
       marks[pid][key]=after;
-      if(before>=3 || after>3){ const overflow = before>=3?add:after-3; if(state.variant!=='cricket_noscore' && oppOpen(key,pid)) p.score += key*overflow; }
+      if(before>=3 || after>3){ const overflow=before>=3?add:after-3; if(state.variant!=='cricket_noscore' && oppOpen(key,pid)) p.score += key*overflow; }
     });
-    g.players.forEach(p=>p.marks = marks[p.id]);
+    g.players.forEach(p=>p.marks=marks[p.id]);
   } else if(g.mode!=='x01'){
-    allDarts.forEach(({pid,d})=>{
-      const p=g.players.find(x=>x.id===pid); if(!p) return;
-      applyDart(p, d.v, d.mult);
-    });
+    allDarts.forEach(({pid,d})=>{ const p=g.players.find(x=>x.id===pid); if(!p) return; applyDart(p,d.v,d.mult); });
   }
   Object.keys(g._visit||{}).forEach(k=>{
-    const p = g.players.find(x=>x.id===+k); if(!p) return;
+    const p=g.players.find(x=>x.id===+k); if(!p) return;
     (g._visit[k]||[]).forEach(d=>{
       if(g.mode==='cricket'){
         const key=d.v>=25?25:d.v;
         if(p.marks && p.marks[key]!==undefined){ p.marks[key]=Math.min(3,p.marks[key]+(d.v===50?2:d.mult)); }
-      } else if(g.mode!=='x01'){ applyDart(p, d.v, d.mult); }
+      } else if(g.mode!=='x01'){ applyDart(p,d.v,d.mult); }
     });
   });
 }
@@ -1202,62 +1070,55 @@ function showEnterSheet(){
   const ev = (g.mode==='x01') ? x01Live(p) : null;
   const isBust = !!(ev && ev.bust);
 
-  let verdict = '';
+  let verdict = '', cls = '';
   if(ev){
-    if(ev.bust) verdict = 'Bust — score stays at ' + p.score;
-    else if(ev.checkout) verdict = 'CHECKOUT! Game won';
+    if(ev.bust){ verdict = 'Bust — score stays at ' + p.score; cls='bust'; }
+    else if(ev.checkout){ verdict = 'CHECKOUT! Leg won'; cls='win'; }
     else verdict = ev.rem + ' remaining';
   } else if(g.mode==='rtc'){
     verdict = p.target>20 ? 'Clock complete 🎯' : 'Now aiming for ' + p.target;
   } else if(g.mode==='target'){
-    verdict = p.tHit ? 'Target hit ✓' : 'Missed the target';
+    if(p.cleared){ verdict = 'Target cleared'; cls='win'; }
+    else if(p.spec.kind==='checkout'){ verdict = p.tBust ? 'Busted — no score' : ((p.tRemain==null?p.spec.num:p.tRemain) + ' left'); }
+    else verdict = 'Not cleared';
   } else {
     verdict = 'Visit total ' + total;
   }
-  const vCls = isBust ? 'bust' : (ev && ev.checkout ? 'finish' : '');
 
-  $('#enterSheet').className = 'enter-sheet show' + (isBust?' bust':'');
+  $('#enterSheet').className = 'enter-sheet show' + (isBust?' bust':(cls==='win'?' win':''));
   $('#enterSheet').innerHTML = `
     <div class="es-top">
       <div class="es-darts">
-        ${[0,1,2].map(i=>{
-          const d = darts[i];
-          return `<div class="es-chip">
-            <div class="b">${d?dartLabel(d.v,d.mult):'—'}</div>
-            <div class="l">${d?d.score+' PTS':'EMPTY'}</div>
-          </div>`;
+        ${[0,1,2].map(i=>{ const d=darts[i];
+          return `<div class="es-chip"><div class="b">${d?dartLabel(d.v,d.mult):'—'}</div><div class="l">${d?d.score+' PTS':'EMPTY'}</div></div>`;
         }).join('')}
       </div>
-      <div class="es-sum">
-        <div class="n">${isBust?'BUST':total}</div>
-        <div class="l">VISIT</div>
-      </div>
+      <div class="es-sum"><div class="n">${isBust?'BUST':total}</div><div class="l">VISIT</div></div>
     </div>
-    <div class="es-verdict ${vCls}">${escapeHtml(verdict)}</div>
-    <div class="es-row">
-      <button class="btn" id="esBack">⌫ Undo dart</button>
-      <button class="btn es-go" id="esGo">${isBust?'ENTER — BUST':'ENTER SCORE'}</button>
+    <div class="es-verdict ${cls}">${escapeHtml(verdict)}</div>
+    <div class="es-row3">
+      <button class="btn" id="esBack">⌫ Undo</button>
+      <button class="btn" id="esSkip">⤼ Skip</button>
+      <button class="btn es-go" id="esGo">${isBust?'ENTER — BUST':'ENTER'}</button>
     </div>`;
 
   $('#esGo').addEventListener('click', ()=>{
-    const gg = state.g;
-    if(!gg || gg.over || gg._locked) return;
-    hideEnterSheet();
-    endVisit();
+    const gg = state.g; if(!gg || gg.over || gg._locked) return; hideEnterSheet(); endVisit();
   });
   $('#esBack').addEventListener('click', ()=>{
-    const gg = state.g;
-    if(!gg || gg._locked) return;
+    const gg = state.g; if(!gg || gg._locked) return;
     const pp = gg.players[gg.turn];
     if((gg._visit[pp.id]||[]).length){
       gg._visit[pp.id].pop();
       gg.dartsThrown[pp.id] = Math.max(0,(gg.dartsThrown[pp.id]||1)-1);
       lastDart = (gg._visit[pp.id]||[]).slice(-1)[0] || null;
-      padMult = 1;
-      hideEnterSheet();
-      rebuildAll(); renderGame();
-      vibrate(10);
+      padMult = 1; hideEnterSheet(); rebuildAll(); renderGame(); vibrate(10);
     }
+  });
+  $('#esSkip').addEventListener('click', ()=>{
+    const gg = state.g; if(!gg || gg.over || gg._locked) return;
+    gg.players[gg.turn].gaveUp = true;
+    hideEnterSheet(); endVisit();
   });
 }
 function hideEnterSheet(){ $('#enterSheet').className = 'enter-sheet'; }
@@ -1271,7 +1132,6 @@ function endVisit(){
   hideEnterSheet();
   const p = g.players[g.turn];
   const darts = [...(g._visit[p.id] || [])];
-  if(!darts.length) return;
   const total = darts.reduce((a,d)=>a+d.score,0);
   const entry = { player:p.id, darts, total, bust:false, checkout:false };
 
@@ -1287,10 +1147,9 @@ function endVisit(){
     if(state.variant!=='cricket_noscore') computeCricketScores();
     const allClosed = x => Object.keys(x.marks).every(k=>x.marks[k]>=3);
     if(g.players.some(allClosed)){
-      const closers = g.players.filter(allClosed);
-      closers.sort((a,b)=>b.score-a.score);
+      const closers = g.players.filter(allClosed); closers.sort((a,b)=>b.score-a.score);
       g.over = true; g.winner = closers[0];
-      g.winReason = state.variant==='cricket_noscore' ? 'First to close every number' : 'Closed every number with ' + closers[0].score + ' points';
+      g.winReason = state.variant==='cricket_noscore' ? 'First to close everything' : 'Closed everything with ' + closers[0].score + ' points';
     }
   }
   else if(g.mode==='rtc'){
@@ -1299,19 +1158,14 @@ function endVisit(){
     if(finishers.length){
       const first = [...finishers].sort((a,b)=>a.finishOrder-b.finishOrder)[0];
       g.over = true; g.winner = first;
-      g.winReason = g.players.length===1 ? 'Completed the full clock' : 'First to hit 1→20 then the bullseye!';
+      g.winReason = g.players.length===1 ? 'Completed the full clock' : 'First to hit the bullseye';
     }
-  }
-  else if(g.mode==='target'){
-    g.players.forEach(pl=>{ if(pl.id===p.id){ if(!p.tHit) p.streak = 0; } });
   }
   else if(g.mode==='quack'){
     if(g.variant==='quack'){
       const done = g.players.filter(x=>x.target>20);
-      if(done.length){
-        const best = [...g.players].sort((a,b)=>b.score-a.score)[0];
-        g.over = true; g.winner = best; g.winReason = 'Highest Shanghai total: ' + best.score;
-      }
+      if(done.length){ const best=[...g.players].sort((a,b)=>b.score-a.score)[0];
+        g.over=true; g.winner=best; g.winReason='Highest Shanghai total: '+best.score; }
     }
     if(g.variant==='kill'){
       const alive = g.players.filter(x=>x.lives>0);
@@ -1323,7 +1177,7 @@ function endVisit(){
       g.players.forEach(pl=>{ if(pl.inning===9) pl.done=true; else pl.inning++; });
       if(g.players.every(pl=>pl.done || pl.inning>=10)){
         const best=[...g.players].sort((a,b)=>b.runs-a.runs)[0];
-        g.over=true; g.winner=best; g.winReason='Most runs after 9 innings: '+best.runs;
+        g.over=true; g.winner=best; g.winReason='Most runs: '+best.runs;
       }
     }
   }
@@ -1332,20 +1186,63 @@ function endVisit(){
   g._visit[p.id] = [];
   g.dartsThrown[p.id] = 0;
   if(g.mode==='quack') p._visitNums = [];
-  if(g.mode==='target') newTarget(p);
-  lastDart = null;
-  padMult = 1;
+  lastDart = null; padMult = 1;
 
-  if(g.over){ renderGame(); setTimeout(announceWin, 320); return; }
-  advanceTurn();
+  if(g.over){ renderGame(); setTimeout(()=>endGame(), 340); return; }
+
+  if(g.mode==='target'){
+    p.tRemain = null; p.tBust = false;
+    targetEndVisit(g, p);
+  } else {
+    advanceTurn();
+  }
   renderGame();
   beginTurn();
 }
-
+function targetEndVisit(g, p){
+  const cleared = p.cleared && !p.gaveUp;
+  if(cleared){
+    p.score += p.spec.pay; p.hits++;
+    // only ONE +N on screen: the big flash. Next target & banner appear after it clears.
+    g.hushTurn = true;
+    flashPoints(p, p.spec.pay, ()=>{
+      if(g.over) return;
+      finishRound(g, p);
+      if(g.over){ endGame(); return; }
+      renderGame();
+      beginTurn();
+    });
+    return;
+  }
+  const pending = g.players.filter(x=>!x.cleared && !x.gaveUp);
+  const onlyMeLeft = (pending.length === 1 && pending[0].id === p.id);
+  if(pending.length === 0 || onlyMeLeft){ finishRound(g, null); return; }
+  const n = g.players.length;
+  for(let i=1;i<=n;i++){
+    const idx = (g.turn+i)%n;
+    const q = g.players[idx];
+    if(!q.cleared && !q.gaveUp){ g.turn = idx; return; }
+  }
+}
+function finishRound(g, winner){
+  const isLast = (g.targetRounds !== 0 && g.round >= g.targetRounds);
+  if(g.suddenDeath){
+    if(winner){ g.over = true; g.winner = winner; g.winReason = 'Sudden death'; return; }
+    g.round++; setupRound(g); return;
+  }
+  if(isLast){
+    const sorted = [...g.players].sort((a,b)=>b.score-a.score);
+    if(sorted.length > 1 && sorted[0].score === sorted[1].score){ g.suddenDeath = true; g.round++; setupRound(g); return; }
+    g.over = true; g.winner = sorted[0];
+    g.winReason = 'POINTS: ' + sorted[0].score;
+    return;
+  }
+  g.round++;
+  setupRound(g);
+}
 function countDartsUsed(pid){
   return state.g.history.filter(h=>h.player===pid).reduce((a,h)=>a+h.darts.length,0);
 }
-
 function computeCricketScores(){
   const g = state.g;
   if(state.variant==='cricket_noscore'){ g.players.forEach(p=>p.score=0); return; }
@@ -1366,7 +1263,6 @@ function computeCricketScores(){
   });
   g.players.forEach(p=>p.marks=marks[p.id]);
 }
-
 function advanceTurn(){
   const g = state.g;
   const n = g.players.length;
@@ -1377,40 +1273,82 @@ function advanceTurn(){
     if(!elim){ g.turn = idx; return; }
   }
 }
-
-/* =========================================================
-   TURN START / CPU HANDOFF
-   ========================================================= */
 function beginTurn(){
   const g = state.g;
   if(!g) return;
   g._locked = false;
   const p = g.players[g.turn];
+  const firstThisRound = g.flashFirst; g.flashFirst = false;
+  turnColor(p ? p.color : '#fff');
+  if(g.mode==='target' && p && p.spec && p.spec.kind==='checkout'){ p.tRemain = p.spec.num; p.tBust = false; }
+
   if(p && p.cpu){
     g.aiPending = true;
     renderGame();
-    setTimeout(()=>cpuThrow(p), 640);
+    if(!g.hushTurn) flashTurn(p, 'CPU THROWING', 'LEVEL ' + g.level);
+    g.hushTurn = false;
+    setTimeout(()=>cpuThrow(p), 900);
   } else {
     g.aiPending = false;
     renderGame();
+    if(g.hushTurn){ g.hushTurn = false; }   // banner suppressed right after a points win
+    else if(firstThisRound) flashTurn(p, 'THROWS FIRST', 'YOUR TURN');
+    else flashTurn(p, 'YOUR TURN', p.colourName);
   }
 }
 
 /* =========================================================
-   CPU  (difficulty-aware)
+   END GAME + MATCH
    ========================================================= */
-/* Simulate a throw at an intended segment: land on it with prob acc, else scatter. */
+function endGame(){
+  const g = state.g, m = state.m;
+  if(!g || !g.winner) return;
+  hidePoints();
+  vibrate([40,60,40,60,120]);
+
+  if(m && !g._awarded){
+    g._awarded = true;
+    m.wins[g.winner.id] = (m.wins[g.winner.id]||0) + 1;
+    m.played++;
+  }
+  const isMatchMode = m && m.unit !== 'none' && m.target > 1;
+  const matchWon = isMatchMode && m.wins[g.winner.id] >= m.target;
+
+  const tally = m && isMatchMode ? `<div class="scoretally">
+    ${m.players.map(p=>`<div class="tallyrow">
+      <span class="tn" style="color:${p.color}">● ${escapeHtml(p.name)}</span>
+      <span class="tv" style="color:${p.color}">${m.wins[p.id]||0}</span>
+    </div>`).join('')}
+  </div>` : '';
+
+  openModal(`
+    <div class="trophy">${matchWon?'🏆':'🎯'}</div>
+    <div class="bigwin" style="color:${g.winner.color}">${escapeHtml(g.winner.name)} WINS!</div>
+    <div class="win">${escapeHtml(g.winReason||'')}</div>
+    ${tally}
+    <div class="row">
+      <button class="btn" data-close>Done</button>
+      <button class="btn primary" data-again>Play again →</button>
+    </div>`);
+
+  const again = $('#modalBody [data-again]');
+  if(again) again.addEventListener('click', ()=>{
+    closeModal();
+    if(isMatchMode && !matchWon){ startGame(); } else { startMatch(); }
+  });
+}
+
+/* =========================================================
+   CPU
+   ========================================================= */
 function landedDart(intended, lvl){
   const r = Math.random();
   if(r < lvl.acc) return {v:intended.v, mult:intended.mult};
-
-  // missed — scatter to a neighbouring number, keep it plausible
   const spread = lvl.scatterSpread;
   const off = Math.round((Math.random()*2-1) * spread);
   let n = intended.v;
-  if(intended.v>=25){ n = 1 + Math.floor(Math.random()*20); }   // missed the bull
+  if(intended.v>=25){ n = 1 + Math.floor(Math.random()*20); }
   else { n = intended.v + off; if(n<1) n+=20; if(n>20) n-=20; }
-
   const mr = Math.random();
   let mult;
   if(intended.mult===3) mult = mr<.55?1:(mr<.8?3:2);
@@ -1418,7 +1356,6 @@ function landedDart(intended, lvl){
   else mult = mr<.72?1:(mr<.9?2:3);
   return {v:n, mult};
 }
-
 function chooseCpuDart(p){
   const g = state.g;
   const lvl = levelById(g.level);
@@ -1427,90 +1364,64 @@ function chooseCpuDart(p){
   if(g.mode==='x01'){
     const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
     const rem = p.score - used;
-
     if(rem <= 170 && rem >= 2){
       const path = routeFor(rem);
-      // decide whether to go for the proper checkout
       const goForIt = path && (rem<=40 ? true : rnd() < (lvl.co*0.6 + 0.35));
       if(goForIt){
-        if(rem > 40){
-          // work the route until the finish dart
-          const next = path[0];
-          return landedDart({v:next.v, mult:next.mult}, lvl);
-        }
-        // on a finish: aim the double, or bull at 50
+        if(rem > 40){ const next = path[0]; return landedDart({v:next.v, mult:next.mult}, lvl); }
         if(rem===50 && rnd()<0.5) return landedDart({v:25,mult:2}, lvl);
         const d = DOUBLES.find(x=>x.v*x.mult===rem) || {v:20,mult:2};
-        // even beginners sometimes drop to a safer double
         return landedDart({v:d.v, mult:d.mult}, lvl);
       }
     }
-    // scoring phase — or setup when the finish is out of reach
-    if(rem <= 170 && rem > 40){
-      const setup = setupDart(rem);
-      if(rnd() < lvl.co){
-        // try to leave a clean double
-        return landedDart(setup, lvl);
-      }
-    }
-    if(p.score <= 170 && p.score > 40 && rnd() < lvl.co*0.7){
-      return landedDart(setupDart(p.score - used), lvl);
-    }
-    // default: go for a big treble if good enough, else a fat single 20/19
+    if(rem <= 170 && rem > 40){ if(rnd() < lvl.co) return landedDart(setupDart(rem), lvl); }
     if(rnd() < lvl.t20) return landedDart({v:20, mult:3}, lvl);
     const seg = lvl.scoreSeg;
     const v = rnd()<.5 ? 20 : (rnd()<.5 ? 19 : (rnd()<.6?18:seg+17));
     return landedDart({v:Math.max(1,Math.min(20,v)), mult:lvl.t20>.5?(rnd()<.6?3:1):1}, lvl);
   }
-
   if(g.mode==='cricket'){
     const keys=[20,19,18,17,16,15,25];
     const need = keys.find(k=>(p.marks[k]||0)<3);
     if(need){
       if(need===25) return landedDart({v:25,mult:1}, lvl);
-      const mr=rnd();
-      const mult = mr<.6?1:(mr<.9?2:3);
+      const mr=rnd(); const mult = mr<.6?1:(mr<.9?2:3);
       return landedDart({v:need, mult}, lvl);
     }
     const open = keys.filter(k=>g.players.some(o=>o!==p && (o.marks[k]||0)<3));
     const k = open[0]||20;
     return landedDart({v:k===25?25:k, mult: k===25?1:3}, lvl);
   }
-
   if(g.mode==='rtc'){
     const t = p.target;
     if(t>20) return landedDart(rnd()<.5? {v:25,mult:1}:{v:50,mult:1}, lvl);
     if(state.variant==='rtc_double') return landedDart({v:t, mult: rnd()<.6?2:1}, lvl);
     return landedDart({v:t, mult: rnd()<.7?1:2}, lvl);
   }
-
   if(g.mode==='target'){
-    if(p.tKind==='num') return landedDart({v:p.tNum, mult: rnd()<.7?1:2}, lvl);
-    if(p.tKind==='double') return landedDart({v:p.tNum, mult:2}, lvl);
-    if(p.tKind==='checkout' && p.tRoute && p.tRoute.length){
-      const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
-      let acc=0, chosen=p.tRoute[p.tRoute.length-1];
-      for(const step of p.tRoute){ acc += step.v*step.mult; if(acc > used){ chosen = step; break; } }
-      return landedDart({v:chosen.v, mult:chosen.mult}, lvl);
+    const kind = p.spec.kind;
+    if(kind==='num') return landedDart({v:p.spec.num, mult: rnd()<.6?1:2}, lvl);
+    if(kind==='double') return landedDart({v:p.spec.num, mult:2}, lvl);
+    if(kind==='checkout'){
+      const remLeft = (p.tRemain==null?p.spec.num:p.tRemain);
+      if(remLeft > 40) return landedDart(setupDart(remLeft), lvl);
+      if(remLeft === 50 && rnd()<0.5) return landedDart({v:25,mult:2}, lvl);
+      const d = DOUBLES.find(x=>x.v*x.mult===remLeft) || {v:20,mult:2};
+      return landedDart({v:d.v, mult:d.mult}, lvl);
     }
     return landedDart({v:20,mult:1}, lvl);
   }
-
   if(g.mode==='quack'){
     if(g.variant==='quack'){ const t=Math.min(20,p.target); return landedDart({v:t, mult:rnd()<.5?1:rnd()<.85?2:3}, lvl); }
     if(g.variant==='kill') return landedDart({v:1+Math.floor(rnd()*20), mult:rnd()<.5?2:1}, lvl);
     if(g.variant==='baseball'){ const t=Math.min(9,Math.max(1,p.inning)); return landedDart({v:t, mult:rnd()<.6?1:rnd()<.9?2:3}, lvl); }
   }
-  if(g.mode==='free'){
-    return landedDart({v:20,mult:3}, lvl);
-  }
+  if(g.mode==='free') return landedDart({v:20,mult:3}, lvl);
   return landedDart({v:20,mult:1}, lvl);
 }
-
 function cpuThrow(p){
   const g = state.g;
   if(!g || g.over || !p.cpu){ if(g){ g.aiPending=false; renderGame(); } return; }
-
   const dart = chooseCpuDart(p);
   g.dartsThrown[p.id] = (g.dartsThrown[p.id]||0)+1;
   if(!g._visit[p.id]) g._visit[p.id]=[];
@@ -1519,28 +1430,16 @@ function cpuThrow(p){
   lastDart = d;
   applyDart(p, dart.v, dart.mult);
   padMult = 1;
-
   renderGame();
-
-  if(g.over){
-    g._locked = true;
-    setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 700);
-    return;
-  }
-
+  if(g.over){ g._locked=true; setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 700); return; }
   if(g.mode==='x01'){
     const ev = x01Live(p);
-    if(ev.checkout || ev.bust){
-      g._locked = true;
-      setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750);
-      return;
-    }
+    if(ev.checkout || ev.bust){ g._locked = true; setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750); return; }
   } else if(g.mode==='rtc' && p.target>20){
-    g._locked = true;
-    setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750);
-    return;
+    g._locked = true; setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750); return;
+  } else if(g.mode==='target' && p.cleared){
+    g._locked = true; setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750); return;
   }
-
   if((g._visit[p.id]||[]).length >= 3){
     setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 480);
   } else {
@@ -1549,176 +1448,170 @@ function cpuThrow(p){
 }
 
 /* =========================================================
-   DARTBOARD  (Round the Clock)
+   DARTBOARD
    ========================================================= */
 const BOARD_ORDER = [20,1,18,4,13,6,10,15,2,17,3,19,7,16,8,11,14,9,12,5];
 const SEG_ANGLE = 360/20;
 const R = { bull:0.062, outerBull:0.108, trebleIn:0.556, trebleOut:0.636, doubleIn:0.916, doubleOut:1.0 };
-
-function polar(cx,cy,r,deg){
-  const a = (deg-90)*Math.PI/180;
-  return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
-}
-function ringPath(cx,cy,r1,r2,startDeg,endDeg){
-  const [x1,y1] = polar(cx,cy,r1,startDeg);
-  const [x2,y2] = polar(cx,cy,r2,startDeg);
-  const [x3,y3] = polar(cx,cy,r2,endDeg);
-  const [x4,y4] = polar(cx,cy,r1,endDeg);
-  const large = Math.abs(endDeg-startDeg) > 180 ? 1 : 0;
+function polar(cx,cy,r,deg){ const a=(deg-90)*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; }
+function ringPath(cx,cy,r1,r2,sD,eD){
+  const [x1,y1]=polar(cx,cy,r1,sD),[x2,y2]=polar(cx,cy,r2,sD),[x3,y3]=polar(cx,cy,r2,eD),[x4,y4]=polar(cx,cy,r1,eD);
+  const large = Math.abs(eD-sD)>180?1:0;
   return `M${x1} ${y1} L${x2} ${y2} A${r2} ${r2} 0 ${large} 1 ${x3} ${y3} L${x4} ${y4} A${r1} ${r1} 0 ${large} 0 ${x1} ${y1} Z`;
 }
-function circlePath(cx,cy,r){ return `M${cx} ${cy-r} A${r} ${r} 0 1 1 ${cx-.01} ${cy-r} Z`; }
-
-/* Build a static board SVG once; then just retag classes each render. */
-function boardSVG(){
-  const S = 400, cx=S/2, cy=S/2, rad = S/2 - 26;
-
-  let defs = `
-    <defs>
-      <radialGradient id="boardBg" cx="50%" cy="42%" r="70%">
-        <stop offset="0%" stop-color="#1b2438"/>
-        <stop offset="100%" stop-color="#0d1322"/>
-      </radialGradient>
-      <radialGradient id="bullG" cx="50%" cy="40%" r="65%">
-        <stop offset="0%" stop-color="#4dff8e"/>
-        <stop offset="100%" stop-color="#00b866"/>
-      </radialGradient>
-      <radialGradient id="boardVignette" cx="50%" cy="50%" r="62%">
-        <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,.55)"/>
-      </radialGradient>
+function boardSVG(withTicks){
+  const S=400, cx=S/2, cy=S/2;
+  const rad = withTicks ? (S/2-42) : (S/2-26);
+  const labelR = rad + (withTicks ? 28 : 13);
+  let defs = `<defs>
+      <radialGradient id="boardBg" cx="50%" cy="42%" r="70%"><stop offset="0%" stop-color="#1b2438"/><stop offset="100%" stop-color="#0d1322"/></radialGradient>
+      <radialGradient id="bullG" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#4dff8e"/><stop offset="100%" stop-color="#00b866"/></radialGradient>
+      <radialGradient id="boardVignette" cx="50%" cy="50%" r="62%"><stop offset="70%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,.55)"/></radialGradient>
     </defs>`;
-
-  let out = `<circle cx="${cx}" cy="${cy}" r="${rad+22}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  let out = `<circle cx="${cx}" cy="${cy}" r="${rad+20}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
   out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="url(#boardBg)"/>`;
-
-  const dark = '#141b2c', light = '#1c2539';
-  const redR = '#c0263f', greenR = '#0f7a52';
-
+  const dark='#141b2c', light='#1c2539', redR='#c0263f', greenR='#0f7a52';
   for(let i=0;i<20;i++){
-    const num = BOARD_ORDER[i];
-    const a0 = i*SEG_ANGLE - SEG_ANGLE/2;
-    const a1 = a0 + SEG_ANGLE;
-    const isEven = i%2===0;
-    const base = isEven ? dark : light;
-    const ringCol = isEven ? redR : greenR;
-
-    // single (inner + outer bands share the same base colour)
-    out += `<path class="seg s${num} single" data-num="${num}" data-ring="single" d="${ringPath(cx,cy,rad*R.outerBull,rad*R.trebleIn,a0,a1)}" fill="${base}"/>`;
-    out += `<path class="seg s${num} single" data-num="${num}" data-ring="single" d="${ringPath(cx,cy,rad*R.trebleOut,rad*R.doubleIn,a0,a1)}" fill="${base}"/>`;
-    // treble & double
-    out += `<path class="seg s${num} treble" data-num="${num}" data-ring="treble" d="${ringPath(cx,cy,rad*R.trebleIn,rad*R.trebleOut,a0,a1)}" fill="${ringCol}"/>`;
-    out += `<path class="seg s${num} double" data-num="${num}" data-ring="double" d="${ringPath(cx,cy,rad*R.doubleIn,rad*R.doubleOut,a0,a1)}" fill="${ringCol}"/>`;
-
-    // number label
-    const [lx,ly] = polar(cx,cy,rad+13,(a0+a1)/2);
-    out += `<text class="numlabel n${num}" data-num="${num}" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="19" fill="#8b96b4">${num}</text>`;
+    const num=BOARD_ORDER[i], a0=i*SEG_ANGLE-SEG_ANGLE/2, a1=a0+SEG_ANGLE;
+    const isEven=i%2===0, base=isEven?dark:light, ringCol=isEven?redR:greenR;
+    out += `<path class="seg s${num} single" data-num="${num}" d="${ringPath(cx,cy,rad*R.outerBull,rad*R.trebleIn,a0,a1)}" fill="${base}"/>`;
+    out += `<path class="seg s${num} single" data-num="${num}" d="${ringPath(cx,cy,rad*R.trebleOut,rad*R.doubleIn,a0,a1)}" fill="${base}"/>`;
+    out += `<path class="seg s${num} treble" data-num="${num}" d="${ringPath(cx,cy,rad*R.trebleIn,rad*R.trebleOut,a0,a1)}" fill="${ringCol}"/>`;
+    out += `<path class="seg s${num} double" data-num="${num}" d="${ringPath(cx,cy,rad*R.doubleIn,rad*R.doubleOut,a0,a1)}" fill="${ringCol}"/>`;
+    const [lx,ly]=polar(cx,cy,labelR,(a0+a1)/2);
+    out += `<text class="numlabel n${num}" data-num="${num}" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="${withTicks?17:19}" fill="#8b96b4">${num}</text>`;
   }
-
-  // bull rings
-  out += `<circle class="seg sm25 obull" data-num="25" data-ring="single" cx="${cx}" cy="${cy}" r="${rad*R.outerBull}" fill="${greenR}" stroke="#0c4a33" stroke-width="1"/>`;
-  out += `<path class="seg sm25 obull" data-num="25" data-ring="single" d="${circlePath(cx,cy,rad*R.outerBull)}" fill="${greenR}" opacity="0.001"/>`;
-  out += `<circle class="seg sbull bull" data-num="50" data-ring="double" cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="url(#bullG)"/>`;
+  out += `<circle class="seg sm25 obull" data-num="25" cx="${cx}" cy="${cy}" r="${rad*R.outerBull}" fill="${greenR}" stroke="#0c4a33" stroke-width="1"/>`;
+  out += `<circle class="seg sbull bull" data-num="50" cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="url(#bullG)"/>`;
   out += `<circle cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1"/>`;
-
-  // spider (wire)
   for(let i=0;i<20;i++){
-    const a = i*SEG_ANGLE - SEG_ANGLE/2;
-    const [x1,y1] = polar(cx,cy,rad*R.outerBull,a);
-    const [x2,y2] = polar(cx,cy,rad*R.doubleOut,a);
+    const a=i*SEG_ANGLE-SEG_ANGLE/2;
+    const [x1,y1]=polar(cx,cy,rad*R.outerBull,a),[x2,y2]=polar(cx,cy,rad*R.doubleOut,a);
     out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(180,195,225,.28)" stroke-width="1.4"/>`;
   }
   [R.outerBull,R.trebleIn,R.trebleOut,R.doubleIn,R.doubleOut].forEach(rr=>{
     out += `<circle cx="${cx}" cy="${cy}" r="${rad*rr}" fill="none" stroke="rgba(180,195,225,.22)" stroke-width="1.3"/>`;
   });
-
+  if(withTicks){
+    const t1=rad*1.0, t2=rad*1.088;
+    for(let i=0;i<20;i++){
+      const num=BOARD_ORDER[i];
+      const a0=i*SEG_ANGLE-SEG_ANGLE/2+1.6, span=SEG_ANGLE-3.2;
+      for(let k=0;k<3;k++){ const s=a0+k*span/3+0.55, e=a0+(k+1)*span/3-0.55;
+        out += `<path class="cr-tick" data-tick="${num}:${k}" d="${ringPath(cx,cy,t1,t2,s,e)}" fill="rgba(255,255,255,.07)"/>`; }
+    }
+    const b1=rad*0.125, b2=rad*0.185;
+    for(let k=0;k<3;k++){ const s=-60+k*120, e=s+120-9;
+      out += `<path class="cr-tick" data-tick="25:${k}" d="${ringPath(cx,cy,b1,b2,s,e)}" fill="rgba(255,255,255,.07)"/>`; }
+  }
   out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="url(#boardVignette)" pointer-events="none"/>`;
   out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"/>`;
-
-  return `<svg id="rtcBoard" viewBox="0 0 ${S} ${S}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">${defs}${out}</svg>`;
+  const id = withTicks ? 'cricketBoard' : 'rtcBoard';
+  return `<svg id="${id}" viewBox="0 0 ${S} ${S}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">${defs}${out}</svg>`;
 }
-
-/* Apply hit / next classes for the current player's progress. */
-function paintBoard(host, player, isCpu){
+function paintRtcBoard(host, player){
   const target = player.target || 1;
-  const segs = host.querySelectorAll('.seg');
-  segs.forEach(el=>{
+  host.querySelectorAll('.seg').forEach(el=>{
     const num = el.dataset.num;
-    el.classList.remove('hit','next');
-    if(num==='50'){ // inner bull = final target
-      if(target>20) el.classList.add('hit');
-      else if(target===21) el.classList.add('next');
-      return;
-    }
-    if(num==='25'){
-      if(target>20) el.classList.add('hit');
-      else if(target===21) el.classList.add('next');
-      return;
-    }
-    const n = +num;
-    if(n < target) el.classList.add('hit');
-    else if(n === target){
-      // treat the treble ring as the "aim here" highlight for visual pop
-      el.classList.add('next');
-    }
+    el.classList.remove('hit','next','dead','score');
+    if(num==='50'||num==='25'){ if(target>20) el.classList.add('hit'); else if(target===21) el.classList.add('next'); return; }
+    const n=+num;
+    if(n<target) el.classList.add('hit'); else if(n===target) el.classList.add('next');
   });
-  const labels = host.querySelectorAll('.numlabel');
-  labels.forEach(el=>{
-    const n = +el.dataset.num;
-    if(n < target){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; }
+  host.querySelectorAll('.numlabel').forEach(el=>{
+    const n=+el.dataset.num;
+    if(n<target){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; el.style.filter='none'; }
     else if(n===target){ el.setAttribute('fill','#ff2d5e'); el.style.filter='drop-shadow(0 0 6px #ff2d68)'; el.style.opacity='1'; }
     else { el.setAttribute('fill','#8b96b4'); el.style.opacity='1'; el.style.filter='none'; }
   });
 }
+function paintCricketBoard(host, g, p){
+  const scoreOn = state.variant !== 'cricket_noscore';
+  const own = k => (p.marks[k]||0);
+  const others = g.players.filter(o=>o.id!==p.id);
+  const deadFor = k => others.length>0 && others.every(o=>(o.marks[k]||0)>=3);
+  const keyOf = num => (num==='50'||num==='25') ? 25 : +num;
+  host.querySelectorAll('.seg').forEach(el=>{
+    const key = keyOf(el.dataset.num); const m = own(key);
+    el.classList.remove('hit','next','dead','score');
+    if(m>=3 && deadFor(key)) el.classList.add('dead');
+    else if(m>=3 && scoreOn) el.classList.add('score');
+  });
+  host.querySelectorAll('.numlabel').forEach(el=>{
+    const key = +el.dataset.num; const m = own(key);
+    if(m>=3 && deadFor(key)){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; el.style.filter='none'; }
+    else if(m>=3){ el.setAttribute('fill','#ffd35c'); el.style.filter='drop-shadow(0 0 6px #ffd35c)'; el.style.opacity='1'; }
+    else { el.setAttribute('fill','#8b96b4'); el.style.opacity='1'; el.style.filter='none'; }
+  });
+  host.querySelectorAll('.cr-tick').forEach(el=>{
+    const parts = el.dataset.tick.split(':');
+    const key = parts[0]==='25' ? 25 : +parts[0]; const k = +parts[1];
+    const m = Math.min(3, own(key)); const dead = (m>=3 && deadFor(key));
+    if(k < m) el.setAttribute('fill', dead ? 'rgba(120,132,160,.35)' : p.color);
+    else el.setAttribute('fill','rgba(255,255,255,.07)');
+  });
+}
 
 /* =========================================================
-   RENDER GAME
+   RENDER
    ========================================================= */
 function renderGame(){
   const g = state.g;
   if(!g) return;
   const p = g.players[g.turn];
   const ev = (g.mode==='x01') ? x01Live(p) : null;
+  turnColor(p ? p.color : '#fff');
 
   $('#gTitle').textContent = titleFor(g);
   $('#gSub').textContent = subtitleFor(g);
 
+  const m = state.m;
   $('#scoreHead').innerHTML = g.players.map(pl => {
     const thrown = g.dartsThrown[pl.id]||0;
     const isTurn = pl.id===g.turn && !g.over;
-    let val = '', cls = '';
-    if(g.mode==='x01'){
-      if(isTurn && ev){ val = ev.bust ? 'BUST' : ev.rem; if(ev.bust) cls='bust'; else if(ev.rem<=170 && routeFor(ev.rem)) cls='finish'; }
-      else val = pl.score;
-    } else { val = bigScore(pl); }
-    const lvlTag = (pl.cpu && g.mode==='x01') ? ` · L${g.level}` : '';
-    return `<div class="pcard ${isTurn?'turn':''}">
-      <div class="nm" style="color:${isTurn?'#fff':pl.color}">${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
-      <div class="sc ${cls}">${val}</div>
-      <div class="meta">${metaScore(pl)}${lvlTag}</div>
+    let val='', label='';
+    if(g.mode==='x01'){ val = (isTurn && ev) ? (ev.bust?'BUST':ev.rem) : pl.score; label='SCORE'; }
+    else if(g.mode==='target'){ val = pl.score; label='POINTS'; }
+    else { val = bigScore(pl); label = scoreLabel(g.mode); }
+    const turnStyle = isTurn ? ` style="border-color:${pl.color};background:linear-gradient(160deg,${hexA(pl.color,.18)},var(--panel))"` : '';
+    const legs = (m && m.unit!=='none' && m.target>1) ? `<span class="legs" style="color:${pl.color}">${m.wins[pl.id]||0}</span>` : '';
+    return `<div class="pcard ${isTurn?'turn':''}"${turnStyle}>
+      <div class="toprow">
+        <div class="nm" style="color:${pl.color}">● ${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
+        ${legs}
+      </div>
+      <div class="sc-label" style="color:${isTurn?hexA(pl.color,.9):'var(--muted)'}">${label}</div>
+      <div class="sc" style="color:${isTurn?pl.color:'inherit'}">${val}</div>
       <div class="darts">${[0,1,2].map(i=>`<i class="${i<thrown?'on':''}"></i>`).join('')}</div>
     </div>`;
   }).join('');
 
-  $('#turnWho').textContent = g.over ? 'Game over' : `${p.name}${p.cpu?' (CPU)':''} to throw`;
+  const banner = $('#turnBanner');
+  banner.classList.toggle('active', !g.over);
+  $('#turnWho').innerHTML = g.over ? 'Game over'
+    : `<span style="color:${p.color}">●</span> ${escapeHtml(p.name)}${p.cpu?' (CPU)':''} to throw`;
   const hint = $('#turnHint');
   hint.textContent = hintFor(g, p, ev);
-  hint.className = 'hint' + ((ev&&ev.bust) ? ' bust' : '');
+  hint.className = 'hint' + ((ev&&ev.bust)?' bust':'');
   const tl = $('#turnLeft');
   if(g.mode==='x01'){
-    tl.textContent = ev.bust ? 'BUST' : ev.rem;
-    tl.className = ev.bust ? 'bust' : '';
+    tl.textContent = ev.bust?'BUST':ev.rem; tl.className = ev.bust?'bust':'';
+    $('#turnLeftLbl').textContent = 'LEFT';
+  } else if(g.mode==='target' && p.spec.kind==='checkout' && !p.cleared){
+    const rem = (p.tRemain==null?p.spec.num:p.tRemain);
+    tl.textContent = p.tBust ? 'BUST' : rem; tl.className = p.tBust?'bust':'';
     $('#turnLeftLbl').textContent = 'LEFT';
   } else {
-    tl.textContent = (g.dartsThrown[p.id]||0)+'/3';
-    tl.className = '';
+    tl.textContent = (g.dartsThrown[p.id]||0)+'/3'; tl.className='';
     $('#turnLeftLbl').textContent = 'DARTS';
   }
 
   const visit = g._visit[p.id] || [];
+  const thrownNow = (g.dartsThrown[p.id]||0);
   $('#slotRow').innerHTML = [0,1,2].map(i=>{
     const d = visit[i];
-    return `<div class="slot ${d?'filled':''}">
+    const col = i<thrownNow && p.color ? p.color : null;
+    return `<div class="slot ${d?'filled':''}"${col?` style="border-color:${col};background:${hexA(col,.12)}"`:''}>
       <div class="big">${d?dartLabel(d.v,d.mult):'—'}</div>
       <div class="lbl">${d?d.score+' PTS':'DART '+(i+1)}</div>
     </div>`;
@@ -1729,52 +1622,42 @@ function renderGame(){
   const blocked = g.over || p.cpu || g.aiPending || g._locked;
   $('#padBox').style.opacity = blocked ? '.45' : '1';
   $('#padBox').style.pointerEvents = blocked ? 'none' : 'auto';
+  $('#padBox').classList.toggle('turn-glow', !g.over);
   renderPad();
 }
-
+function scoreLabel(mode){
+  if(mode==='cricket') return 'POINTS';
+  if(mode==='rtc') return 'TARGET';
+  if(mode==='quack') return 'SCORE';
+  if(mode==='free') return 'SCORE';
+  return '';
+}
 function titleFor(g){
   if(g.mode==='x01') return g.startValue + ' Double Out';
+  if(g.mode==='target') return g.suddenDeath ? 'Target Practice · Sudden Death' : 'Target Practice';
   const m = MODES.find(x=>x.id===g.mode);
   const v = m.variants.find(x=>x.id===g.variant);
   return v ? v.label.split('(')[0].trim() : m.name;
 }
 function subtitleFor(g){
+  const m = state.m;
   const hasCpu = g.players.some(p=>p.cpu);
-  const lvl = hasCpu ? ' · CPU L'+g.level+' '+levelById(g.level).name : '';
+  const lvl = hasCpu ? ' · CPU L'+g.level : '';
+  if(g.mode==='target') return 'Target ' + g.round + '/' + g.targetRounds + lvl;
+  if(m && m.unit!=='none' && m.target>1) return (m.unit==='legs'?'Leg ':'Game ') + m.played + '/' + ((m.target*2)-1) + lvl;
   return MODES.find(x=>x.id===g.mode).name + ' · ' + g.players.length + ' players' + lvl;
 }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
 function bigScore(p){
   const g=state.g;
   if(g.mode==='cricket') return p.score;
   if(g.mode==='rtc') return p.target>20 ? '✓' : p.target;
-  if(g.mode==='target') return p.hits;
+  if(g.mode==='target') return p.score;
   if(g.mode==='quack'){
     if(g.variant==='quack') return p.score;
     if(g.variant==='kill') return p.lives>0? '❤'.repeat(p.lives) : '✖';
     if(g.variant==='baseball') return (p.runs||0);
   }
   if(g.mode==='free') return p.score;
-  return '';
-}
-function metaScore(p){
-  const g=state.g;
-  if(g.mode==='x01') return countDartsUsed(p.id)+' darts';
-  if(g.mode==='cricket'){ const closed=Object.keys(p.marks).filter(k=>p.marks[k]>=3).length; return closed+'/7 closed'; }
-  if(g.mode==='rtc') return p.hits+' hits · '+countDartsUsed(p.id)+' darts';
-  if(g.mode==='target'){
-    const tot = p.hits + p.misses;
-    const acc = tot ? Math.round(p.hits/tot*100) : 0;
-    if(p.cpu) return p.hits + ' hit' + (p.hits===1?'':'s');
-    return acc+'% · streak '+p.streak;
-  }
-  if(g.mode==='quack'){
-    if(g.variant==='baseball') return 'inning '+Math.min(9,p.inning);
-    if(g.variant==='kill') return p.killer? ('KILLER '+p.killerNum) : 'not a killer yet';
-    return 'target '+(p.target>20?'done':p.target);
-  }
-  if(g.mode==='free'){ const d=countDartsUsed(p.id); return d? (p.score/d*3).toFixed(1)+' avg/3' : 'no darts yet'; }
   return '';
 }
 function hintFor(g,p,ev){
@@ -1790,108 +1673,114 @@ function hintFor(g,p,ev){
   }
   const th = g.dartsThrown[p.id]||0;
   if(g.mode==='cricket') return 'Close 20→15 and the bull, then score';
-  if(g.mode==='rtc'){
-    if(p.target>20) return 'Hit the BULLSEYE 🎯';
-    if(state.variant==='rtc_double') return 'Hit DOUBLE ' + p.target + ' (glowing on the board)';
-    return 'Hit ' + p.target + ' (glowing red on the board)';
+  if(g.mode==='rtc'){ if(p.target>20) return 'Hit the BULLSEYE 🎯'; if(state.variant==='rtc_double') return 'Hit DOUBLE ' + p.target; return 'Hit ' + p.target; }
+  if(g.mode==='target'){
+    if(p.spec.kind==='checkout'){
+      if(p.cleared) return 'Cleared!';
+      if(p.tBust) return 'Busted this visit';
+      const rem = (p.tRemain==null?p.spec.num:p.tRemain);
+      const dartsLeft = Math.max(0, 3 - (g.dartsThrown[p.id]||0));
+      const hint = routeLeft(rem, dartsLeft);
+      return rem + ' left — finish on a double' + (hint ? ('  ·  ' + hint.map(d=>d.label).join(' → ')) : '');
+    }
+    return 'Hit ' + p.spec.text + ' for ' + p.spec.pay + ' point' + (p.spec.pay>1?'s':'');
   }
-  if(g.mode==='target') return p.tSub ? ('Target ' + p.tText + ' — ' + p.tSub) : ('Hit ' + p.tText);
   if(g.mode==='quack'){
     if(g.variant==='quack') return 'Aim for '+p.target+' — S+D+T wins instantly!';
-    if(g.variant==='kill') return p.killer? 'Hit an opponent’s double to strip a life' : 'Hit any double to become a killer';
-    if(g.variant==='baseball') return 'Inning '+Math.min(9,p.inning)+' — runs on '+Math.min(9,p.inning);
+    if(g.variant==='kill') return p.killer? 'Hit an opponent’s double' : 'Hit any double to become a killer';
+    if(g.variant==='baseball') return 'Inning '+Math.min(9,p.inning);
   }
   return th===0 ? 'Throw your darts' : (3-th)+' dart'+((3-th)>1?'s':'')+' left';
 }
-
 function renderModePanel(g,p,ev){
   const box = $('#modePanel');
 
   if(g.mode==='x01'){
     let card;
     if(ev && ev.bust){
-      card = `<div class="finish-card bust">
-        <div class="fnum">BUST</div>
+      card = `<div class="finish-card bust"><div class="fnum">BUST</div>
         <div><div class="flabel">VISIT VOIDED</div>
-        <div class="froute"><span class="note">Score stays at ${p.score}</span></div></div>
-      </div>`;
+        <div class="froute"><span class="note">Score stays at ${p.score}</span></div></div></div>`;
     } else {
       const rem = ev ? ev.rem : p.score;
       const route = routeFor(rem);
       card = `<div class="finish-card ${route?'':'bogey'}">
         <div class="fnum">${rem}</div>
-        <div><div class="flabel">CHECKOUT ROUTE</div>
-        <div class="froute">${
-          route ? route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')
-                : `<span class="note">${rem>170 ? 'Too high — reduce to 170 or less' : 'No 3-dart finish — set up a double'}</span>`
-        }</div></div>
-      </div>`;
+        <div><div class="flabel">CHECKOUT</div>
+        <div class="froute">${ route ? route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')
+          : `<span class="note">${rem>170 ? 'reduce to 170 or less' : 'set up a double'}</span>` }</div></div></div>`;
     }
     box.innerHTML = card + `<div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
     return;
   }
 
   if(g.mode==='rtc'){
-    box.innerHTML = `<div class="board-wrap" id="boardHost">
-        ${boardSVG()}
-        <div class="rtc-status">ROUND THE CLOCK · <b>${escapeHtml(p.name)}</b></div>
-      </div>`;
-    paintBoard($('#boardHost'), p, p.cpu);
-    return;
-  }
-
-  if(g.mode==='target'){
-    box.innerHTML = `
-      <div class="target-box">
-        <div class="tlabel">${p.tKind==='num'?'HIT THE NUMBER':(p.tKind==='double'?'HIT THE DOUBLE':'CHECKOUT TARGET')}</div>
-        <div class="tbig ${p.tKind==='checkout'?'hard':''}">${escapeHtml(String(p.tText))}</div>
-        <div class="tsub">${escapeHtml(p.tSub||'')}</div>
-        <div class="target-stats">
-          <div class="tstat"><b>${p.hits}</b><span>HITS</span></div>
-          <div class="tstat"><b>${p.streak}</b><span>STREAK</span></div>
-          <div class="tstat"><b>${p.bestStreak}</b><span>BEST</span></div>
-          <div class="tstat"><b>${countDartsUsed(p.id)}</b><span>DARTS</span></div>
-        </div>
-      </div>
-      <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+    box.innerHTML = `<div class="board-wrap" id="boardHost">${boardSVG(false)}</div>`;
+    paintRtcBoard($('#boardHost'), p);
     return;
   }
 
   if(g.mode==='cricket'){
     const keys=[20,19,18,17,16,15,25];
-    box.innerHTML = `<div class="cricket-panel">
-      ${keys.map(k=>`
-        <div class="cr-row">
-          <div class="cr-num">${k===25?'BULL':k}</div>
-          <div class="cr-marks">
-            ${g.players.map(pl=>{
-              const m=pl.marks[k]||0;
-              const cls = m>=3?'closed':(m>0?'hit':'');
-              return `<div class="mchip ${cls}"><span style="color:${pl.color}">${escapeHtml(pl.name).slice(0,7)}</span><b>${m>=3?'✓':m===0?'–':'/'.repeat(m)}</b>${m>3?'<b style="color:var(--gold)">+'+((m-3)*k)+'</b>':''}</div>`;
-            }).join('')}
-          </div>
-        </div>`).join('')}
-    </div>`;
+    box.innerHTML = `<div class="board-wrap" id="cricketHost">${boardSVG(true)}</div>
+      <div class="cr-strip">
+        ${keys.map(k=>{
+          const ownM = p.marks[k]||0;
+          return `<div class="mc ${ownM>=3?'closed':''}">
+            <span style="color:${ownM>=3?'var(--green)':'var(--muted)'}">${k===25?'B':k}</span>
+            ${g.players.map(pl=>{ const mm=Math.min(3,pl.marks[k]||0);
+              return `<i style="background:${pl.color};opacity:${mm? (0.35+0.65*(mm/3)) : 0.14}"></i>`; }).join('')}
+          </div>`;
+        }).join('')}
+      </div>`;
+    paintCricketBoard($('#cricketHost'), g, p);
     return;
   }
+
+  if(g.mode==='target'){
+    if(p.spec.kind==='checkout'){
+      const rem = (p.tRemain==null?p.spec.num:p.tRemain);
+      const dartsLeft = Math.max(0, 3 - (g.dartsThrown[p.id]||0));
+      const hint = (rem>0 && !p.tBust) ? routeLeft(rem, dartsLeft) : null;
+      const bigTxt = p.cleared ? 'CLEARED' : (p.tBust ? 'BUST' : rem);
+      const subTxt = p.tBust ? 'no score' : (hint ? hint.map(d=>d.label).join(' → ') : 'set up a double');
+      box.innerHTML = `
+        <div class="target-box" style="border-color:${hexA(p.color,.45)}">
+          <div class="tlabel">CHECKOUT · WORTH ${p.spec.pay} PTS</div>
+          <div class="tbig ${p.cleared?'win':''}">${p.cleared ? escapeHtml(String(p.spec.num)) : bigTxt}</div>
+          ${p.cleared ? '' : `<div class="checkout-live" style="border-color:${hexA(p.color,.6)}">
+            <div class="cl-num" style="color:${p.tBust?'var(--red)':p.color}">${subTxt}</div>
+            <div class="cl-lbl">${p.tBust?'BUSTED':'ROUTE'}</div>
+          </div>`}
+        </div>
+        <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+      return;
+    }
+    box.innerHTML = `
+      <div class="target-box" style="border-color:${hexA(p.color,.45)}">
+        <div class="tlabel">${p.spec.kind==='num'?'HIT THE NUMBER':'HIT THE DOUBLE'} · WORTH ${p.spec.pay} PTS</div>
+        <div class="tbig plain">${escapeHtml(String(p.spec.text))}</div>
+      </div>
+      <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+    return;
+  }
+
   box.innerHTML = `<div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
 }
 function histRows(g){
   const rows = [...g.history].slice(-40).reverse();
-  if(!rows.length) return `<div style="padding:14px 8px;color:var(--muted);font-size:12.5px;font-weight:600">No throws yet — get started!</div>`;
+  if(!rows.length) return `<div style="padding:14px 8px;color:var(--muted);font-size:12.5px;font-weight:600">No throws yet</div>`;
   return rows.map(h=>{
     const p = g.players.find(x=>x.id===h.player);
     const ds = h.darts.map(d=>dartLabel(d.v,d.mult)).join(' ');
-    return `<div class="hrow">
-      <div class="hn" style="color:${p.color}">${escapeHtml(p.name)}</div>
+    return `<div class="hrow"><div class="hn" style="color:${p.color}">● ${escapeHtml(p.name)}</div>
       <div class="hd">${ds || '–'}</div>
-      <div class="hv ${h.bust?'bust':''}">${h.bust?'BUST':h.total}</div>
-    </div>`;
+      <div class="hv ${h.bust?'bust':''}">${h.bust?'BUST':h.total}</div></div>`;
   }).join('');
 }
 
 /* =========================================================
-   MODAL / RESTART / UNDO
+   MODAL
    ========================================================= */
 function openModal(html){
   $('#modalBody').innerHTML = html;
@@ -1899,70 +1788,34 @@ function openModal(html){
   $('#modalBody').querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', closeModal));
 }
 function closeModal(){ $('#overlay').classList.remove('show'); }
-
-function announceWin(){
-  const g = state.g;
-  if(!g.winner) return;
-  vibrate([40,60,40,60,120]);
-  openModal(`
-    <div class="trophy">🏆</div>
-    <h2>${escapeHtml(g.winner.name)} wins!</h2>
-    <div class="win">${escapeHtml(g.winReason||'')}</div>
-    <p>${statsLine(g)}</p>
-    <div class="row">
-      <button class="btn" data-again>Rematch</button>
-      <button class="btn primary" data-close>Done</button>
-    </div>`);
-  const again = $('#modalBody [data-again]');
-  if(again) again.addEventListener('click', ()=>{ closeModal(); startGame(); });
-}
-function statsLine(g){
-  return g.players.map(p=>{
-    const d = countDartsUsed(p.id);
-    const visits = g.history.filter(h=>h.player===p.id).length || 1;
-    const scored = g.history.filter(h=>h.player===p.id && !h.bust).reduce((a,h)=>a+h.total,0);
-    const avg3 = d ? (scored/d*3).toFixed(1) : '0.0';
-    return `${escapeHtml(p.name)}: ${d} darts, avg ${(scored/visits).toFixed(1)}/visit${g.mode==='x01'?(' · '+avg3+' avg/3'):''}`;
-  }).join('<br>');
-}
-
 $('#btnRestart').addEventListener('click', ()=>{
-  openModal(`<div class="trophy">⟳</div><h2>Restart?</h2>
-    <p>Current scores will be wiped and the game will begin again.</p>
-    <div class="row"><button class="btn" data-close>Cancel</button>
-    <button class="btn primary" data-yes>Restart</button></div>`);
+  openModal(`<div class="trophy">⟳</div><h2>Restart?</h2><p>This game will start over.</p>
+    <div class="row"><button class="btn" data-close>Cancel</button><button class="btn primary" data-yes>Restart</button></div>`);
   $('#modalBody [data-yes]').addEventListener('click', ()=>{ closeModal(); startGame(); });
 });
 $('#btnQuit').addEventListener('click', ()=>{
-  openModal(`<div class="trophy">🚪</div><h2>Leave game?</h2>
-    <p>Your scores won’t be saved — but the players and mode will be.</p>
-    <div class="row"><button class="btn" data-close>Stay</button>
-    <button class="btn primary" data-yes>Leave</button></div>`);
-  $('#modalBody [data-yes]').addEventListener('click', ()=>{
-    closeModal(); hideEnterSheet(); state.g=null; renderPlayers(); renderOpp(); show('scr-players');
-  });
+  openModal(`<div class="trophy">🚪</div><h2>Leave game?</h2><p>Everything is discarded.</p>
+    <div class="row"><button class="btn" data-close>Stay</button><button class="btn primary" data-yes>Leave</button></div>`);
+  $('#modalBody [data-yes]').addEventListener('click', ()=>{ closeModal(); hideEnterSheet(); hidePoints(); $('#turnFlash').classList.remove('show'); state.g=null; state.m=null; renderPlayers(); renderOpp(); show('scr-players'); });
 });
 $('#btnUndo').addEventListener('click', ()=>{
   const g = state.g; if(!g || g._locked) return;
-  hideEnterSheet();
+  hideEnterSheet(); hidePoints();
   const p = g.players[g.turn];
   if((g._visit[p.id]||[]).length){
     g._visit[p.id].pop();
     g.dartsThrown[p.id] = Math.max(0,(g.dartsThrown[p.id]||1)-1);
     lastDart = (g._visit[p.id]||[]).slice(-1)[0] || null;
-    padMult = 1;
-    rebuildAll(); renderGame(); vibrate(10); return;
+    padMult = 1; rebuildAll(); renderGame(); vibrate(10); return;
   }
   const last = g.history.pop();
-  if(!last){ flashWarn('Nothing left to undo.'); return; }
+  if(!last){ flashWarn('Nothing to undo.'); return; }
   g.turn = g.players.findIndex(x=>x.id===last.player);
   g._visit[last.player] = last.darts.map(d=>({...d}));
   g.dartsThrown[last.player] = last.darts.length;
   lastDart = (g._visit[last.player]||[]).slice(-1)[0] || null;
-  padMult = 1;
-  rebuildAll(); renderGame(); vibrate(10);
+  padMult = 1; rebuildAll(); renderGame(); vibrate(10);
 });
-
 $('#btnFullscreen').addEventListener('click', ()=>{ toggleFullscreen(); vibrate(8); });
 document.addEventListener('fullscreenchange', ()=>setTimeout(syncVh,200));
 document.addEventListener('webkitfullscreenchange', ()=>setTimeout(syncVh,200));
