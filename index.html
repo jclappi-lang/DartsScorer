@@ -397,9 +397,9 @@
             <div class="last">LAST<b id="padLast">—</b></div>
           </div>
           <div class="mult-row" id="multRow">
-            <div class="mult on" data-mult="1">S<small>SINGLE</small></div>
+            <div class="mult" data-mult="1">S<small>SINGLE</small></div>
             <div class="mult" data-mult="2">D<small>DOUBLE</small></div>
-            <div class="mult" data-mult="3">T<small>TREBLE</small></div>
+            <div class="mult on" data-mult="3">T<small>TREBLE</small></div>
           </div>
           <div class="keys" id="keys"></div>
         </div>
@@ -757,7 +757,6 @@ function startGame(){
   if(g.mode==='free') players.forEach(p=>{ p.score = 0; });
 
   lastDart = null;
-  padMult = 1;
   state.g = g;
   show('scr-game');
   setView(state.view);
@@ -770,7 +769,7 @@ function startGame(){
 /* =========================================================
    KEYPAD
    ========================================================= */
-let padMult = 1;     // armed multiplier — resets to Single after each dart
+let padMult = 3;     // armed multiplier — stays until changed
 let lastDart = null; // {v,mult}
 
 function buildKeypad(){
@@ -797,7 +796,6 @@ function buildKeypad(){
       g._visit[cur.id].pop();
       g.dartsThrown[cur.id] = Math.max(0,(g.dartsThrown[cur.id]||1)-1);
       lastDart = (g._visit[cur.id]||[]).slice(-1)[0] || null;
-      padMult = 1;
       rebuildAll(); renderGame();
     }
     vibrate(10);
@@ -891,10 +889,6 @@ function enterDart(v, mult){
   lastDart = dart;
 
   applyDart(p, v, m);
-
-  // reset the multiplier back to Single for the next dart entry
-  padMult = 1;
-
   renderGame();
   vibrate(12);
 
@@ -1102,7 +1096,6 @@ function endVisit(){
   g.dartsThrown[p.id] = 0;
   if(g.mode==='quack') p._visitNums = [];
   lastDart = null;
-  padMult = 1;
 
   if(g.over){ renderGame(); setTimeout(announceWin, 320); return; }
   advanceTurn();
@@ -1478,7 +1471,6 @@ $('#btnUndo').addEventListener('click', ()=>{
     g._visit[p.id].pop();
     g.dartsThrown[p.id] = Math.max(0,(g.dartsThrown[p.id]||1)-1);
     lastDart = (g._visit[p.id]||[]).slice(-1)[0] || null;
-    padMult = 1;
     rebuildAll(); renderGame(); vibrate(10); return;
   }
   const last = g.history.pop();
@@ -1487,7 +1479,6 @@ $('#btnUndo').addEventListener('click', ()=>{
   g._visit[last.player] = last.darts.map(d=>({...d}));
   g.dartsThrown[last.player] = last.darts.length;
   lastDart = (g._visit[last.player]||[]).slice(-1)[0] || null;
-  padMult = 1;
   rebuildAll(); renderGame(); vibrate(10);
 });
 
