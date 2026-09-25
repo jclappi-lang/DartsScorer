@@ -11,7 +11,7 @@
 <style>
   :root{
     --bg:#0a0e17;--panel:#151c2e;--panel2:#1c2438;--pad:#101728;
-    --line:rgba(255,255,255,.08);--txt:#eef2ff;--muted:#8b96b4;
+    --line:rgba(255,255,255,.08);--txt:#eef2ff;--muted:#a3aec9;
     --accent:#ff2d68;--accent2:#00e0c6;--gold:#ffd35c;--green:#2ee6a8;--red:#ff4d6d;
     --shadow:0 18px 40px -18px rgba(0,0,0,.9);--r:18px;--vh:100vh;--turn:#00e0c6;
   }
@@ -44,18 +44,18 @@
     display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;
   }
   .btn:active{transform:scale(.955)}
-  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff6a3d);border-color:transparent;box-shadow:0 10px 24px -12px var(--accent)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff6a3d);border-color:transparent;color:#fff;box-shadow:0 10px 24px -12px var(--accent)}
   .btn.ghost{background:transparent}
   .btn.wide{width:100%}
   .btn.sm{padding:9px 14px;font-size:13px;min-height:40px;border-radius:11px}
   .btn[disabled]{opacity:.35;pointer-events:none}
   .icon-btn{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:18px}
-  h2.title{font-size:26px;font-weight:800;letter-spacing:-.4px}
+  h2.title{font-size:26px;font-weight:800;letter-spacing:-.4px;color:var(--txt)}
   .sub{color:var(--muted);font-size:13px;font-weight:600;margin-top:4px}
   #scr-home, #scr-players{position:relative}
   .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 18px}
   .hero{padding:8px 18px 14px;flex-shrink:0}
-  .hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1}
+  .hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1;color:var(--txt)}
   .hero h1 span{background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
   .hero p{color:var(--muted);font-size:14px;margin-top:8px;font-weight:600}
   .grid{display:grid;gap:14px}
@@ -65,12 +65,12 @@
     position:relative;overflow:hidden;border-radius:var(--r);padding:20px;
     background:linear-gradient(150deg,var(--panel2),var(--panel));
     border:1px solid var(--line);cursor:pointer;transition:transform .12s,border-color .2s;
-    box-shadow:var(--shadow);text-align:left;
+    box-shadow:var(--shadow);text-align:left;color:var(--txt);
   }
   .mode-card:active{transform:scale(.98)}
   .mode-card.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 18px 44px -20px var(--accent)}
   .mode-card .ico{font-size:30px;margin-bottom:10px;display:block}
-  .mode-card h3{font-size:19px;font-weight:800}
+  .mode-card h3{font-size:19px;font-weight:800;color:var(--txt)}
   .mode-card p{color:var(--muted);font-size:12.5px;font-weight:600;margin-top:5px;line-height:1.45}
   .mode-card .tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--accent2);border:1px solid rgba(0,224,198,.35);padding:4px 9px;border-radius:20px}
   .plist{display:flex;flex-direction:column;gap:10px;margin-top:6px}
@@ -78,14 +78,14 @@
   .prow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:10px 12px}
   .avatar{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:17px;color:#08101c;flex-shrink:0}
   .pname-input{flex:1;background:transparent;border:none;color:var(--txt);font-size:17px;font-weight:700;font-family:inherit;outline:none;min-width:0;padding:6px 2px}
-  .pname-input::placeholder{color:#5a6580}
+  .pname-input::placeholder{color:#6b7691}
   .del{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:17px;cursor:pointer}
   .del:active{color:var(--red);border-color:var(--red)}
   .ctag{font-size:10px;font-weight:900;letter-spacing:1.2px;padding:4px 8px;border-radius:8px;border:1px solid currentColor;white-space:nowrap}
   .setup-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:16px}
   .setup-box h4{font-size:12px;letter-spacing:1.8px;color:var(--muted);font-weight:800;margin-bottom:12px}
   .chip-row{display:flex;gap:8px;flex-wrap:wrap}
-  .chip{padding:10px 16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:700;font-size:14px;cursor:pointer;color:var(--muted)}
+  .chip{padding:10px 16px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-weight:700;font-size:14px;cursor:pointer;color:var(--txt)}
   .chip.on{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff;border-color:transparent}
   .warn{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.35);color:#ffb3c1;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;margin-top:12px}
   .footer-bar{
@@ -97,19 +97,19 @@
   }
   .lvl-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   @media (min-width:760px){ .lvl-grid{grid-template-columns:repeat(4,1fr)} }
-  .lvl-card{border-radius:14px;padding:11px 12px;background:var(--panel2);border:1px solid var(--line);cursor:pointer;text-align:left;transition:transform .1s,border-color .2s}
+  .lvl-card{border-radius:14px;padding:11px 12px;background:var(--panel2);border:1px solid var(--line);cursor:pointer;text-align:left;transition:transform .1s,border-color .2s;color:var(--txt)}
   .lvl-card:active{transform:scale(.97)}
   .lvl-card.on{border-color:var(--accent2);background:linear-gradient(150deg,rgba(0,224,198,.14),var(--panel2));box-shadow:0 0 0 1px var(--accent2)}
   .lvl-card .lv-top{display:flex;align-items:center;gap:7px}
   .lvl-card .lv-num{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:900;background:var(--panel);color:var(--muted);flex-shrink:0}
   .lvl-card.on .lv-num{background:var(--accent2);color:#062018}
-  .lvl-card .lv-name{font-size:14.5px;font-weight:900}
+  .lvl-card .lv-name{font-size:14.5px;font-weight:900;color:var(--txt)}
   .lvl-card .lv-meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:5px;line-height:1.5}
   .lvl-card .lv-meta b{color:var(--txt);font-variant-numeric:tabular-nums}
   #scr-game{flex:1;min-height:0}
   .game-top{display:flex;align-items:center;gap:8px;padding:8px 14px 4px;flex-shrink:0}
   .game-top .meta{min-width:0}
-  .game-top .meta h2{font-size:17px;font-weight:900;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .game-top .meta h2{font-size:17px;font-weight:900;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
   .game-top .meta .sub{font-size:11px;margin-top:0}
   .view-toggle{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:3px}
   .view-toggle button{border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:800;font-size:10.5px;letter-spacing:.5px;padding:8px 10px;border-radius:8px;cursor:pointer}
@@ -120,9 +120,9 @@
   .pcard.turn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--turn)}
   .pcard .toprow{display:flex;align-items:center;gap:6px}
   .pcard .nm{flex:1;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06)}
+  .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06);color:var(--txt)}
   .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:3px}
-  .pcard .sc{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02}
+  .pcard .sc{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02;color:var(--txt)}
   .pcard .darts{display:flex;gap:4px;margin-top:5px}
   .pcard .darts i{width:100%;height:4px;border-radius:3px;background:rgba(255,255,255,.12)}
   .pcard .darts i.on{background:var(--accent2)}
@@ -132,36 +132,36 @@
   .keypad-col{width:min(48%,440px);min-height:0;display:flex;flex-direction:column;min-width:0}
   .turn-banner{border-radius:14px;padding:9px 15px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
   .turn-banner.active{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 14px 40px -26px var(--turn)}
-  .turn-banner .who{font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .turn-banner .who{font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
   .turn-banner .hint{color:var(--muted);font-size:12px;font-weight:700;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .turn-banner .hint.bust{color:var(--red)}
   .turn-banner .left-count{margin-left:auto;text-align:right;flex-shrink:0}
-  .turn-banner .left-count b{font-size:21px;font-weight:900;font-variant-numeric:tabular-nums}
+  .turn-banner .left-count b{font-size:21px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
   .turn-banner .left-count b.bust{color:var(--red);font-size:16px}
   .turn-banner .left-count span{display:block;font-size:9.5px;letter-spacing:1.5px;color:var(--muted);font-weight:800}
   .slot-row{display:flex;gap:7px;flex-shrink:0}
   .slot{flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
   .slot.filled{border-style:solid;border-color:var(--accent2);background:rgba(0,224,198,.09)}
-  .slot .big{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}
+  .slot .big{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
   .slot .lbl{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted)}
   .slot.filled .lbl{color:var(--accent2)}
   .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
   .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
   .finish-card.bogey{border-color:rgba(255,211,92,.35);background:linear-gradient(120deg,rgba(255,211,92,.10),rgba(255,255,255,.02))}
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
-  .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1}
+  .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1;color:var(--txt)}
   .finish-card.bust .fnum{color:var(--red);font-size:16px;letter-spacing:0}
   .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
   .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
-  .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums}
+  .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
   .farrow{color:var(--muted);font-size:11px;font-weight:800}
   .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
-  .hrow{display:flex;align-items:center;gap:10px;padding:6px 6px;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}
+  .hrow{display:flex;align-items:center;gap:10px;padding:6px 6px;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px;color:var(--txt)}
   .hrow .hn{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hrow .hd{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
-  .hrow .hv{font-weight:900;width:48px;text-align:right;font-variant-numeric:tabular-nums}
+  .hrow .hv{font-weight:900;width:48px;text-align:right;font-variant-numeric:tabular-nums;color:var(--txt)}
   .hrow .hv.bust{color:var(--red)}
   .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:9px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0;transition:border-color .25s,box-shadow .25s}
   .pad.turn-glow{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 16px 46px -26px var(--turn)}
@@ -194,10 +194,10 @@
   .enter-sheet .es-top{display:flex;align-items:center;gap:12px}
   .enter-sheet .es-darts{display:flex;gap:7px;flex:1;min-width:0}
   .es-chip{flex:1;min-width:0;border-radius:13px;padding:9px 6px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--line)}
-  .es-chip .b{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
+  .es-chip .b{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1;color:var(--txt)}
   .es-chip .l{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted);margin-top:2px}
   .enter-sheet .es-sum{margin-left:auto;text-align:right;flex-shrink:0;padding-left:8px}
-  .enter-sheet .es-sum .n{font-size:30px;font-weight:900;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1}
+  .enter-sheet .es-sum .n{font-size:30px;font-weight:900;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1;color:var(--txt)}
   .enter-sheet .es-sum .l{font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--muted)}
   .enter-sheet.bust .es-sum .n{color:var(--red)}
   .enter-sheet .es-verdict{font-size:12.5px;font-weight:800;color:var(--muted);margin-top:9px;text-align:center}
@@ -207,6 +207,17 @@
   .enter-sheet .es-row3 .btn{flex:1;min-height:56px;font-size:14px}
   .enter-sheet .es-go{flex:2;background:linear-gradient(135deg,var(--green),#19c98d);border:none;color:#052018;box-shadow:0 10px 28px -10px var(--green);font-size:18px;letter-spacing:.5px}
   .enter-sheet.bust .es-go{background:linear-gradient(135deg,var(--red),#c9203f);color:#fff;box-shadow:0 10px 28px -10px var(--red)}
+  .score-stack{position:fixed;left:50%;top:20%;transform:translateX(-50%);z-index:64;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none}
+  .score-chip{font-weight:900;font-size:clamp(26px,4.4vw,44px);letter-spacing:-1px;color:#ffd35c;
+    text-shadow:0 0 18px rgba(255,211,92,.55),0 2px 10px rgba(0,0,0,.6);
+    opacity:0;transform:translateY(10px) scale(.85);animation:chipIn 1.25s ease forwards}
+  @keyframes chipIn{
+    0%{opacity:0;transform:translateY(14px) scale(.8)}
+    18%{opacity:1;transform:translateY(0) scale(1.06)}
+    32%{transform:translateY(0) scale(1)}
+    72%{opacity:1}
+    100%{opacity:0;transform:translateY(-16px) scale(1)}
+  }
   .points-flash{position:fixed;left:50%;top:26%;transform:translate(-50%,-50%) scale(.82);z-index:67;pointer-events:none;opacity:0;transition:opacity .22s,transform .22s cubic-bezier(.2,1.4,.5,1);text-align:center;padding:10px 30px}
   .points-flash.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
   .points-flash .pf-who{font-size:clamp(14px,2.6vw,20px);font-weight:900;letter-spacing:2px;opacity:.9}
@@ -218,34 +229,36 @@
   .turn-flash .tf-sub{font-size:12.5px;font-weight:900;letter-spacing:2px;margin-top:6px}
   .target-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:16px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));padding:14px;flex:1;min-height:0}
   .target-box .tlabel{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--muted);text-align:center}
-  .target-box .tbig{font-size:clamp(52px,9vw,104px);font-weight:900;letter-spacing:-4px;line-height:.95;background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .target-box .tbig.plain{background:linear-gradient(120deg,var(--accent2),#29ff8f);-webkit-background-clip:text;background-clip:text}
-  .target-box .tbig.win{background:linear-gradient(120deg,var(--green),#29ff8f);-webkit-background-clip:text;background-clip:text}
+  .target-box .tbig{font-size:clamp(52px,9vw,104px);font-weight:900;letter-spacing:-4px;line-height:.95}
   .checkout-live{display:flex;flex-direction:column;align-items:center;gap:2px;background:#0b1020;border:1px solid var(--line);border-radius:14px;padding:9px 20px;min-width:min(72%,330px)}
   .checkout-live .cl-num{font-size:clamp(24px,3.8vw,38px);font-weight:900;letter-spacing:-1px;line-height:1.05;font-variant-numeric:tabular-nums;text-align:center}
   .checkout-live .cl-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
   .board-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;overflow:hidden;position:relative}
   #rtcBoard,#cricketBoard{width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1;display:block}
-  .seg{transition:fill .35s ease,opacity .35s ease}
+  .seg{transition:fill .28s ease,opacity .28s ease,filter .28s ease}
   .seg.hit,.seg.dead{opacity:.13}
-  .seg.next{animation:neonPulse 1.5s ease-in-out infinite}
   .seg.score{animation:goldPulse 1.9s ease-in-out infinite}
+  .seg.closed_own{filter:drop-shadow(0 0 5px currentColor)}
+  .seg.lit1{animation:oneAway 1.35s ease-in-out infinite}
+  .seg.dull{opacity:.2}
+  @keyframes oneAway{0%,100%{filter:brightness(1)}50%{filter:brightness(1.65) drop-shadow(0 0 5px currentColor)}}
   @keyframes neonPulse{0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}}
   @keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 2px #ffb03a) brightness(1.05)}50%{filter:drop-shadow(0 0 11px #ffd35c) brightness(1.55)}}
+  .seg.next{animation:neonPulse 1.5s ease-in-out infinite}
   .numlabel{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
+  .numlabel.dull{opacity:.3}
   .cr-tick{transition:fill .3s}
-  .cr-strip{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;flex:none;scrollbar-width:none;padding-bottom:2px}
-  .cr-strip::-webkit-scrollbar{display:none}
-  .cr-strip .mc{flex:none;display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:5px 8px;font-size:11px;font-weight:900}
-  .cr-strip .mc.closed{border-color:rgba(46,230,168,.5);background:rgba(46,230,168,.12)}
-  .cr-strip .mc i{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .cr-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;flex:none;padding:2px 0 0;font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--muted)}
+  .cr-legend span{display:flex;align-items:center;gap:5px}
+  .cr-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
   .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}
   .overlay.show{display:flex;animation:fade .2s}
-  .modal{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:26px 22px;max-width:460px;width:100%;text-align:center;box-shadow:0 30px 70px -20px #000;animation:pop .3s cubic-bezier(.2,1.4,.5,1);max-height:90vh;overflow-y:auto}
+  .modal{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:26px 22px;max-width:460px;width:100%;text-align:center;box-shadow:0 30px 70px -20px #000;animation:pop .3s cubic-bezier(.2,1.4,.5,1);max-height:90vh;overflow-y:auto;color:var(--txt)}
   @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
   .modal .trophy{font-size:46px;line-height:1}
   .modal .bigwin{font-size:clamp(26px,6vw,40px);font-weight:900;letter-spacing:-1px;margin-top:8px;line-height:1.05}
   .modal .win{font-size:15px;font-weight:800;color:var(--muted);margin-top:8px}
+  .modal h2{color:var(--txt)}
   .modal .row{display:flex;gap:10px;margin-top:20px}
   .modal .row .btn{flex:1}
   .scoretally{display:flex;flex-direction:column;gap:8px;margin-top:16px}
@@ -395,6 +408,7 @@
   </section>
 
   <div class="turn-flash" id="turnFlash"></div>
+  <div class="score-stack" id="scoreStack"></div>
   <div class="points-flash" id="pointsFlash"></div>
   <div class="enter-sheet" id="enterSheet"></div>
   <div class="overlay" id="overlay"><div class="modal" id="modalBody"></div></div>
@@ -427,11 +441,11 @@ const MODES = [
     variants:[{id:'301',label:'301'},{id:'501',label:'501'},{id:'701',label:'701'}],
     def:'501', minPlayers:2, maxPlayers:8, targetRounds:0,
     rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST.' },
-  { id:'cricket', name:'Cricket', ico:'🦗', tag:'TACTIC', unit:'games', defaultMatch:1,
+  { id:'cricket', name:'Cricket', ico:'🏏', tag:'TACTIC', unit:'games', defaultMatch:1,
     desc:'Close 20→15 and bull, then pile on the points.',
     variants:[{id:'cricket',label:'Standard'},{id:'cricket_noscore',label:'No Score'}],
     def:'cricket', minPlayers:2, maxPlayers:8, targetRounds:0,
-    rules:'Mark 20, 19, 18, 17, 16, 15 and the bullseye. Three marks closes a number. Once closed, further hits score its value if an opponent is still open. The board shows your marks on the outer ring and glows gold on your scoring zones.'},
+    rules:'Close 20, 19, 18, 17, 16, 15 and the bull. Marks are private but scoring rights are shared: you score on a number you have closed while an opponent is still open. Closing it yourself never loses marks. The board blacks out once everyone has closed it. Gold = you can score. The outer tabs show your OPPONENTS’ marks.'},
   { id:'rtc', name:'Round the Clock', ico:'🕐', tag:'TRAINING', unit:'games', defaultMatch:1,
     desc:'Hit 1 through 20 in order, finishing on bull.',
     variants:[{id:'rtc',label:'Any segment'},{id:'rtc_double',label:'Doubles only'}],
@@ -472,6 +486,7 @@ const LEVELS = [
 const levelById = id => LEVELS.find(l=>l.id===id) || LEVELS[2];
 
 const MATCH_OPTIONS = [1,3,5];
+const CRICKET_KEYS = [20,19,18,17,16,15,25];
 
 let state = {
   mode: MODES[0], variant:'501', players:[],
@@ -554,7 +569,7 @@ if(window.visualViewport){
 }
 function show(id){
   $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
-  if(id !== 'scr-game'){ hideEnterSheet(); $('#turnFlash').classList.remove('show'); $('#pointsFlash').classList.remove('show'); }
+  if(id !== 'scr-game'){ hideEnterSheet(); $('#turnFlash').classList.remove('show'); $('#pointsFlash').classList.remove('show'); clearScoreChips(); }
   if(state.view !== 'fit') window.scrollTo({top:0,behavior:'instant'});
 }
 function setView(v){
@@ -589,8 +604,6 @@ function flashTurn(p, top, sub){
   clearTimeout(flashTimer);
   flashTimer = setTimeout(()=>el.classList.remove('show'), 1150);
 }
-/* big points flash. the ONLY place points are shown at the moment of winning.
-   onDone fires when it clears, so the next round can be revealed afterwards. */
 function flashPoints(p, pts, onDone){
   const el = $('#pointsFlash'); if(!el) return;
   const col = p ? p.color : '#fff';
@@ -602,6 +615,17 @@ function flashPoints(p, pts, onDone){
   ptsTimer = setTimeout(()=>{ el.classList.remove('show'); if(onDone) onDone(); }, 2400);
 }
 function hidePoints(){ const el=$('#pointsFlash'); if(el) el.classList.remove('show'); }
+/* gold per-dart score chip; stacks and fades */
+function flashScore(val){
+  const stack = $('#scoreStack'); if(!stack) return;
+  const chip = document.createElement('div');
+  chip.className = 'score-chip';
+  chip.textContent = '+' + val;
+  stack.appendChild(chip);
+  setTimeout(()=>{ if(chip.parentNode) chip.parentNode.removeChild(chip); }, 1300);
+  while(stack.children.length > 4) stack.removeChild(stack.firstChild);
+}
+function clearScoreChips(){ const s=$('#scoreStack'); if(s) s.innerHTML=''; }
 
 /* =========================================================
    HOME
@@ -840,7 +864,7 @@ function startGame(){
 
   lastDart = null; padMult = 1;
   state.g = g;
-  hideEnterSheet(); hidePoints();
+  hideEnterSheet(); hidePoints(); clearScoreChips();
   show('scr-game');
   setView(state.view);
   buildKeypad();
@@ -913,6 +937,17 @@ function dartLabel(v,mult){
   return (mult===1?'S':mult===2?'D':'T') + v;
 }
 
+/* Cricket scoring check — judged on the state BEFORE the dart lands */
+function cricketWouldScore(g, p, v, m){
+  if(g.mode!=='cricket' || state.variant==='cricket_noscore') return 0;
+  const key = (v>=25 ? 25 : v);
+  if(!CRICKET_KEYS.includes(key)) return 0;
+  if((p.marks[key]||0) < 3) return 0;
+  const others = g.players.filter(o=>o.id!==p.id);
+  if(!others.some(o=>(o.marks[key]||0)<3)) return 0;
+  return key * (v===50 ? 2 : m);
+}
+
 /* =========================================================
    THROW A DART
    ========================================================= */
@@ -933,8 +968,12 @@ function enterDart(v, mult){
   const dart = { v, mult:m, score: dartScore(v,m) };
   g._visit[p.id].push(dart);
   lastDart = dart;
+
+  const earned = cricketWouldScore(g, p, v, m);   // judged BEFORE the dart is applied
   applyDart(p, v, m);
   padMult = 1;
+  if(earned > 0) flashScore(earned);              // gold +N chip
+
   renderGame();
   vibrate(12);
   if(g.over) return;
@@ -1031,7 +1070,7 @@ function rebuildAll(){
   const allDarts = [];
   g.history.forEach(h=>h.darts.forEach(d=>allDarts.push({pid:h.player,d})));
   if(g.mode==='cricket'){
-    const keys=[20,19,18,17,16,15,25];
+    const keys=CRICKET_KEYS;
     const marks={}; g.players.forEach(p=>marks[p.id]={20:0,19:0,18:0,17:0,16:0,15:0,25:0});
     const oppOpen=(key,pid)=>g.players.some(o=>o.id!==pid && (marks[o.id][key]||0)<3);
     allDarts.forEach(({pid,d})=>{
@@ -1203,7 +1242,6 @@ function targetEndVisit(g, p){
   const cleared = p.cleared && !p.gaveUp;
   if(cleared){
     p.score += p.spec.pay; p.hits++;
-    // only ONE +N on screen: the big flash. Next target & banner appear after it clears.
     g.hushTurn = true;
     flashPoints(p, p.spec.pay, ()=>{
       if(g.over) return;
@@ -1246,7 +1284,7 @@ function countDartsUsed(pid){
 function computeCricketScores(){
   const g = state.g;
   if(state.variant==='cricket_noscore'){ g.players.forEach(p=>p.score=0); return; }
-  const keys=[20,19,18,17,16,15,25];
+  const keys=CRICKET_KEYS;
   const marks={}; g.players.forEach(p=>marks[p.id]={20:0,19:0,18:0,17:0,16:0,15:0,25:0});
   g.players.forEach(p=>p.score=0);
   const oppOpen=(key,pid)=>g.players.some(o=>o.id!==pid && (marks[o.id][key]||0)<3);
@@ -1291,7 +1329,7 @@ function beginTurn(){
   } else {
     g.aiPending = false;
     renderGame();
-    if(g.hushTurn){ g.hushTurn = false; }   // banner suppressed right after a points win
+    if(g.hushTurn){ g.hushTurn = false; }
     else if(firstThisRound) flashTurn(p, 'THROWS FIRST', 'YOUR TURN');
     else flashTurn(p, 'YOUR TURN', p.colourName);
   }
@@ -1303,7 +1341,7 @@ function beginTurn(){
 function endGame(){
   const g = state.g, m = state.m;
   if(!g || !g.winner) return;
-  hidePoints();
+  hidePoints(); clearScoreChips();
   vibrate([40,60,40,60,120]);
 
   if(m && !g._awarded){
@@ -1381,7 +1419,7 @@ function chooseCpuDart(p){
     return landedDart({v:Math.max(1,Math.min(20,v)), mult:lvl.t20>.5?(rnd()<.6?3:1):1}, lvl);
   }
   if(g.mode==='cricket'){
-    const keys=[20,19,18,17,16,15,25];
+    const keys=CRICKET_KEYS;
     const need = keys.find(k=>(p.marks[k]||0)<3);
     if(need){
       if(need===25) return landedDart({v:25,mult:1}, lvl);
@@ -1428,8 +1466,12 @@ function cpuThrow(p){
   const d = {...dart, score:dartScore(dart.v,dart.mult)};
   g._visit[p.id].push(d);
   lastDart = d;
+
+  const earned = cricketWouldScore(g, p, dart.v, dart.mult);   // judged BEFORE applying
   applyDart(p, dart.v, dart.mult);
   padMult = 1;
+  if(earned > 0) flashScore(earned);                            // gold +N chip
+
   renderGame();
   if(g.over){ g._locked=true; setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 700); return; }
   if(g.mode==='x01'){
@@ -1463,6 +1505,8 @@ function boardSVG(withTicks){
   const S=400, cx=S/2, cy=S/2;
   const rad = withTicks ? (S/2-42) : (S/2-26);
   const labelR = rad + (withTicks ? 28 : 13);
+  const inPlay = num => withTicks ? CRICKET_KEYS.includes(num) : true;
+
   let defs = `<defs>
       <radialGradient id="boardBg" cx="50%" cy="42%" r="70%"><stop offset="0%" stop-color="#1b2438"/><stop offset="100%" stop-color="#0d1322"/></radialGradient>
       <radialGradient id="bullG" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#4dff8e"/><stop offset="100%" stop-color="#00b866"/></radialGradient>
@@ -1474,16 +1518,20 @@ function boardSVG(withTicks){
   for(let i=0;i<20;i++){
     const num=BOARD_ORDER[i], a0=i*SEG_ANGLE-SEG_ANGLE/2, a1=a0+SEG_ANGLE;
     const isEven=i%2===0, base=isEven?dark:light, ringCol=isEven?redR:greenR;
-    out += `<path class="seg s${num} single" data-num="${num}" d="${ringPath(cx,cy,rad*R.outerBull,rad*R.trebleIn,a0,a1)}" fill="${base}"/>`;
-    out += `<path class="seg s${num} single" data-num="${num}" d="${ringPath(cx,cy,rad*R.trebleOut,rad*R.doubleIn,a0,a1)}" fill="${base}"/>`;
-    out += `<path class="seg s${num} treble" data-num="${num}" d="${ringPath(cx,cy,rad*R.trebleIn,rad*R.trebleOut,a0,a1)}" fill="${ringCol}"/>`;
-    out += `<path class="seg s${num} double" data-num="${num}" d="${ringPath(cx,cy,rad*R.doubleIn,rad*R.doubleOut,a0,a1)}" fill="${ringCol}"/>`;
+    const live = inPlay(num);
+    const cls = live ? '' : ' dull';
+    out += `<path class="seg s${num} single${cls}" data-num="${num}" data-ring="single" data-band="inner" data-live="${live?1:0}" d="${ringPath(cx,cy,rad*R.outerBull,rad*R.trebleIn,a0,a1)}" fill="${base}"/>`;
+    out += `<path class="seg s${num} single${cls}" data-num="${num}" data-ring="single" data-band="outer" data-live="${live?1:0}" d="${ringPath(cx,cy,rad*R.trebleOut,rad*R.doubleIn,a0,a1)}" fill="${base}"/>`;
+    out += `<path class="seg s${num} treble${cls}" data-num="${num}" data-ring="treble" data-live="${live?1:0}" d="${ringPath(cx,cy,rad*R.trebleIn,rad*R.trebleOut,a0,a1)}" fill="${ringCol}"/>`;
+    out += `<path class="seg s${num} double${cls}" data-num="${num}" data-ring="double" data-live="${live?1:0}" d="${ringPath(cx,cy,rad*R.doubleIn,rad*R.doubleOut,a0,a1)}" fill="${ringCol}"/>`;
     const [lx,ly]=polar(cx,cy,labelR,(a0+a1)/2);
-    out += `<text class="numlabel n${num}" data-num="${num}" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="${withTicks?17:19}" fill="#8b96b4">${num}</text>`;
+    out += `<text class="numlabel n${num}${cls}" data-num="${num}" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="${withTicks?17:19}" fill="#8b96b4">${num}</text>`;
   }
-  out += `<circle class="seg sm25 obull" data-num="25" cx="${cx}" cy="${cy}" r="${rad*R.outerBull}" fill="${greenR}" stroke="#0c4a33" stroke-width="1"/>`;
-  out += `<circle class="seg sbull bull" data-num="50" cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="url(#bullG)"/>`;
+  // bull: both rings tagged data-bull="1" so they paint as ONE unit
+  out += `<circle class="seg sm25 obull" data-num="25" data-bull="1" data-ring="outer" data-live="1" cx="${cx}" cy="${cy}" r="${rad*R.outerBull}" fill="${greenR}" stroke="#0c4a33" stroke-width="1"/>`;
+  out += `<circle class="seg sbull bull" data-num="50" data-bull="1" data-ring="inner" data-live="1" cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="url(#bullG)"/>`;
   out += `<circle cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1"/>`;
+  out += `<text class="numlabel n25" data-num="25" x="${cx}" y="${cy - rad*R.outerBull - 7}" text-anchor="middle" dominant-baseline="central" font-size="${withTicks?13:14}" fill="#8b96b4">BULL</text>`;
   for(let i=0;i<20;i++){
     const a=i*SEG_ANGLE-SEG_ANGLE/2;
     const [x1,y1]=polar(cx,cy,rad*R.outerBull,a),[x2,y2]=polar(cx,cy,rad*R.doubleOut,a);
@@ -1496,6 +1544,7 @@ function boardSVG(withTicks){
     const t1=rad*1.0, t2=rad*1.088;
     for(let i=0;i<20;i++){
       const num=BOARD_ORDER[i];
+      if(!CRICKET_KEYS.includes(num)) continue;
       const a0=i*SEG_ANGLE-SEG_ANGLE/2+1.6, span=SEG_ANGLE-3.2;
       for(let k=0;k<3;k++){ const s=a0+k*span/3+0.55, e=a0+(k+1)*span/3-0.55;
         out += `<path class="cr-tick" data-tick="${num}:${k}" d="${ringPath(cx,cy,t1,t2,s,e)}" fill="rgba(255,255,255,.07)"/>`; }
@@ -1513,42 +1562,111 @@ function paintRtcBoard(host, player){
   const target = player.target || 1;
   host.querySelectorAll('.seg').forEach(el=>{
     const num = el.dataset.num;
-    el.classList.remove('hit','next','dead','score');
+    el.classList.remove('hit','next','dead','score','closed_own','lit1','lit2');
+    el.style.fill=''; el.style.opacity=''; el.style.filter='';
     if(num==='50'||num==='25'){ if(target>20) el.classList.add('hit'); else if(target===21) el.classList.add('next'); return; }
     const n=+num;
     if(n<target) el.classList.add('hit'); else if(n===target) el.classList.add('next');
   });
   host.querySelectorAll('.numlabel').forEach(el=>{
     const n=+el.dataset.num;
-    if(n<target){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; el.style.filter='none'; }
-    else if(n===target){ el.setAttribute('fill','#ff2d5e'); el.style.filter='drop-shadow(0 0 6px #ff2d68)'; el.style.opacity='1'; }
-    else { el.setAttribute('fill','#8b96b4'); el.style.opacity='1'; el.style.filter='none'; }
+    if(n===25) return;
+    el.style.filter='none'; el.style.opacity='1';
+    if(n<target){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; }
+    else if(n===target){ el.setAttribute('fill','#ff2d5e'); el.style.filter='drop-shadow(0 0 6px #ff2d68)'; }
+    else { el.setAttribute('fill','#8b96b4'); }
   });
+}
+function liveMarks(g, p, k){
+  let m = (p.marks[k]||0);
+  if(g && p.id===g.turn){
+    const darts = g._visit[p.id] || [];
+    for(const d of darts){
+      const key = (d.v>=25 ? 25 : d.v);
+      if(key!==k) continue;
+      if(d.v===50) m += 2; else m += d.mult;
+    }
+  }
+  return Math.min(3, m);
+}
+function oppCloseMark(g, p, k){
+  const others = g.players.filter(o=>o.id!==p.id);
+  if(!others.length) return {n:0, color:'rgba(255,255,255,.07)'};
+  let best=0, col='rgba(255,255,255,.07)';
+  others.forEach(o=>{ const m=Math.min(3, o.marks[k]||0); if(m>best){ best=m; col=o.color; } });
+  return {n:best, color: best? col : 'rgba(255,255,255,.07)'};
 }
 function paintCricketBoard(host, g, p){
   const scoreOn = state.variant !== 'cricket_noscore';
-  const own = k => (p.marks[k]||0);
   const others = g.players.filter(o=>o.id!==p.id);
   const deadFor = k => others.length>0 && others.every(o=>(o.marks[k]||0)>=3);
   const keyOf = num => (num==='50'||num==='25') ? 25 : +num;
+  const bullMarks = liveMarks(g, p, 25);
+  const bullDead = (bullMarks>=3 && deadFor(25));
+
   host.querySelectorAll('.seg').forEach(el=>{
-    const key = keyOf(el.dataset.num); const m = own(key);
-    el.classList.remove('hit','next','dead','score');
-    if(m>=3 && deadFor(key)) el.classList.add('dead');
-    else if(m>=3 && scoreOn) el.classList.add('score');
+    if(el.dataset.live !== '1') return;
+
+    // --- bull: BOTH rings painted as ONE unit from the combined bull count ---
+    if(el.dataset.bull === '1'){
+      el.classList.remove('hit','next','dead','score','closed_own','lit1','lit2');
+      el.style.opacity=''; el.style.filter=''; el.style.color='#ffd35c';
+      if(bullMarks>=3){
+        if(bullDead){ el.style.fill=''; el.classList.add('dead'); return; }
+        el.style.fill='var(--gold)'; el.classList.add('closed_own');
+        if(scoreOn) el.classList.add('score');
+        return;
+      }
+      el.style.fill = hexA(p.color, bullMarks===2 ? .95 : .8);
+      if(bullMarks===2) el.classList.add('lit1');
+      return;
+    }
+
+    const num = el.dataset.num;
+    const key = keyOf(num);
+    const m = liveMarks(g, p, key);
+    const dead = (m>=3 && deadFor(key));
+
+    el.classList.remove('hit','next','dead','score','closed_own','lit1','lit2');
+    el.style.fill=''; el.style.opacity=''; el.style.filter='';
+
+    if(m>=3 && dead){ el.classList.add('dead'); return; }
+    if(m>=3){
+      el.style.fill = 'var(--gold)'; el.style.color = '#ffd35c';
+      el.classList.add('closed_own');
+      if(scoreOn) el.classList.add('score');
+      return;
+    }
+    const ring = el.dataset.ring, band = el.dataset.band;
+    if(m===1 && ring==='single' && band==='inner'){ el.classList.add('lit1'); el.style.fill = hexA(p.color,.9); }
+    else if(m===2){
+      if(ring==='single'){ el.classList.add('lit2'); el.style.fill = hexA(p.color, band==='inner'?.9:.5); }
+      else { el.classList.add('lit2'); el.style.fill = hexA(p.color,.38); }
+    }
   });
+
   host.querySelectorAll('.numlabel').forEach(el=>{
-    const key = +el.dataset.num; const m = own(key);
-    if(m>=3 && deadFor(key)){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; el.style.filter='none'; }
-    else if(m>=3){ el.setAttribute('fill','#ffd35c'); el.style.filter='drop-shadow(0 0 6px #ffd35c)'; el.style.opacity='1'; }
-    else { el.setAttribute('fill','#8b96b4'); el.style.opacity='1'; el.style.filter='none'; }
+    if(el.dataset.live !== '1') return;
+    const key = +el.dataset.num;
+    if(key===25){
+      el.style.filter='none'; el.style.opacity='1';
+      if(bullMarks>=3 && bullDead){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; }
+      else if(bullMarks>=3){ el.setAttribute('fill','#ffd35c'); el.style.filter='drop-shadow(0 0 6px #ffd35c)'; }
+      else { el.setAttribute('fill','#8b96b4'); }
+      return;
+    }
+    const m = liveMarks(g, p, key);
+    el.style.filter='none'; el.style.opacity='1';
+    if(m>=3 && deadFor(key)){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; }
+    else if(m>=3){ el.setAttribute('fill','#ffd35c'); el.style.filter='drop-shadow(0 0 6px #ffd35c)'; }
+    else { el.setAttribute('fill','#8b96b4'); }
   });
+
   host.querySelectorAll('.cr-tick').forEach(el=>{
     const parts = el.dataset.tick.split(':');
     const key = parts[0]==='25' ? 25 : +parts[0]; const k = +parts[1];
-    const m = Math.min(3, own(key)); const dead = (m>=3 && deadFor(key));
-    if(k < m) el.setAttribute('fill', dead ? 'rgba(120,132,160,.35)' : p.color);
-    else el.setAttribute('fill','rgba(255,255,255,.07)');
+    const oc = oppCloseMark(g, p, key);
+    el.setAttribute('fill', k < oc.n ? oc.color : 'rgba(255,255,255,.07)');
   });
 }
 
@@ -1581,7 +1699,7 @@ function renderGame(){
         ${legs}
       </div>
       <div class="sc-label" style="color:${isTurn?hexA(pl.color,.9):'var(--muted)'}">${label}</div>
-      <div class="sc" style="color:${isTurn?pl.color:'inherit'}">${val}</div>
+      <div class="sc" style="color:${isTurn?pl.color:'var(--txt)'}">${val}</div>
       <div class="darts">${[0,1,2].map(i=>`<i class="${i<thrown?'on':''}"></i>`).join('')}</div>
     </div>`;
   }).join('');
@@ -1644,6 +1762,7 @@ function subtitleFor(g){
   const hasCpu = g.players.some(p=>p.cpu);
   const lvl = hasCpu ? ' · CPU L'+g.level : '';
   if(g.mode==='target') return 'Target ' + g.round + '/' + g.targetRounds + lvl;
+  if(g.mode==='cricket') return 'Cricket · ' + (state.variant==='cricket_noscore'?'No Score':'Standard') + lvl;
   if(m && m.unit!=='none' && m.target>1) return (m.unit==='legs'?'Leg ':'Game ') + m.played + '/' + ((m.target*2)-1) + lvl;
   return MODES.find(x=>x.id===g.mode).name + ' · ' + g.players.length + ' players' + lvl;
 }
@@ -1672,7 +1791,14 @@ function hintFor(g,p,ev){
     return 'Aim T20 to bring it down';
   }
   const th = g.dartsThrown[p.id]||0;
-  if(g.mode==='cricket') return 'Close 20→15 and the bull, then score';
+  if(g.mode==='cricket'){
+    const mine = k => liveMarks(g,p,k);
+    const scoring = CRICKET_KEYS.filter(k=>mine(k)>=3 && g.players.some(o=>o.id!==p.id && (o.marks[k]||0)<3));
+    const oneAway = CRICKET_KEYS.filter(k=>mine(k)===2);
+    if(scoring.length) return 'Scoring on ' + scoring.map(k=>k===25?'BULL':k).join(', ') + ' — gold zones';
+    if(oneAway.length) return 'One away from closing: ' + oneAway.map(k=>k===25?'BULL':k).join(', ');
+    return 'Close 20→15 and the bull';
+  }
   if(g.mode==='rtc'){ if(p.target>20) return 'Hit the BULLSEYE 🎯'; if(state.variant==='rtc_double') return 'Hit DOUBLE ' + p.target; return 'Hit ' + p.target; }
   if(g.mode==='target'){
     if(p.spec.kind==='checkout'){
@@ -1721,23 +1847,19 @@ function renderModePanel(g,p,ev){
   }
 
   if(g.mode==='cricket'){
-    const keys=[20,19,18,17,16,15,25];
     box.innerHTML = `<div class="board-wrap" id="cricketHost">${boardSVG(true)}</div>
-      <div class="cr-strip">
-        ${keys.map(k=>{
-          const ownM = p.marks[k]||0;
-          return `<div class="mc ${ownM>=3?'closed':''}">
-            <span style="color:${ownM>=3?'var(--green)':'var(--muted)'}">${k===25?'B':k}</span>
-            ${g.players.map(pl=>{ const mm=Math.min(3,pl.marks[k]||0);
-              return `<i style="background:${pl.color};opacity:${mm? (0.35+0.65*(mm/3)) : 0.14}"></i>`; }).join('')}
-          </div>`;
-        }).join('')}
+      <div class="cr-legend">
+        <span><i style="background:var(--gold)"></i>You can score</span>
+        <span><i style="background:${p.color}"></i>Your marks (fills)</span>
+        <span><i style="background:#2a3348"></i>Blacked out</span>
+        <span><i style="background:${(g.players.find(o=>o.id!==p.id)||p).color}"></i>Opponent marks (tabs)</span>
       </div>`;
     paintCricketBoard($('#cricketHost'), g, p);
     return;
   }
 
   if(g.mode==='target'){
+    const pcol = p.color;
     if(p.spec.kind==='checkout'){
       const rem = (p.tRemain==null?p.spec.num:p.tRemain);
       const dartsLeft = Math.max(0, 3 - (g.dartsThrown[p.id]||0));
@@ -1745,11 +1867,11 @@ function renderModePanel(g,p,ev){
       const bigTxt = p.cleared ? 'CLEARED' : (p.tBust ? 'BUST' : rem);
       const subTxt = p.tBust ? 'no score' : (hint ? hint.map(d=>d.label).join(' → ') : 'set up a double');
       box.innerHTML = `
-        <div class="target-box" style="border-color:${hexA(p.color,.45)}">
+        <div class="target-box" style="border-color:${hexA(pcol,.45)}">
           <div class="tlabel">CHECKOUT · WORTH ${p.spec.pay} PTS</div>
-          <div class="tbig ${p.cleared?'win':''}">${p.cleared ? escapeHtml(String(p.spec.num)) : bigTxt}</div>
-          ${p.cleared ? '' : `<div class="checkout-live" style="border-color:${hexA(p.color,.6)}">
-            <div class="cl-num" style="color:${p.tBust?'var(--red)':p.color}">${subTxt}</div>
+          <div class="tbig" style="color:${p.cleared?'var(--green)':pcol}">${p.cleared ? escapeHtml(String(p.spec.num)) : bigTxt}</div>
+          ${p.cleared ? '' : `<div class="checkout-live" style="border-color:${hexA(pcol,.6)}">
+            <div class="cl-num" style="color:${p.tBust?'var(--red)':pcol}">${subTxt}</div>
             <div class="cl-lbl">${p.tBust?'BUSTED':'ROUTE'}</div>
           </div>`}
         </div>
@@ -1757,9 +1879,9 @@ function renderModePanel(g,p,ev){
       return;
     }
     box.innerHTML = `
-      <div class="target-box" style="border-color:${hexA(p.color,.45)}">
+      <div class="target-box" style="border-color:${hexA(pcol,.45)}">
         <div class="tlabel">${p.spec.kind==='num'?'HIT THE NUMBER':'HIT THE DOUBLE'} · WORTH ${p.spec.pay} PTS</div>
-        <div class="tbig plain">${escapeHtml(String(p.spec.text))}</div>
+        <div class="tbig" style="color:${pcol}">${escapeHtml(String(p.spec.text))}</div>
       </div>
       <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
     return;
@@ -1796,7 +1918,7 @@ $('#btnRestart').addEventListener('click', ()=>{
 $('#btnQuit').addEventListener('click', ()=>{
   openModal(`<div class="trophy">🚪</div><h2>Leave game?</h2><p>Everything is discarded.</p>
     <div class="row"><button class="btn" data-close>Stay</button><button class="btn primary" data-yes>Leave</button></div>`);
-  $('#modalBody [data-yes]').addEventListener('click', ()=>{ closeModal(); hideEnterSheet(); hidePoints(); $('#turnFlash').classList.remove('show'); state.g=null; state.m=null; renderPlayers(); renderOpp(); show('scr-players'); });
+  $('#modalBody [data-yes]').addEventListener('click', ()=>{ closeModal(); hideEnterSheet(); hidePoints(); clearScoreChips(); $('#turnFlash').classList.remove('show'); state.g=null; state.m=null; renderPlayers(); renderOpp(); show('scr-players'); });
 });
 $('#btnUndo').addEventListener('click', ()=>{
   const g = state.g; if(!g || g._locked) return;
