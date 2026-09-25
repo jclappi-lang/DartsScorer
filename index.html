@@ -110,6 +110,19 @@
   .warn{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.35);color:#ffb3c1;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;margin-top:12px}
   .footer-bar{flex-shrink:0;padding:12px 18px;border-top:1px solid var(--line);background:rgba(10,14,23,.9)}
 
+  /* difficulty cards */
+  .lvl-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media (min-width:760px){ .lvl-grid{grid-template-columns:repeat(4,1fr)} }
+  .lvl-card{border-radius:14px;padding:11px 12px;background:var(--panel2);border:1px solid var(--line);cursor:pointer;text-align:left;transition:transform .1s,border-color .2s}
+  .lvl-card:active{transform:scale(.97)}
+  .lvl-card.on{border-color:var(--accent2);background:linear-gradient(150deg,rgba(0,224,198,.14),var(--panel2));box-shadow:0 0 0 1px var(--accent2)}
+  .lvl-card .lv-top{display:flex;align-items:center;gap:7px}
+  .lvl-card .lv-num{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:900;background:var(--panel);color:var(--muted);flex-shrink:0}
+  .lvl-card.on .lv-num{background:var(--accent2);color:#062018}
+  .lvl-card .lv-name{font-size:14.5px;font-weight:900}
+  .lvl-card .lv-meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:5px;line-height:1.5}
+  .lvl-card .lv-meta b{color:var(--txt);font-variant-numeric:tabular-nums}
+
   /* =========================================================
      GAME SCREEN
      ========================================================= */
@@ -215,18 +228,79 @@
   .key.locked{opacity:.28;pointer-events:none}
   .key.bull{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(10px,1.3vw,13px)}
   .key.zero{background:rgba(255,255,255,.03);color:var(--muted);font-size:clamp(10px,1.3vw,13px)}
-  .key.back{background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;grid-column:span 2;font-size:clamp(10px,1.2vw,12.5px);letter-spacing:.4px}
-  .key.enter{
-    grid-column:span 5;background:var(--panel2);border:1px solid var(--line);color:var(--muted);
-    font-size:clamp(12px,1.5vw,15px);letter-spacing:1px;font-weight:900;
+  .key.back{grid-column:span 2;background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;font-size:clamp(10px,1.2vw,12.5px);letter-spacing:.4px}
+
+  /* ---------- ENTER MODAL (popup) ---------- */
+  .enter-sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    padding:14px 16px calc(16px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(21,28,46,.96),rgba(12,17,30,.99));
+    border-top:1px solid var(--line);border-radius:22px 22px 0 0;
+    box-shadow:0 -20px 50px -16px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.03);
+    transform:translateY(115%);transition:transform .28s cubic-bezier(.2,1.2,.5,1);
+    backdrop-filter:blur(14px);
   }
-  .key.enter.ready{background:linear-gradient(135deg,var(--green),#19c98d);color:#052018;border-color:transparent;box-shadow:0 8px 22px -10px var(--green)}
-  .key.enter.armed{animation:pulseG 1.3s infinite}
-  @keyframes pulseG{0%,100%{box-shadow:0 8px 22px -10px var(--green)}50%{box-shadow:0 8px 30px -4px var(--green)}}
-  .key.enter.bust{background:linear-gradient(135deg,var(--red),#c9203f);color:#fff;border-color:transparent;box-shadow:0 8px 22px -10px var(--red)}
+  .enter-sheet.show{transform:translateY(0)}
+  .enter-sheet.bust{background:linear-gradient(180deg,rgba(60,18,34,.97),rgba(28,10,20,.99));border-top-color:rgba(255,77,109,.5)}
+  .enter-sheet .es-top{display:flex;align-items:center;gap:12px}
+  .enter-sheet .es-darts{display:flex;gap:7px;flex:1;min-width:0}
+  .es-chip{
+    flex:1;min-width:0;border-radius:13px;padding:9px 6px;text-align:center;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);
+  }
+  .es-chip .b{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
+  .es-chip .l{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted);margin-top:2px}
+  .enter-sheet .es-sum{margin-left:auto;text-align:right;flex-shrink:0;padding-left:8px}
+  .enter-sheet .es-sum .n{font-size:30px;font-weight:900;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1}
+  .enter-sheet .es-sum .l{font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--muted)}
+  .enter-sheet.bust .es-sum .n{color:var(--red)}
+  .enter-sheet .es-verdict{font-size:12.5px;font-weight:800;color:var(--muted);margin-top:9px;text-align:center}
+  .enter-sheet .es-verdict.bust{color:var(--red)}
+  .enter-sheet .es-verdict.finish{color:var(--gold)}
+  .enter-sheet .es-row{display:flex;gap:10px;margin-top:11px}
+  .enter-sheet .es-row .btn{flex:1;min-height:58px;font-size:16px}
+  .enter-sheet .es-go{
+    flex:2;background:linear-gradient(135deg,var(--green),#19c98d);border:none;color:#052018;
+    box-shadow:0 10px 28px -10px var(--green);font-size:18px;letter-spacing:.5px;
+  }
+  .enter-sheet.bust .es-go{background:linear-gradient(135deg,var(--red),#c9203f);color:#fff;box-shadow:0 10px 28px -10px var(--red)}
+
+  /* target mode */
+  .target-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    border-radius:16px;border:1px solid rgba(0,224,198,.32);
+    background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));
+    padding:14px;flex:1;min-height:0}
+  .target-box .tlabel{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--muted)}
+  .target-box .tbig{font-size:clamp(40px,7vw,84px);font-weight:900;letter-spacing:-3px;line-height:1;
+    background:linear-gradient(120deg,var(--accent2),#29ff8f);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .target-box .tbig.hard{background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text}
+  .target-box .tsub{font-size:13px;font-weight:800;color:var(--muted)}
+  .target-stats{display:flex;gap:10px;margin-top:10px;width:100%}
+  .tstat{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;text-align:center}
+  .tstat b{display:block;font-size:19px;font-weight:900;font-variant-numeric:tabular-nums}
+  .tstat span{font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted)}
+
+  /* ---------- DARTBOARD (Round the Clock) ---------- */
+  .board-wrap{
+    flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;
+    overflow:hidden;position:relative;
+  }
+  #rtcBoard{width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1;display:block}
+  .seg{transition:fill .35s ease, opacity .35s ease}
+  .seg.hit{opacity:.13}
+  .seg.next{animation:neonPulse 1.5s ease-in-out infinite}
+  @keyframes neonPulse{
+    0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}
+    50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}
+  }
+  .numlabel{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
+  .blbl{font-weight:900;font-family:'Inter',sans-serif}
+  .rtc-status{position:absolute;left:12px;bottom:10px;font-size:10px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
+  .rtc-status b{color:var(--gold)}
 
   /* ---------- MODAL ---------- */
-  .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}
   .overlay.show{display:flex;animation:fade .2s}
   .modal{
     background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);
@@ -241,11 +315,6 @@
   .modal p{color:var(--muted);font-size:13px;font-weight:600;margin-top:10px;line-height:1.55}
   .modal .row{display:flex;gap:10px;margin-top:20px}
   .modal .row .btn{flex:1}
-
-  .rtc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-  .rtc-cell{aspect-ratio:1;border-radius:10px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:clamp(11px,1.5vw,16px);color:var(--muted);transition:all .2s}
-  .rtc-cell.done{background:rgba(46,230,168,.16);border-color:rgba(46,230,168,.5);color:var(--green)}
-  .rtc-cell.next{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff;border-color:transparent;box-shadow:0 8px 20px -8px var(--accent)}
 
   .cricket-panel{display:flex;flex-direction:column;gap:6px;flex:1;min-height:0;overflow-y:auto}
   .cr-row{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:7px 10px}
@@ -291,6 +360,8 @@
     body.view-fit .pad{flex:none}
     body.view-fit .keys{grid-auto-rows:44px;flex:none}
     body.view-fit .hist{height:30vh}
+    body.view-fit .board-wrap{min-height:340px}
+    .rtc-grid{grid-template-columns:repeat(5,1fr)}
   }
   .hide{display:none !important}
 </style>
@@ -340,6 +411,10 @@
           <div class="chip" data-opp="cpu">🤖 Play vs CPU</div>
         </div>
         <div class="chip-row" style="margin-top:12px" id="cpuRow"></div>
+        <div id="cpuLevelWrap" class="hide" style="margin-top:14px">
+          <h4 style="margin-bottom:10px">CPU DIFFICULTY</h4>
+          <div class="lvl-grid" id="lvlRow"></div>
+        </div>
       </div>
 
       <div class="setup-box">
@@ -399,13 +474,16 @@
           <div class="mult-row" id="multRow">
             <div class="mult" data-mult="1">S<small>SINGLE</small></div>
             <div class="mult" data-mult="2">D<small>DOUBLE</small></div>
-            <div class="mult on" data-mult="3">T<small>TREBLE</small></div>
+            <div class="mult" data-mult="3">T<small>TREBLE</small></div>
           </div>
           <div class="keys" id="keys"></div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ============ POPUP ENTER SCORE ============ -->
+  <div class="enter-sheet" id="enterSheet"></div>
 
   <!-- ============ MODAL ============ -->
   <div class="overlay" id="overlay">
@@ -432,22 +510,49 @@ const MODES = [
    def:'cricket', minPlayers:2, maxPlayers:8,
    rules:'Mark 20, 19, 18, 17, 16, 15 and the bullseye. Three marks closes a number. Once you close a number, further hits score its value — but only if an opponent hasn’t closed it. Win by closing everything with the highest score (or first to close everything in No Score mode).'},
   {id:'rtc', name:'Round the Clock', ico:'🕐', tag:'TRAINING', desc:'Hit 1 through 20 in order, finishing on bull.',
-   variants:[{id:'rtc',label:'Any segment (1→20→Bull)'},{id:'rtc_double',label:'Doubles only (hard mode)'}],
-   def:'rtc', minPlayers:1, maxPlayers:8,
-   rules:'Hit numbers in ascending order: 1, 2, 3 … 20, then the bullseye. Any segment of the target number counts (or doubles only in hard mode). A hit advances you to the next number — misses mean you stay put. First to hit the bull wins.'},
-  {id:'atw', name:'Around the World', ico:'🌍', tag:'SPEED', desc:'Sprint 1→20 and bull in the fewest darts.',
-   variants:[{id:'atw',label:'Fixed darts (best score)'},{id:'atw_race',label:'Race (first to bull wins)'}],
-   def:'atw', minPlayers:1, maxPlayers:8,
-   rules:'A pure dart-throwing race: knock off 1 through 20 then the bull in the fewest darts thrown. Fixed-darts mode compares totals at the end; race mode crowns the first player to finish.'},
+    variants:[{id:'rtc',label:'Any segment (1→20→Bull)'},{id:'rtc_double',label:'Doubles only (hard mode)'}],
+    def:'rtc', minPlayers:1, maxPlayers:8,
+    rules:'Hit numbers in ascending order: 1, 2, 3 … 20, then the bullseye. Any segment of the target number counts (or doubles only in hard mode). A hit advances you to the next number — misses mean you stay put. First to hit the bull wins.'},
+  {id:'target', name:'Target Practice', ico:'🎲', tag:'CHALLENGE', desc:'A random number, double or checkout route is thrown at you. Nail it.',
+    variants:[
+      {id:'target_num',label:'Random number'},
+      {id:'target_double',label:'Random double'},
+      {id:'target_checkout',label:'Random checkout'},
+      {id:'target_mix',label:'Mixed bag'}
+    ],
+    def:'target_mix', minPlayers:1, maxPlayers:8,
+    rules:'The scorer picks a target at random and you have three darts to nail it. Random number: hit a segment of the shown number. Random double: hit the shown double (or bull). Random checkout: hit the shown number in exactly the darts allowed, finishing on a double. Mixed bag rotates all three. Hit the target to bank a point and a new one appears — accuracy is tracked in your stats.'},
   {id:'quack', name:'Shanghai', ico:'⚡', tag:'CLUTCH', desc:'1→20, but a single+double+treble of the number wins instantly.',
-   variants:[{id:'quack',label:'Shanghai (instant win on S+D+T)'},{id:'kill',label:'Killer'},{id:'baseball',label:'Baseball (9 innings)'}],
-   def:'quack', minPlayers:2, maxPlayers:8,
-   rules:'Shanghai: work 1→20 in order. Hit single, double AND treble of the same number in one visit and you win immediately — otherwise score accumulates and the highest total after 20 wins. Killer: become a killer by hitting your double, then hit an opponent’s double to strip a life. Baseball: 9 innings, each worth the runs you score on that number.'},
+    variants:[{id:'quack',label:'Shanghai (instant win on S+D+T)'},{id:'kill',label:'Killer'},{id:'baseball',label:'Baseball (9 innings)'}],
+    def:'quack', minPlayers:2, maxPlayers:8,
+    rules:'Shanghai: work 1→20 in order. Hit single, double AND treble of the same number in one visit and you win immediately — otherwise score accumulates and the highest total after 20 wins. Killer: become a killer by hitting your double, then hit an opponent’s double to strip a life. Baseball: 9 innings, each worth the runs you score on that number.'},
   {id:'free', name:'Free Practice', ico:'🧘', tag:'SANDBOX', desc:'No rules, no pressure — just track your darts and averages.',
-   variants:[{id:'free',label:'Unlimited throws'}],
-   def:'free', minPlayers:1, maxPlayers:8,
-   rules:'A calm practice board. Every dart is recorded, visit averages and checkout percentages are shown, and there is no losing. Perfect for warming up or testing a new set of flights.'}
+    variants:[{id:'free',label:'Unlimited throws'}],
+    def:'free', minPlayers:1, maxPlayers:8,
+    rules:'A calm practice board. Every dart is recorded, visit averages and checkout percentages are shown, and there is no losing. Perfect for warming up or testing a new set of flights.'}
 ];
+
+/* ---- CPU DIFFICULTY LEVELS ----
+   acc   = chance a dart lands on the intended segment (scatter otherwise)
+   t20   = chance the bot goes for treble 20 rather than a fat single
+   co    = checkout competence: chance of attempting the proper double-out route
+   coHit = chance the chosen double actually lands
+   Targeting is calibrated so 501 3-dart averages fall in the requested bands. */
+const LEVELS = [
+  { id:1, name:'Beginner',    short:'Beginner',
+    darts:'30–45 darts', avg:'34–50 avg',
+    acc:.30, t20:.18, scatterSpread:14, co:.15, coHit:.20, scoreSeg:1 },
+  { id:2, name:'Amateur',     short:'Amateur',
+    darts:'24–30 darts', avg:'50–63 avg',
+    acc:.44, t20:.35, scatterSpread:11, co:.40, coHit:.32, scoreSeg:2 },
+  { id:3, name:'Club Player', short:'Club',
+    darts:'18–24 darts', avg:'63–83 avg',
+    acc:.58, t20:.62, scatterSpread:8,  co:.72, coHit:.44, scoreSeg:3 },
+  { id:4, name:'Pro',         short:'Pro',
+    darts:'15–18 darts', avg:'83–100 avg',
+    acc:.72, t20:.85, scatterSpread:6,  co:.95, coHit:.58, scoreSeg:3 }
+];
+const levelById = id => LEVELS.find(l=>l.id===id) || LEVELS[2];
 
 let state = {
   mode: MODES[0],
@@ -455,6 +560,7 @@ let state = {
   players: [],
   opponent: 'human',
   cpuCount: 1,
+  cpuLevel: 2,
   view: 'fit',
   g: null
 };
@@ -481,7 +587,7 @@ function cmpRoute(x,y){
   if(rx!==ry) return rx-ry;
   for(let i=0;i<x.length-1;i++){
     const xv=DART_OPTS.indexOf(x[i]), yv=DART_OPTS.indexOf(y[i]);
-    if(xv!==yv) return yv-xv; // lower index = higher value = preferred
+    if(xv!==yv) return yv-xv;
   }
   return 0;
 }
@@ -489,14 +595,12 @@ function cmpRoute(x,y){
 const routeCache = new Map();
 function routeFor(score){
   if(score<2 || score>170) return null;
-  if(score%2 !== 0) return null;               // double-out: odd numbers never check out
+  if(score%2 !== 0) return null;
   if(routeCache.has(score)) return routeCache.get(score);
 
-  // one dart
   for(const d of DOUBLES){
     if(d.v*d.mult===score){ routeCache.set(score,[d]); return [d]; }
   }
-  // two darts
   let best=null;
   for(const a of DART_OPTS){
     const av=a.v*a.mult;
@@ -508,7 +612,6 @@ function routeFor(score){
     }
   }
   if(best){ routeCache.set(score,best); return best; }
-  // three darts
   for(const a of DART_OPTS){
     const av=a.v*a.mult;
     for(const b of DART_OPTS){
@@ -524,6 +627,15 @@ function routeFor(score){
   }
   routeCache.set(score,best||null);
   return best||null;
+}
+/* A setup dart for a big number: aim to leave a nice even double. */
+function setupDart(rem){
+  const wants = [60,57,54,51,50,45,40,36,32,34,38,28,24,20,16];
+  const target = rem-32;
+  let best=wants[0], bd=Infinity;
+  wants.forEach(w=>{ const d=Math.abs(w-target); if(d<bd){bd=d;best=w;} });
+  const v=Math.max(1,Math.min(20,Math.round(best/3)));
+  return {v, mult:3};
 }
 
 /* =========================================================
@@ -546,6 +658,7 @@ if(window.visualViewport){
 
 function show(id){
   $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  if(id !== 'scr-game') hideEnterSheet();
   if(state.view !== 'fit') window.scrollTo({top:0,behavior:'instant'});
 }
 function setView(v){
@@ -594,6 +707,7 @@ $('#btnToPlayers').addEventListener('click', () => {
   ensurePlayerCount();
   renderPlayers();
   renderOpp();
+  renderLevels();
   show('scr-players');
   vibrate(10);
 });
@@ -633,7 +747,7 @@ function renderPlayers(){
     <div class="prow">
       <div class="avatar" style="background:${p.color}">${(p.name.trim()[0]||'?').toUpperCase()}</div>
       <input class="pname-input" data-i="${i}" value="${p.name.replace(/"/g,'&quot;')}" placeholder="Name" maxlength="16" autocomplete="off">
-      ${p.cpu ? '<span style="font-size:11px;font-weight:800;color:var(--accent2);border:1px solid rgba(0,224,198,.4);padding:4px 8px;border-radius:8px">CPU</span>' : ''}
+      ${p.cpu ? `<span style="font-size:11px;font-weight:800;color:var(--accent2);border:1px solid rgba(0,224,198,.4);padding:4px 8px;border-radius:8px">CPU L${state.cpuLevel}</span>` : ''}
       <button class="del" data-del="${i}">✕</button>
     </div>`).join('');
 
@@ -650,7 +764,7 @@ function renderPlayers(){
     const i = +b.dataset.del;
     if(state.players.length <= m.minPlayers){ flashWarn(`Need at least ${m.minPlayers} player${m.minPlayers>1?'s':''} for ${m.name}.`); return; }
     state.players.splice(i,1);
-    if(state.opponent === 'cpu'){ state.cpuCount = Math.min(state.cpuCount, state.players.length); reapplyCpu(); }
+    if(state.opponent === 'cpu'){ state.cpuCount = Math.min(state.cpuCount, Math.max(1,state.players.length-1)); reapplyCpu(); }
     reindexNames(); renderPlayers(); vibrate(12);
   }));
 
@@ -682,13 +796,31 @@ function reapplyCpu(){
 function renderOpp(){
   $$('#oppRow .chip').forEach(c => c.classList.toggle('on', c.dataset.opp === state.opponent));
   const cr = $('#cpuRow');
-  if(state.opponent !== 'cpu'){ cr.innerHTML=''; cr.classList.add('hide'); return; }
+  if(state.opponent !== 'cpu'){ cr.innerHTML=''; cr.classList.add('hide'); renderLevels(); return; }
   cr.classList.remove('hide');
   const max = Math.max(1, state.players.length-1);
   let html = '';
   for(let n=1;n<=Math.min(max,4);n++) html += `<div class="chip ${state.cpuCount===n?'on':''}" data-cpu="${n}">${n} CPU</div>`;
   cr.innerHTML = html;
   $$('#cpuRow .chip').forEach(c=>c.addEventListener('click',()=>{ state.cpuCount=+c.dataset.cpu; reapplyCpu(); renderOpp(); renderPlayers(); }));
+  renderLevels();
+}
+function renderLevels(){
+  const wrap = $('#cpuLevelWrap');
+  if(state.opponent !== 'cpu'){ wrap.classList.add('hide'); return; }
+  wrap.classList.remove('hide');
+  $('#lvlRow').innerHTML = LEVELS.map(l=>`
+    <button class="lvl-card ${state.cpuLevel===l.id?'on':''}" data-lvl="${l.id}">
+      <div class="lv-top">
+        <span class="lv-num">${l.id}</span>
+        <span class="lv-name">${l.name}</span>
+      </div>
+      <div class="lv-meta"><b>${l.darts}</b> to finish 501<br>approx. <b>${l.avg}</b></div>
+    </button>`).join('');
+  $$('#lvlRow .lvl-card').forEach(b=>b.addEventListener('click', ()=>{
+    state.cpuLevel = +b.dataset.lvl;
+    renderLevels(); renderPlayers(); vibrate(8);
+  }));
 }
 $$('#oppRow .chip').forEach(c => c.addEventListener('click', ()=>{
   state.opponent = c.dataset.opp;
@@ -720,9 +852,12 @@ $('#btnRules').addEventListener('click', ()=>{
       ${MODES.map(m=>`<div style="margin-bottom:16px"><div style="font-weight:900;font-size:15px">${m.ico} ${m.name}</div>
       <div style="color:var(--muted);font-size:13px;font-weight:600;line-height:1.55;margin-top:5px">${m.rules}</div></div>`).join('')}
       <div style="border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px;font-weight:600">
-        Entering darts: pick S / D / T (the multiplier stays armed), then tap a number — the dart is recorded instantly.
-        Tap <b>⌫ DELETE</b> to remove the last dart, then <b>ENTER TURN</b> once your three darts are in.
-        <b>25</b> = outer bull, <b>BULL</b> = 50 (double bull), <b>MISS</b> = no score.
+        <b style="color:var(--txt)">CPU difficulty.</b> Level 1 Beginner throws like a novice (roughly 30–45 darts per leg of 501);
+        Level 2 Amateur sits around 50–63 per three darts; Level 3 Club Player is a solid pub player at 63–83;
+        Level 4 Pro lands 83–100 and checks out like a tour player.<br><br>
+        Entering darts: pick S / D / T (the pad drops back to SINGLE after each dart), then tap a number.
+        Tap <b>⌫ DELETE</b> to remove the last dart. When three darts are in, a big <b>ENTER SCORE</b> panel pops up.
+        <b>25</b> = outer bull, <b>BULL</b> = 50, <b>MISS</b> = no score.
       </div>
     </div>
     <div class="row"><button class="btn primary" data-close>Got it</button></div>`);
@@ -739,7 +874,8 @@ function startGame(){
   }));
   const g = {
     mode: state.mode.id, variant: state.variant, players, turn: 0,
-    dartsThrown: {}, history: [], aiPending: false, over:false, _visit:{}, _locked:false, _tapAt:0
+    dartsThrown: {}, history: [], aiPending: false, over:false, _visit:{}, _locked:false, _tapAt:0,
+    level: state.cpuLevel
   };
   players.forEach(p => g.dartsThrown[p.id] = 0);
 
@@ -748,7 +884,8 @@ function startGame(){
     players.forEach(p=>{ p.score = g.startValue; });
   }
   if(g.mode==='cricket') players.forEach(p=>{ p.marks = {20:0,19:0,18:0,17:0,16:0,15:0,25:0}; p.score = 0; });
-  if(g.mode==='rtc' || g.mode==='atw') players.forEach(p=>{ p.target = 1; p.hits = 0; });
+  if(g.mode==='rtc') players.forEach(p=>{ p.target = 1; p.hits = 0; });
+  if(g.mode==='target') players.forEach(p=>{ p.hits = 0; p.misses = 0; p.streak = 0; p.bestStreak = 0; newTarget(p); });
   if(g.mode==='quack'){
     if(g.variant==='quack') players.forEach(p=>{ p.target = 1; p.score = 0; });
     if(g.variant==='kill') players.forEach(p=>{ p.lives = 3; p.killer = false; p.targetAssigned = false; });
@@ -757,20 +894,62 @@ function startGame(){
   if(g.mode==='free') players.forEach(p=>{ p.score = 0; });
 
   lastDart = null;
+  padMult = 1;
   state.g = g;
+  hideEnterSheet();
   show('scr-game');
   setView(state.view);
   buildKeypad();
   renderGame();
   vibrate(20);
-  maybeCpuTurn();
+  beginTurn();
+}
+
+/* =========================================================
+   TARGET GENERATION (Target Practice)
+   ========================================================= */
+function variantKind(v){
+  if(v==='target_num') return 'num';
+  if(v==='target_double') return 'double';
+  if(v==='target_checkout') return 'checkout';
+  const r = Math.random();
+  return r<.4 ? 'num' : (r<.7 ? 'double' : 'checkout');
+}
+function newTarget(p){
+  const kind = variantKind(state.variant);
+  if(kind==='num'){
+    p.tKind = 'num';
+    p.tNum = 1 + Math.floor(Math.random()*20);
+    p.tText = 'S'+p.tNum;
+    p.tSub = 'hit the '+p.tNum+' segment (any ring)';
+    p.tDarts = 3;
+  } else if(kind==='double'){
+    const dbl = 1 + Math.floor(Math.random()*20);
+    p.tKind = 'double';
+    p.tNum = dbl;
+    p.tText = 'D' + dbl;
+    p.tSub = Math.random()<0.35 ? 'or the bullseye counts too' : 'double ' + dbl + ' only';
+    p.tBullOk = p.tSub.indexOf('bull') >= 0;
+    p.tDarts = 3;
+  } else {
+    let sc;
+    do { sc = 41 + Math.floor(Math.random()*80); } while(!routeFor(sc));
+    const route = routeFor(sc);
+    p.tKind = 'checkout';
+    p.tNum = sc;
+    p.tText = sc;
+    p.tSub = route ? (route.map(d=>d.label).join(' → ') + '  (' + route.length + ' dart' + (route.length>1?'s':'') + ')') : '';
+    p.tRoute = route;
+    p.tDarts = 3;
+  }
+  p.tHit = false;
 }
 
 /* =========================================================
    KEYPAD
    ========================================================= */
-let padMult = 3;     // armed multiplier — stays until changed
-let lastDart = null; // {v,mult}
+let padMult = 1;
+let lastDart = null;
 
 function buildKeypad(){
   let html = '';
@@ -779,7 +958,6 @@ function buildKeypad(){
   html += `<button class="key bull" data-num="50">BULL</button>`;
   html += `<button class="key zero" data-num="0">MISS</button>`;
   html += `<button class="key back" data-back>⌫ DELETE</button>`;
-  html += `<button class="key enter" data-enter>ENTER TURN</button>`;
   $('#keys').innerHTML = html;
 
   $$('#keys .key[data-num]').forEach(k => k.addEventListener('click', ()=>{
@@ -796,17 +974,10 @@ function buildKeypad(){
       g._visit[cur.id].pop();
       g.dartsThrown[cur.id] = Math.max(0,(g.dartsThrown[cur.id]||1)-1);
       lastDart = (g._visit[cur.id]||[]).slice(-1)[0] || null;
+      padMult = 1;
       rebuildAll(); renderGame();
     }
     vibrate(10);
-  });
-  const enter = $('#keys [data-enter]');
-  if(enter) enter.addEventListener('click', ()=>{
-    const g = state.g; if(!g || g._locked || g.over) return;
-    const p = g.players[g.turn];
-    if(p.cpu) return;
-    if(!(g._visit[p.id]||[]).length){ vibrate(20); return; }
-    endVisit();
   });
 }
 
@@ -836,20 +1007,6 @@ function renderPad(){
 
   const back = $('#keys [data-back]');
   if(back) back.classList.toggle('locked', blocked || darts.length===0);
-
-  const eb = $('#keys [data-enter]');
-  if(eb){
-    let cls = 'key enter';
-    let label = 'ENTER TURN';
-    const ev = (g && g.mode==='x01' && p) ? x01Live(p) : null;
-    if(blocked){ /* leave idle */ }
-    else if(ev && ev.bust){ cls += ' bust'; label = 'BUST — ENTER TURN'; }
-    else if(darts.length===0){ /* idle */ }
-    else if(full){ cls += ' ready armed'; label = 'ENTER TURN ✓'; }
-    else { cls += ' ready'; label = 'ENTER TURN'; }
-    eb.className = cls;
-    eb.textContent = label;
-  }
 }
 
 function dartScore(v, mult){ if(v===0) return 0; if(v===50) return 50; return v*mult; }
@@ -867,7 +1024,7 @@ function dartLabel(v,mult){
 }
 
 /* =========================================================
-   THROW A DART (instant — no per-dart confirm)
+   THROW A DART
    ========================================================= */
 function enterDart(v, mult){
   const g = state.g;
@@ -878,7 +1035,7 @@ function enterDart(v, mult){
   if(darts.length >= 3){ vibrate(20); return; }
 
   const now = Date.now();
-  if(now - (g._tapAt||0) < 150) return;  // debounce double-taps
+  if(now - (g._tapAt||0) < 120) return;
   g._tapAt = now;
 
   const m = v>=25 ? 1 : mult;
@@ -889,23 +1046,28 @@ function enterDart(v, mult){
   lastDart = dart;
 
   applyDart(p, v, m);
+  padMult = 1;   // drop to single after every dart
+
   renderGame();
   vibrate(12);
 
   if(g.over) return;
 
-  // auto-commit when the visit is definitively decided
   if(g.mode==='x01'){
     const ev = x01Live(p);
     if(ev.checkout){ finishVisitSoon(); return; }
-  } else if((g.mode==='rtc'||g.mode==='atw') && p.target>20){
+  } else if(g.mode==='rtc' && p.target>20){
     finishVisitSoon(); return;
   }
+
+  const after = g._visit[p.id] || [];
+  if(after.length >= 3) showEnterSheet();
 }
 
 function finishVisitSoon(){
   const g = state.g;
   g._locked = true;
+  hideEnterSheet();
   renderGame();
   setTimeout(()=>{
     if(state.g !== g) return;
@@ -914,7 +1076,6 @@ function finishVisitSoon(){
   }, 750);
 }
 
-/* live evaluation of the current visit for x01 */
 function x01Live(p){
   const g = state.g;
   const darts = g._visit[p.id] || [];
@@ -935,14 +1096,20 @@ function applyDart(p, v, m){
   if(g.mode==='rtc'){
     if(v===0) return;
     const t = p.target;
-    if(t<=20){ const local = state.variant==='rtc_double'; if(local ? (m===2 && v===t) : (v===t)){ p.target++; p.hits++; } }
+    if(t<=20){ const onlyDbl = state.variant==='rtc_double'; if(onlyDbl ? (m===2 && v===t) : (v===t)){ p.target++; p.hits++; } }
     else if(v===25 || v===50){ p.target++; p.hits++; }
   }
-  else if(g.mode==='atw'){
-    if(v===0) return;
-    const t = p.target;
-    if(t<=20){ if(v===t){ p.target++; p.hits++; } }
-    else if(v===25 || v===50){ p.target++; p.hits++; }
+  else if(g.mode==='target'){
+    if(v===0){ if(!p.tHit){ p.misses++; p.streak=0; } return; }
+    let hit=false;
+    if(p.tKind==='num'){ hit = (v===p.tNum); }
+    else if(p.tKind==='double'){ hit = (m===2 && v===p.tNum) || (v===50); }
+    else if(p.tKind==='checkout'){
+      const need = p.tRoute ? p.tRoute.map(d=>d.label) : [];
+      hit = need.includes(dartLabel(v,m));
+    }
+    if(hit){ p.tHit = true; p.hits++; p.streak++; p.bestStreak=Math.max(p.bestStreak,p.streak); }
+    else { p.misses++; p.streak=0; }
   }
   else if(g.mode==='quack'){
     if(g.variant==='quack'){
@@ -974,7 +1141,8 @@ function rebuildAll(){
   const g = state.g;
   if(g.mode==='x01') g.players.forEach(p=>p.score=g.startValue);
   if(g.mode==='cricket'){ g.players.forEach(p=>p.marks={20:0,19:0,18:0,17:0,16:0,15:0,25:0}); g.players.forEach(p=>p.score=0); }
-  if(g.mode==='rtc'||g.mode==='atw') g.players.forEach(p=>{p.target=1;p.hits=0;});
+  if(g.mode==='rtc') g.players.forEach(p=>{p.target=1;p.hits=0;});
+  if(g.mode==='target') g.players.forEach(p=>{p.hits=0;p.misses=0;p.streak=0;p.bestStreak=0;newTarget(p);});
   if(g.mode==='quack'){
     if(g.variant==='quack') g.players.forEach(p=>{p.target=1;p.score=0;p._visitNums=[];});
     if(g.variant==='kill') g.players.forEach(p=>{p.lives=3;p.killer=false;p.targetAssigned=false;});
@@ -1022,11 +1190,85 @@ function rebuildAll(){
 }
 
 /* =========================================================
+   POPUP ENTER SCORE
+   ========================================================= */
+function showEnterSheet(){
+  const g = state.g;
+  if(!g || g.over) return;
+  const p = g.players[g.turn];
+  const darts = g._visit[p.id] || [];
+  if(!darts.length) return;
+  const total = darts.reduce((a,d)=>a+d.score,0);
+  const ev = (g.mode==='x01') ? x01Live(p) : null;
+  const isBust = !!(ev && ev.bust);
+
+  let verdict = '';
+  if(ev){
+    if(ev.bust) verdict = 'Bust — score stays at ' + p.score;
+    else if(ev.checkout) verdict = 'CHECKOUT! Game won';
+    else verdict = ev.rem + ' remaining';
+  } else if(g.mode==='rtc'){
+    verdict = p.target>20 ? 'Clock complete 🎯' : 'Now aiming for ' + p.target;
+  } else if(g.mode==='target'){
+    verdict = p.tHit ? 'Target hit ✓' : 'Missed the target';
+  } else {
+    verdict = 'Visit total ' + total;
+  }
+  const vCls = isBust ? 'bust' : (ev && ev.checkout ? 'finish' : '');
+
+  $('#enterSheet').className = 'enter-sheet show' + (isBust?' bust':'');
+  $('#enterSheet').innerHTML = `
+    <div class="es-top">
+      <div class="es-darts">
+        ${[0,1,2].map(i=>{
+          const d = darts[i];
+          return `<div class="es-chip">
+            <div class="b">${d?dartLabel(d.v,d.mult):'—'}</div>
+            <div class="l">${d?d.score+' PTS':'EMPTY'}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="es-sum">
+        <div class="n">${isBust?'BUST':total}</div>
+        <div class="l">VISIT</div>
+      </div>
+    </div>
+    <div class="es-verdict ${vCls}">${escapeHtml(verdict)}</div>
+    <div class="es-row">
+      <button class="btn" id="esBack">⌫ Undo dart</button>
+      <button class="btn es-go" id="esGo">${isBust?'ENTER — BUST':'ENTER SCORE'}</button>
+    </div>`;
+
+  $('#esGo').addEventListener('click', ()=>{
+    const gg = state.g;
+    if(!gg || gg.over || gg._locked) return;
+    hideEnterSheet();
+    endVisit();
+  });
+  $('#esBack').addEventListener('click', ()=>{
+    const gg = state.g;
+    if(!gg || gg._locked) return;
+    const pp = gg.players[gg.turn];
+    if((gg._visit[pp.id]||[]).length){
+      gg._visit[pp.id].pop();
+      gg.dartsThrown[pp.id] = Math.max(0,(gg.dartsThrown[pp.id]||1)-1);
+      lastDart = (gg._visit[pp.id]||[]).slice(-1)[0] || null;
+      padMult = 1;
+      hideEnterSheet();
+      rebuildAll(); renderGame();
+      vibrate(10);
+    }
+  });
+}
+function hideEnterSheet(){ $('#enterSheet').className = 'enter-sheet'; }
+
+/* =========================================================
    END VISIT
    ========================================================= */
 function endVisit(){
   const g = state.g;
   if(!g || g.over) return;
+  hideEnterSheet();
   const p = g.players[g.turn];
   const darts = [...(g._visit[p.id] || [])];
   if(!darts.length) return;
@@ -1060,13 +1302,8 @@ function endVisit(){
       g.winReason = g.players.length===1 ? 'Completed the full clock' : 'First to hit 1→20 then the bullseye!';
     }
   }
-  else if(g.mode==='atw'){
-    const finishers = g.players.filter(x=>x.target>20 && !x.done);
-    if(finishers.length){
-      finishers[0].done = true;
-      g.over = true; g.winner = finishers[0];
-      g.winReason = (state.variant==='atw_race' ? 'First to the bull — ' : 'Finished the world in ') + countDartsUsed(finishers[0].id) + ' darts';
-    }
+  else if(g.mode==='target'){
+    g.players.forEach(pl=>{ if(pl.id===p.id){ if(!p.tHit) p.streak = 0; } });
   }
   else if(g.mode==='quack'){
     if(g.variant==='quack'){
@@ -1095,12 +1332,14 @@ function endVisit(){
   g._visit[p.id] = [];
   g.dartsThrown[p.id] = 0;
   if(g.mode==='quack') p._visitNums = [];
+  if(g.mode==='target') newTarget(p);
   lastDart = null;
+  padMult = 1;
 
   if(g.over){ renderGame(); setTimeout(announceWin, 320); return; }
   advanceTurn();
   renderGame();
-  maybeCpuTurn();
+  beginTurn();
 }
 
 function countDartsUsed(pid){
@@ -1140,21 +1379,137 @@ function advanceTurn(){
 }
 
 /* =========================================================
-   CPU
+   TURN START / CPU HANDOFF
    ========================================================= */
-function maybeCpuTurn(){
+function beginTurn(){
   const g = state.g;
-  if(!g || g.over) return;
+  if(!g) return;
+  g._locked = false;
   const p = g.players[g.turn];
-  if(!p.cpu){ g.aiPending=false; renderPad(); return; }
-  g.aiPending = true;
-  renderPad();
-  setTimeout(()=>cpuThrow(p), 640);
+  if(p && p.cpu){
+    g.aiPending = true;
+    renderGame();
+    setTimeout(()=>cpuThrow(p), 640);
+  } else {
+    g.aiPending = false;
+    renderGame();
+  }
 }
+
+/* =========================================================
+   CPU  (difficulty-aware)
+   ========================================================= */
+/* Simulate a throw at an intended segment: land on it with prob acc, else scatter. */
+function landedDart(intended, lvl){
+  const r = Math.random();
+  if(r < lvl.acc) return {v:intended.v, mult:intended.mult};
+
+  // missed — scatter to a neighbouring number, keep it plausible
+  const spread = lvl.scatterSpread;
+  const off = Math.round((Math.random()*2-1) * spread);
+  let n = intended.v;
+  if(intended.v>=25){ n = 1 + Math.floor(Math.random()*20); }   // missed the bull
+  else { n = intended.v + off; if(n<1) n+=20; if(n>20) n-=20; }
+
+  const mr = Math.random();
+  let mult;
+  if(intended.mult===3) mult = mr<.55?1:(mr<.8?3:2);
+  else if(intended.mult===2) mult = mr<.6?1:(mr<.85?2:3);
+  else mult = mr<.72?1:(mr<.9?2:3);
+  return {v:n, mult};
+}
+
+function chooseCpuDart(p){
+  const g = state.g;
+  const lvl = levelById(g.level);
+  const rnd = () => Math.random();
+
+  if(g.mode==='x01'){
+    const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
+    const rem = p.score - used;
+
+    if(rem <= 170 && rem >= 2){
+      const path = routeFor(rem);
+      // decide whether to go for the proper checkout
+      const goForIt = path && (rem<=40 ? true : rnd() < (lvl.co*0.6 + 0.35));
+      if(goForIt){
+        if(rem > 40){
+          // work the route until the finish dart
+          const next = path[0];
+          return landedDart({v:next.v, mult:next.mult}, lvl);
+        }
+        // on a finish: aim the double, or bull at 50
+        if(rem===50 && rnd()<0.5) return landedDart({v:25,mult:2}, lvl);
+        const d = DOUBLES.find(x=>x.v*x.mult===rem) || {v:20,mult:2};
+        // even beginners sometimes drop to a safer double
+        return landedDart({v:d.v, mult:d.mult}, lvl);
+      }
+    }
+    // scoring phase — or setup when the finish is out of reach
+    if(rem <= 170 && rem > 40){
+      const setup = setupDart(rem);
+      if(rnd() < lvl.co){
+        // try to leave a clean double
+        return landedDart(setup, lvl);
+      }
+    }
+    if(p.score <= 170 && p.score > 40 && rnd() < lvl.co*0.7){
+      return landedDart(setupDart(p.score - used), lvl);
+    }
+    // default: go for a big treble if good enough, else a fat single 20/19
+    if(rnd() < lvl.t20) return landedDart({v:20, mult:3}, lvl);
+    const seg = lvl.scoreSeg;
+    const v = rnd()<.5 ? 20 : (rnd()<.5 ? 19 : (rnd()<.6?18:seg+17));
+    return landedDart({v:Math.max(1,Math.min(20,v)), mult:lvl.t20>.5?(rnd()<.6?3:1):1}, lvl);
+  }
+
+  if(g.mode==='cricket'){
+    const keys=[20,19,18,17,16,15,25];
+    const need = keys.find(k=>(p.marks[k]||0)<3);
+    if(need){
+      if(need===25) return landedDart({v:25,mult:1}, lvl);
+      const mr=rnd();
+      const mult = mr<.6?1:(mr<.9?2:3);
+      return landedDart({v:need, mult}, lvl);
+    }
+    const open = keys.filter(k=>g.players.some(o=>o!==p && (o.marks[k]||0)<3));
+    const k = open[0]||20;
+    return landedDart({v:k===25?25:k, mult: k===25?1:3}, lvl);
+  }
+
+  if(g.mode==='rtc'){
+    const t = p.target;
+    if(t>20) return landedDart(rnd()<.5? {v:25,mult:1}:{v:50,mult:1}, lvl);
+    if(state.variant==='rtc_double') return landedDart({v:t, mult: rnd()<.6?2:1}, lvl);
+    return landedDart({v:t, mult: rnd()<.7?1:2}, lvl);
+  }
+
+  if(g.mode==='target'){
+    if(p.tKind==='num') return landedDart({v:p.tNum, mult: rnd()<.7?1:2}, lvl);
+    if(p.tKind==='double') return landedDart({v:p.tNum, mult:2}, lvl);
+    if(p.tKind==='checkout' && p.tRoute && p.tRoute.length){
+      const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
+      let acc=0, chosen=p.tRoute[p.tRoute.length-1];
+      for(const step of p.tRoute){ acc += step.v*step.mult; if(acc > used){ chosen = step; break; } }
+      return landedDart({v:chosen.v, mult:chosen.mult}, lvl);
+    }
+    return landedDart({v:20,mult:1}, lvl);
+  }
+
+  if(g.mode==='quack'){
+    if(g.variant==='quack'){ const t=Math.min(20,p.target); return landedDart({v:t, mult:rnd()<.5?1:rnd()<.85?2:3}, lvl); }
+    if(g.variant==='kill') return landedDart({v:1+Math.floor(rnd()*20), mult:rnd()<.5?2:1}, lvl);
+    if(g.variant==='baseball'){ const t=Math.min(9,Math.max(1,p.inning)); return landedDart({v:t, mult:rnd()<.6?1:rnd()<.9?2:3}, lvl); }
+  }
+  if(g.mode==='free'){
+    return landedDart({v:20,mult:3}, lvl);
+  }
+  return landedDart({v:20,mult:1}, lvl);
+}
+
 function cpuThrow(p){
   const g = state.g;
-  if(g.over || !p.cpu){ g.aiPending=false; renderPad(); return; }
-  if((g._visit[p.id]||[]).length >= 3){ endVisit(); return; }
+  if(!g || g.over || !p.cpu){ if(g){ g.aiPending=false; renderGame(); } return; }
 
   const dart = chooseCpuDart(p);
   g.dartsThrown[p.id] = (g.dartsThrown[p.id]||0)+1;
@@ -1163,63 +1518,157 @@ function cpuThrow(p){
   g._visit[p.id].push(d);
   lastDart = d;
   applyDart(p, dart.v, dart.mult);
+  padMult = 1;
 
   renderGame();
-  if(g.over) return;
+
+  if(g.over){
+    g._locked = true;
+    setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 700);
+    return;
+  }
 
   if(g.mode==='x01'){
     const ev = x01Live(p);
-    if(ev.checkout || ev.bust){ finishVisitSoon(); return; }
-  } else if((g.mode==='rtc'||g.mode==='atw') && p.target>20){ finishVisitSoon(); return; }
+    if(ev.checkout || ev.bust){
+      g._locked = true;
+      setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750);
+      return;
+    }
+  } else if(g.mode==='rtc' && p.target>20){
+    g._locked = true;
+    setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 750);
+    return;
+  }
 
-  if((g._visit[p.id]||[]).length >= 3) endVisit();
-  else setTimeout(()=>cpuThrow(p), 560);
+  if((g._visit[p.id]||[]).length >= 3){
+    setTimeout(()=>{ if(state.g!==g) return; g._locked=false; endVisit(); }, 480);
+  } else {
+    setTimeout(()=>cpuThrow(p), 560);
+  }
 }
-function chooseCpuDart(p){
-  const g = state.g;
-  const rnd = () => Math.random();
-  if(g.mode==='x01'){
-    const used = (g._visit[p.id]||[]).reduce((a,d)=>a+d.score,0);
-    const rem = p.score - used;
-    if(rem <= 170 && rem >= 2){
-      const path = routeFor(rem);
-      if(path && path.length){
-        const nxt = path[0];
-        return {v:nxt.v, mult:nxt.mult};
-      }
+
+/* =========================================================
+   DARTBOARD  (Round the Clock)
+   ========================================================= */
+const BOARD_ORDER = [20,1,18,4,13,6,10,15,2,17,3,19,7,16,8,11,14,9,12,5];
+const SEG_ANGLE = 360/20;
+const R = { bull:0.062, outerBull:0.108, trebleIn:0.556, trebleOut:0.636, doubleIn:0.916, doubleOut:1.0 };
+
+function polar(cx,cy,r,deg){
+  const a = (deg-90)*Math.PI/180;
+  return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+}
+function ringPath(cx,cy,r1,r2,startDeg,endDeg){
+  const [x1,y1] = polar(cx,cy,r1,startDeg);
+  const [x2,y2] = polar(cx,cy,r2,startDeg);
+  const [x3,y3] = polar(cx,cy,r2,endDeg);
+  const [x4,y4] = polar(cx,cy,r1,endDeg);
+  const large = Math.abs(endDeg-startDeg) > 180 ? 1 : 0;
+  return `M${x1} ${y1} L${x2} ${y2} A${r2} ${r2} 0 ${large} 1 ${x3} ${y3} L${x4} ${y4} A${r1} ${r1} 0 ${large} 0 ${x1} ${y1} Z`;
+}
+function circlePath(cx,cy,r){ return `M${cx} ${cy-r} A${r} ${r} 0 1 1 ${cx-.01} ${cy-r} Z`; }
+
+/* Build a static board SVG once; then just retag classes each render. */
+function boardSVG(){
+  const S = 400, cx=S/2, cy=S/2, rad = S/2 - 26;
+
+  let defs = `
+    <defs>
+      <radialGradient id="boardBg" cx="50%" cy="42%" r="70%">
+        <stop offset="0%" stop-color="#1b2438"/>
+        <stop offset="100%" stop-color="#0d1322"/>
+      </radialGradient>
+      <radialGradient id="bullG" cx="50%" cy="40%" r="65%">
+        <stop offset="0%" stop-color="#4dff8e"/>
+        <stop offset="100%" stop-color="#00b866"/>
+      </radialGradient>
+      <radialGradient id="boardVignette" cx="50%" cy="50%" r="62%">
+        <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,.55)"/>
+      </radialGradient>
+    </defs>`;
+
+  let out = `<circle cx="${cx}" cy="${cy}" r="${rad+22}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="url(#boardBg)"/>`;
+
+  const dark = '#141b2c', light = '#1c2539';
+  const redR = '#c0263f', greenR = '#0f7a52';
+
+  for(let i=0;i<20;i++){
+    const num = BOARD_ORDER[i];
+    const a0 = i*SEG_ANGLE - SEG_ANGLE/2;
+    const a1 = a0 + SEG_ANGLE;
+    const isEven = i%2===0;
+    const base = isEven ? dark : light;
+    const ringCol = isEven ? redR : greenR;
+
+    // single (inner + outer bands share the same base colour)
+    out += `<path class="seg s${num} single" data-num="${num}" data-ring="single" d="${ringPath(cx,cy,rad*R.outerBull,rad*R.trebleIn,a0,a1)}" fill="${base}"/>`;
+    out += `<path class="seg s${num} single" data-num="${num}" data-ring="single" d="${ringPath(cx,cy,rad*R.trebleOut,rad*R.doubleIn,a0,a1)}" fill="${base}"/>`;
+    // treble & double
+    out += `<path class="seg s${num} treble" data-num="${num}" data-ring="treble" d="${ringPath(cx,cy,rad*R.trebleIn,rad*R.trebleOut,a0,a1)}" fill="${ringCol}"/>`;
+    out += `<path class="seg s${num} double" data-num="${num}" data-ring="double" d="${ringPath(cx,cy,rad*R.doubleIn,rad*R.doubleOut,a0,a1)}" fill="${ringCol}"/>`;
+
+    // number label
+    const [lx,ly] = polar(cx,cy,rad+13,(a0+a1)/2);
+    out += `<text class="numlabel n${num}" data-num="${num}" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="19" fill="#8b96b4">${num}</text>`;
+  }
+
+  // bull rings
+  out += `<circle class="seg sm25 obull" data-num="25" data-ring="single" cx="${cx}" cy="${cy}" r="${rad*R.outerBull}" fill="${greenR}" stroke="#0c4a33" stroke-width="1"/>`;
+  out += `<path class="seg sm25 obull" data-num="25" data-ring="single" d="${circlePath(cx,cy,rad*R.outerBull)}" fill="${greenR}" opacity="0.001"/>`;
+  out += `<circle class="seg sbull bull" data-num="50" data-ring="double" cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="url(#bullG)"/>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="${rad*R.bull}" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1"/>`;
+
+  // spider (wire)
+  for(let i=0;i<20;i++){
+    const a = i*SEG_ANGLE - SEG_ANGLE/2;
+    const [x1,y1] = polar(cx,cy,rad*R.outerBull,a);
+    const [x2,y2] = polar(cx,cy,rad*R.doubleOut,a);
+    out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(180,195,225,.28)" stroke-width="1.4"/>`;
+  }
+  [R.outerBull,R.trebleIn,R.trebleOut,R.doubleIn,R.doubleOut].forEach(rr=>{
+    out += `<circle cx="${cx}" cy="${cy}" r="${rad*rr}" fill="none" stroke="rgba(180,195,225,.22)" stroke-width="1.3"/>`;
+  });
+
+  out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="url(#boardVignette)" pointer-events="none"/>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"/>`;
+
+  return `<svg id="rtcBoard" viewBox="0 0 ${S} ${S}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">${defs}${out}</svg>`;
+}
+
+/* Apply hit / next classes for the current player's progress. */
+function paintBoard(host, player, isCpu){
+  const target = player.target || 1;
+  const segs = host.querySelectorAll('.seg');
+  segs.forEach(el=>{
+    const num = el.dataset.num;
+    el.classList.remove('hit','next');
+    if(num==='50'){ // inner bull = final target
+      if(target>20) el.classList.add('hit');
+      else if(target===21) el.classList.add('next');
+      return;
     }
-    const target = (rem-40);
-    const aim = [60,57,54,51,50,45,40,36,32,20,19,18];
-    const best = aim.reduce((a,b)=> Math.abs(b-target)<Math.abs(a-target)?b:a, aim[0]);
-    const v = Math.min(20,Math.max(1,Math.round(best/3)));
-    return {v, mult:3};
-  }
-  if(g.mode==='cricket'){
-    const keys=[20,19,18,17,16,15,25];
-    const need = keys.find(k=>(p.marks[k]||0)<3);
-    if(need){
-      if(need===25) return rnd()<.85? {v:25,mult:1}:{v:0,mult:1};
-      const mr=rnd(); return {v:need, mult: mr<.6?1:mr<.9?2:3};
+    if(num==='25'){
+      if(target>20) el.classList.add('hit');
+      else if(target===21) el.classList.add('next');
+      return;
     }
-    const open = keys.filter(k=>g.players.some(o=>o!==p && (o.marks[k]||0)<3));
-    const k = open[0]||20;
-    return {v:k===25?25:k, mult: k===25?1:3};
-  }
-  if(g.mode==='rtc' || g.mode==='atw'){
-    const t = p.target;
-    if(t>20) return rnd()<.5? {v:25,mult:1}:{v:50,mult:1};
-    if(state.variant==='rtc_double' && g.mode==='rtc') return {v:t, mult: rnd()<.5?2:1};
-    return {v:t, mult: rnd()<.7?1:2};
-  }
-  if(g.mode==='quack'){
-    if(g.variant==='quack'){ const t=Math.min(20,p.target); return {v:t, mult:rnd()<.5?1:rnd()<.85?2:3}; }
-    if(g.variant==='kill') return {v:1+Math.floor(rnd()*20), mult:rnd()<.5?2:1};
-    if(g.variant==='baseball'){ const t=Math.min(9,Math.max(1,p.inning)); return {v:t, mult:rnd()<.6?1:rnd()<.9?2:3}; }
-  }
-  const r=rnd();
-  if(r<.10) return {v:0,mult:1};
-  const mr=rnd();
-  return {v:1+Math.floor(rnd()*20), mult: mr<.62?1:mr<.87?2:3};
+    const n = +num;
+    if(n < target) el.classList.add('hit');
+    else if(n === target){
+      // treat the treble ring as the "aim here" highlight for visual pop
+      el.classList.add('next');
+    }
+  });
+  const labels = host.querySelectorAll('.numlabel');
+  labels.forEach(el=>{
+    const n = +el.dataset.num;
+    if(n < target){ el.setAttribute('fill','#3a445c'); el.style.opacity='.35'; }
+    else if(n===target){ el.setAttribute('fill','#ff2d5e'); el.style.filter='drop-shadow(0 0 6px #ff2d68)'; el.style.opacity='1'; }
+    else { el.setAttribute('fill','#8b96b4'); el.style.opacity='1'; el.style.filter='none'; }
+  });
 }
 
 /* =========================================================
@@ -1242,10 +1691,11 @@ function renderGame(){
       if(isTurn && ev){ val = ev.bust ? 'BUST' : ev.rem; if(ev.bust) cls='bust'; else if(ev.rem<=170 && routeFor(ev.rem)) cls='finish'; }
       else val = pl.score;
     } else { val = bigScore(pl); }
+    const lvlTag = (pl.cpu && g.mode==='x01') ? ` · L${g.level}` : '';
     return `<div class="pcard ${isTurn?'turn':''}">
       <div class="nm" style="color:${isTurn?'#fff':pl.color}">${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
       <div class="sc ${cls}">${val}</div>
-      <div class="meta">${metaScore(pl)}</div>
+      <div class="meta">${metaScore(pl)}${lvlTag}</div>
       <div class="darts">${[0,1,2].map(i=>`<i class="${i<thrown?'on':''}"></i>`).join('')}</div>
     </div>`;
   }).join('');
@@ -1289,14 +1739,17 @@ function titleFor(g){
   return v ? v.label.split('(')[0].trim() : m.name;
 }
 function subtitleFor(g){
-  return MODES.find(x=>x.id===g.mode).name + ' · ' + g.players.length + ' players';
+  const hasCpu = g.players.some(p=>p.cpu);
+  const lvl = hasCpu ? ' · CPU L'+g.level+' '+levelById(g.level).name : '';
+  return MODES.find(x=>x.id===g.mode).name + ' · ' + g.players.length + ' players' + lvl;
 }
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function bigScore(p){
   const g=state.g;
   if(g.mode==='cricket') return p.score;
-  if(g.mode==='rtc'||g.mode==='atw') return p.target>20 ? '✓' : p.target;
+  if(g.mode==='rtc') return p.target>20 ? '✓' : p.target;
+  if(g.mode==='target') return p.hits;
   if(g.mode==='quack'){
     if(g.variant==='quack') return p.score;
     if(g.variant==='kill') return p.lives>0? '❤'.repeat(p.lives) : '✖';
@@ -1309,7 +1762,13 @@ function metaScore(p){
   const g=state.g;
   if(g.mode==='x01') return countDartsUsed(p.id)+' darts';
   if(g.mode==='cricket'){ const closed=Object.keys(p.marks).filter(k=>p.marks[k]>=3).length; return closed+'/7 closed'; }
-  if(g.mode==='rtc'||g.mode==='atw') return p.hits+' hits · '+countDartsUsed(p.id)+' darts';
+  if(g.mode==='rtc') return p.hits+' hits · '+countDartsUsed(p.id)+' darts';
+  if(g.mode==='target'){
+    const tot = p.hits + p.misses;
+    const acc = tot ? Math.round(p.hits/tot*100) : 0;
+    if(p.cpu) return p.hits + ' hit' + (p.hits===1?'':'s');
+    return acc+'% · streak '+p.streak;
+  }
   if(g.mode==='quack'){
     if(g.variant==='baseball') return 'inning '+Math.min(9,p.inning);
     if(g.variant==='kill') return p.killer? ('KILLER '+p.killerNum) : 'not a killer yet';
@@ -1322,7 +1781,7 @@ function hintFor(g,p,ev){
   if(g.over) return g.winReason || '';
   if(p.cpu) return 'CPU is throwing…';
   if(g.mode==='x01'){
-    if(ev && ev.bust) return 'Bust — press ENTER TURN to void this visit';
+    if(ev && ev.bust) return 'Bust — tap ENTER to void this visit';
     const rem = ev ? ev.rem : p.score;
     const route = routeFor(rem);
     if(route) return 'Finish: ' + route.map(d=>d.label).join(' → ');
@@ -1331,8 +1790,12 @@ function hintFor(g,p,ev){
   }
   const th = g.dartsThrown[p.id]||0;
   if(g.mode==='cricket') return 'Close 20→15 and the bull, then score';
-  if(g.mode==='rtc') return 'Aim for '+(p.target>20?'the BULLSEYE':p.target+(state.variant==='rtc_double'?' (double only)':''));
-  if(g.mode==='atw') return 'Aim for '+(p.target>20?'the BULLSEYE':p.target);
+  if(g.mode==='rtc'){
+    if(p.target>20) return 'Hit the BULLSEYE 🎯';
+    if(state.variant==='rtc_double') return 'Hit DOUBLE ' + p.target + ' (glowing on the board)';
+    return 'Hit ' + p.target + ' (glowing red on the board)';
+  }
+  if(g.mode==='target') return p.tSub ? ('Target ' + p.tText + ' — ' + p.tSub) : ('Hit ' + p.tText);
   if(g.mode==='quack'){
     if(g.variant==='quack') return 'Aim for '+p.target+' — S+D+T wins instantly!';
     if(g.variant==='kill') return p.killer? 'Hit an opponent’s double to strip a life' : 'Hit any double to become a killer';
@@ -1369,17 +1832,31 @@ function renderModePanel(g,p,ev){
   }
 
   if(g.mode==='rtc'){
-    box.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;min-height:0">
-      <div style="font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800">CLOCK · ${escapeHtml(p.name)}</div>
-      <div class="rtc-grid" id="rtcGrid"></div></div>`;
-    const grid = $('#rtcGrid');
-    for(let n=1;n<=20;n++){
-      const cls = n < p.target ? 'done' : (n===p.target ? 'next' : '');
-      grid.insertAdjacentHTML('beforeend', `<div class="rtc-cell ${cls}">${n}</div>`);
-    }
-    grid.insertAdjacentHTML('beforeend', `<div class="rtc-cell ${p.target>20?'done':''}">🎯</div>`);
+    box.innerHTML = `<div class="board-wrap" id="boardHost">
+        ${boardSVG()}
+        <div class="rtc-status">ROUND THE CLOCK · <b>${escapeHtml(p.name)}</b></div>
+      </div>`;
+    paintBoard($('#boardHost'), p, p.cpu);
     return;
   }
+
+  if(g.mode==='target'){
+    box.innerHTML = `
+      <div class="target-box">
+        <div class="tlabel">${p.tKind==='num'?'HIT THE NUMBER':(p.tKind==='double'?'HIT THE DOUBLE':'CHECKOUT TARGET')}</div>
+        <div class="tbig ${p.tKind==='checkout'?'hard':''}">${escapeHtml(String(p.tText))}</div>
+        <div class="tsub">${escapeHtml(p.tSub||'')}</div>
+        <div class="target-stats">
+          <div class="tstat"><b>${p.hits}</b><span>HITS</span></div>
+          <div class="tstat"><b>${p.streak}</b><span>STREAK</span></div>
+          <div class="tstat"><b>${p.bestStreak}</b><span>BEST</span></div>
+          <div class="tstat"><b>${countDartsUsed(p.id)}</b><span>DARTS</span></div>
+        </div>
+      </div>
+      <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+    return;
+  }
+
   if(g.mode==='cricket'){
     const keys=[20,19,18,17,16,15,25];
     box.innerHTML = `<div class="cricket-panel">
@@ -1444,7 +1921,8 @@ function statsLine(g){
     const d = countDartsUsed(p.id);
     const visits = g.history.filter(h=>h.player===p.id).length || 1;
     const scored = g.history.filter(h=>h.player===p.id && !h.bust).reduce((a,h)=>a+h.total,0);
-    return `${escapeHtml(p.name)}: ${d} darts, avg ${(scored/visits).toFixed(1)}/visit`;
+    const avg3 = d ? (scored/d*3).toFixed(1) : '0.0';
+    return `${escapeHtml(p.name)}: ${d} darts, avg ${(scored/visits).toFixed(1)}/visit${g.mode==='x01'?(' · '+avg3+' avg/3'):''}`;
   }).join('<br>');
 }
 
@@ -1461,16 +1939,18 @@ $('#btnQuit').addEventListener('click', ()=>{
     <div class="row"><button class="btn" data-close>Stay</button>
     <button class="btn primary" data-yes>Leave</button></div>`);
   $('#modalBody [data-yes]').addEventListener('click', ()=>{
-    closeModal(); state.g=null; renderPlayers(); renderOpp(); show('scr-players');
+    closeModal(); hideEnterSheet(); state.g=null; renderPlayers(); renderOpp(); show('scr-players');
   });
 });
 $('#btnUndo').addEventListener('click', ()=>{
   const g = state.g; if(!g || g._locked) return;
+  hideEnterSheet();
   const p = g.players[g.turn];
   if((g._visit[p.id]||[]).length){
     g._visit[p.id].pop();
     g.dartsThrown[p.id] = Math.max(0,(g.dartsThrown[p.id]||1)-1);
     lastDart = (g._visit[p.id]||[]).slice(-1)[0] || null;
+    padMult = 1;
     rebuildAll(); renderGame(); vibrate(10); return;
   }
   const last = g.history.pop();
@@ -1479,6 +1959,7 @@ $('#btnUndo').addEventListener('click', ()=>{
   g._visit[last.player] = last.darts.map(d=>({...d}));
   g.dartsThrown[last.player] = last.darts.length;
   lastDart = (g._visit[last.player]||[]).slice(-1)[0] || null;
+  padMult = 1;
   rebuildAll(); renderGame(); vibrate(10);
 });
 
