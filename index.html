@@ -121,6 +121,8 @@
   .pcard.out{opacity:.4}
   .pcard .toprow{display:flex;align-items:center;gap:6px}
   .pcard .nm{flex:1;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcard .hearts{font-size:13px;letter-spacing:1px;color:#ff5d7a;white-space:nowrap}
+  .pcard .hearts .out{font-size:10px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
   .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06);color:var(--txt)}
   .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:3px}
   .pcard .sc{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02;color:var(--txt)}
@@ -219,7 +221,6 @@
     72%{opacity:1}
     100%{opacity:0;transform:translateY(-16px) scale(1)}
   }
-  /* heart break flash (Killer life lost) */
   .heart-flash{position:fixed;left:50%;top:24%;transform:translate(-50%,-50%) scale(.7);z-index:66;pointer-events:none;opacity:0;text-align:center;transition:none}
   .heart-flash.show{opacity:1;animation:heartHit 1.8s ease forwards}
   .heart-flash .hf-heart{font-size:clamp(60px,14vw,140px);line-height:1;filter:drop-shadow(0 0 24px rgba(255,77,109,.8))}
@@ -261,7 +262,6 @@
   @keyframes neonPulse{0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}}
   @keyframes goldPulse{0%,100%{filter:drop-shadow(0 0 2px #ffb03a) brightness(1.05)}50%{filter:drop-shadow(0 0 11px #ffd35c) brightness(1.55)}}
   .seg.next{animation:neonPulse 1.5s ease-in-out infinite}
-  .killer-owner{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
   .numlabel{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
   .numlabel.dull{opacity:.3}
   .cr-tick{transition:fill .3s}
@@ -474,7 +474,7 @@ const MODES = [
     desc:'Build 3 marks of armour, then hunt the others.',
     variants:[{id:'killer',label:'Last one standing'}],
     def:'killer', minPlayers:2, maxPlayers:8, targetRounds:0,
-    rules:'Everyone gets a RANDOM number. Hit your own number 3 times to build your armour and become a KILLER. Only a killer can damage others: hit an opponent’s number to knock their armour down. While they have ANY armour, hits remove armour first — knock it to 0 to take a life. If they rebuild even one level, you must strip that before you can take another life. 3 lives each. Last player standing wins. Darts are recorded as you throw them — no ENTER step.'},
+    rules:'Everyone gets a RANDOM number (1–20). Hit your own number 3 times to build your armour and become a KILLER. Only a killer can damage others: hit an opponent’s number to knock their armour down. While they have ANY armour, hits remove armour first — knock it to 0 to take a life. If they rebuild even one level, you must strip that before you can take another life. 3 lives each. Last player standing wins. Darts are recorded as you throw them — no ENTER step.'},
   { id:'rtc', name:'Round the Clock', ico:'🕐', tag:'TRAINING', unit:'games', defaultMatch:1,
     desc:'Hit 1 through 20 in order, finishing on bull.',
     variants:[{id:'rtc',label:'Any segment'},{id:'rtc_double',label:'Doubles only'}],
@@ -516,6 +516,7 @@ const levelById = id => LEVELS.find(l=>l.id===id) || LEVELS[2];
 
 const MATCH_OPTIONS = [1,3,5];
 const CRICKET_KEYS = [20,19,18,17,16,15,25];
+const KILLER_KEYS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 const KILLER_LIVES = 3;
 
 let state = {
@@ -645,13 +646,12 @@ function flashPoints(p, pts, onDone){
   ptsTimer = setTimeout(()=>{ el.classList.remove('show'); if(onDone) onDone(); }, 2400);
 }
 function hidePoints(){ const el=$('#pointsFlash'); if(el) el.classList.remove('show'); }
-/* heart break on losing a life */
 function flashHeart(p, livesLeft){
   const el = $('#heartFlash'); if(!el) return;
   el.innerHTML = `<div class="hf-heart">💔</div>
     <div class="hf-txt" style="color:${p?p.color:'#ff8fa4'}">${escapeHtml(p?p.name:'')} · ${livesLeft} ${livesLeft===1?'LIFE':'LIVES'} LEFT</div>`;
   el.classList.remove('show');
-  void el.offsetWidth;                 // restart the animation
+  void el.offsetWidth;
   el.classList.add('show');
   vibrate([30,50,30,50,90]);
   clearTimeout(heartTimer);
@@ -878,7 +878,6 @@ function startMatch(){
   players.forEach(p => state.m.wins[p.id] = 0);
   startGame();
 }
-/* distinct random killer numbers for every player */
 function assignKillerNumbers(players){
   const pool = [];
   for(let n=1;n<=20;n++) pool.push(n);
@@ -999,17 +998,10 @@ function cricketWouldScore(g, p, v, m){
 
 /* =========================================================
    KILLER COMBAT
-   =========================================================
-   A hit of value `hits` (single=1, double=2, treble=3) lands on `key`.
-   - If key is YOUR number: adds armour, capped at 3. At 3 you're ARMED.
-   - If key is an OPPONENT's number AND you are ARMED: damage them.
-     Damage always strips ARMOUR first; only when armour is 0 does it take a LIFE.
-   - While you have any armour, a life cannot be taken (must be stripped first).
-   Returns an event describing what happened (for animation / logging).           */
+   ========================================================= */
 function killerResolve(g, p, key, hits){
   const ev = { kind:null, target:null, lostLife:false, key };
   const me = p;
-  // ---- own number: build armour ----
   if(key === me.kNum){
     if(me.armour < 3){
       const before = me.armour;
@@ -1019,12 +1011,10 @@ function killerResolve(g, p, key, hits){
     }
     return ev;
   }
-  // ---- opponent number: attack, but only if I am armed ----
   const victim = g.players.find(o=>o.id!==me.id && o.kNum===key && !o.out);
   if(!victim) return ev;
   if(me.armour < 3) return ev;                 // not armed -> cannot deal damage
   let dmg = hits;
-  // strip armour first
   while(dmg>0 && victim.armour>0){ victim.armour--; dmg--; }
   const stripped = hits - dmg;
   if(dmg>0){
@@ -1035,6 +1025,30 @@ function killerResolve(g, p, key, hits){
     ev.kind = 'strip'; ev.target = victim; ev.stripped = stripped; ev.victimArmour = victim.armour;
   }
   return ev;
+}
+function killerApply(p, v, m){
+  const g = state.g;
+  if(v===0) return;
+  const key = (v>=25 ? 25 : v);
+  if(!KILLER_KEYS.includes(key)) return;
+  const hits = (v===50 ? 2 : (v===25 ? 1 : m));
+  const ev = killerResolve(g, p, key, hits);
+  if(ev.kind==='life' && ev.target){
+    flashHeart(ev.target, ev.target.lives);
+    if(ev.target.out) checkKillerEnd();
+  } else if(ev.kind==='armed'){
+    flashScore('ARMED');
+  }
+  // if that hit ended the game, show the result immediately
+  if(g.over) setTimeout(()=>{ if(state.g===g) endGame(); }, 700);
+}
+function checkKillerEnd(){
+  const g = state.g;
+  const alive = g.players.filter(p=>!p.out);
+  if(alive.length<=1 && g.players.length>1 && !g.over){
+    g.over = true; g.winner = alive[0] || g.players[0];
+    g.winReason = 'Last player standing';
+  }
 }
 
 /* =========================================================
@@ -1058,7 +1072,7 @@ function enterDart(v, mult){
   g._visit[p.id].push(dart);
   lastDart = dart;
 
-  const earned = cricketWouldScore(g, p, v, m);   // judged BEFORE applying
+  const earned = cricketWouldScore(g, p, v, m);
   applyDart(p, v, m);
   padMult = 1;
   if(earned > 0) flashScore(earned);
@@ -1068,7 +1082,7 @@ function enterDart(v, mult){
   vibrate(12);
   if(g.over){ return; }
 
-  const autoVisit = (g.mode==='killer');        // killer commits per dart
+  const autoVisit = (g.mode==='killer');
   if(g.mode==='x01'){ const ev = x01Live(p); if(ev.checkout){ finishVisitSoon(); return; } }
   else if(g.mode==='rtc' && p.target>20){ finishVisitSoon(); return; }
   else if(g.mode==='target' && p.cleared){ finishVisitSoon(); return; }
@@ -1076,29 +1090,6 @@ function enterDart(v, mult){
   const after = g._visit[p.id] || [];
   if(after.length >= 3){
     if(autoVisit) endVisit(); else showEnterSheet();
-  }
-}
-/* apply a killer dart: figure out which number it landed on and resolve */
-function killerApply(p, v, m){
-  const g = state.g;
-  if(v===0) return;
-  const key = (v>=25 ? 25 : v);
-  if(!KILLER_KEYS.includes(key)) return;        // only numbers 1-20 are in play
-  const hits = (v===50 ? 2 : (v===25 ? 1 : m));
-  const ev = killerResolve(g, p, key, hits);
-  if(ev.kind==='life' && ev.target){
-    flashHeart(ev.target, ev.target.lives);
-    if(ev.target.out) checkKillerEnd();
-  } else if(ev.kind==='armed'){
-    flashScore('ARMED');
-  }
-}
-function checkKillerEnd(){
-  const g = state.g;
-  const alive = g.players.filter(p=>!p.out);
-  if(alive.length<=1 && g.players.length>1 && !g.over){
-    g.over = true; g.winner = alive[0] || g.players[0];
-    g.winReason = 'Last player standing';
   }
 }
 function finishVisitSoon(){
@@ -1155,17 +1146,12 @@ function applyDart(p, v, m){
     } else if(v!==0){ p.score += dartScore(v,m); }
   }
   else if(g.mode==='free'){ p.score += dartScore(v,m); }
-  /* killer is handled separately in killerApply (order + armour rules) */
 }
-const KILLER_KEYS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
 function rebuildAll(){
   const g = state.g;
   if(g.mode==='x01') g.players.forEach(p=>p.score=g.startValue);
   if(g.mode==='cricket'){ g.players.forEach(p=>p.marks={20:0,19:0,18:0,17:0,16:0,15:0,25:0}); g.players.forEach(p=>p.score=0); }
-  if(g.mode==='kill'){
-    /* legacy no-op */
-  }
   if(g.mode==='killer') g.players.forEach(p=>{ p.armour=0; p.lives=KILLER_LIVES; p.out=false; });
   if(g.mode==='rtc') g.players.forEach(p=>{p.target=1;p.hits=0;});
   if(g.mode==='target') g.players.forEach(p=>{ p.cleared=false; p.tRemain=null; p.tBust=false; p.tHit=false; });
@@ -1174,20 +1160,15 @@ function rebuildAll(){
   g.over=false; g.winner=null; g.winReason=null;
 
   const allDarts = [];
-  // replay HISTORY (whole committed visits)
-  g.history.forEach(h=>h.darts.forEach(d=>allDarts.push({pid:h.player,d,visit:true})));
-  // plus the CURRENT uncommitted visit, in order
+  g.history.forEach(h=>h.darts.forEach(d=>allDarts.push({pid:h.player,d})));
   const currentDarts = [];
   Object.keys(g._visit||{}).forEach(k=>{
     const pid = +k;
-    (g._visit[k]||[]).forEach(d=>currentDarts.push({pid,d,visit:false}));
+    (g._visit[k]||[]).forEach(d=>currentDarts.push({pid,d}));
   });
-  // rebuild history first (x01/cricket), then current visit
+
   if(g.mode==='x01'){
     g.history.forEach(h=>{ const p=g.players.find(x=>x.id===h.player); if(!p) return; if(!h.bust) p.score -= h.total; });
-    const cur = g._visit[g.players[g.turn].id] || [];
-    const tot = cur.reduce((a,d)=>a+d.score,0);
-    /* leave x01 live total to x01Live() -> don't subtract here */
   }
   if(g.mode==='cricket'){
     const keys=CRICKET_KEYS;
@@ -1202,7 +1183,6 @@ function rebuildAll(){
       if(before>=3 || after>3){ const overflow=before>=3?add:after-3; if(state.variant!=='cricket_noscore' && oppOpen(key,pid)) p.score += key*overflow; }
     });
     g.players.forEach(p=>p.marks=marks[p.id]);
-    // current visit
     Object.keys(g._visit||{}).forEach(k=>{
       const p=g.players.find(x=>x.id===+k); if(!p) return;
       (g._visit[k]||[]).forEach(d=>{
@@ -1212,9 +1192,7 @@ function rebuildAll(){
     });
   }
   if(g.mode==='killer'){
-    // replay committed history through killerResolve, then current visit
     g.players.forEach(p=>{ p.armour=0; p.lives=KILLER_LIVES; p.out=false; });
-    // history: need the player who threw; deaths must not resurrect -> skip out victims
     const replay = list => list.forEach(({pid,d})=>{
       const p = g.players.find(x=>x.id===pid); if(!p || p.out) return;
       if(d.v===0) return;
@@ -1233,7 +1211,6 @@ function rebuildAll(){
   }
   if(g.mode==='quack' || g.mode==='free'){
     const all = allDarts.concat(currentDarts);
-    if(g.mode==='quack'){ const cur = g.players[g.turn]; }
     all.forEach(({pid,d})=>{ const p=g.players.find(x=>x.id===pid); if(!p) return; applyDart(p,d.v,d.mult); });
   }
 }
@@ -1555,7 +1532,6 @@ function chooseCpuDart(p){
     return landedDart({v:k===25?25:k, mult: k===25?1:3}, lvl);
   }
   if(g.mode==='killer'){
-    // build own armour first; if armed, hunt the lowest-life opponent
     if(p.armour < 3){
       const need = 3 - p.armour;
       const mr=rnd();
@@ -1588,9 +1564,7 @@ function chooseCpuDart(p){
     }
     return landedDart({v:20,mult:1}, lvl);
   }
-  if(g.mode==='quack'){
-    const t=Math.min(20,p.target); return landedDart({v:t, mult:rnd()<.5?1:rnd()<.85?2:3}, lvl);
-  }
+  if(g.mode==='quack') return landedDart({v:Math.min(20,p.target), mult:rnd()<.5?1:rnd()<.85?2:3}, lvl);
   if(g.mode==='free') return landedDart({v:20,mult:3}, lvl);
   return landedDart({v:20,mult:1}, lvl);
 }
@@ -1794,22 +1768,19 @@ function paintCricketBoard(host, g, p){
     el.setAttribute('fill', k < oc.n ? oc.color : 'rgba(255,255,255,.07)');
   });
 }
-/* KILLER board: each player's number fills with THEIR colour by armour level.
-   Armed (3) = solid + glow. The current player's own number is highlighted. */
 function paintKillerBoard(host, g, p){
   const byNum = {};
   g.players.forEach(pl=>{ if(pl.kNum) byNum[pl.kNum] = pl; });
   host.querySelectorAll('.seg').forEach(el=>{
     const num = +el.dataset.num;
-    if(!num || num>20) { if(el.dataset.bull==='1'){ el.style.fill=''; el.style.opacity=''; el.style.filter=''; } return; }
+    if(!num || num>20){ if(el.dataset.bull==='1'){ el.style.fill=''; el.style.opacity=''; el.style.filter=''; } return; }
     el.classList.remove('hit','next','dead','score','closed_own','lit1','lit2','armour');
     el.style.fill=''; el.style.opacity=''; el.style.filter=''; el.style.color='';
     const owner = byNum[num];
-    if(!owner) return;                             // no one owns this number -> normal board
+    if(!owner) return;
     const a = Math.min(3, owner.armour || 0);
     if(owner.out){ el.classList.add('dead'); return; }
     const ring = el.dataset.ring, band = el.dataset.band;
-    // progressive armour fill in the OWNER's colour, same language as Cricket
     if(a>=3){
       el.style.fill = owner.color; el.style.color = owner.color;
       el.classList.add('armour');
@@ -1852,7 +1823,7 @@ function renderGame(){
     let val='', label='';
     if(g.mode==='x01'){ val = (isTurn && ev) ? (ev.bust?'BUST':ev.rem) : pl.score; label='SCORE'; }
     else if(g.mode==='target'){ val = pl.score; label='POINTS'; }
-    else if(g.mode==='killer'){ val = pl.lives; label='LIVES'; }
+    else if(g.mode==='killer'){ val = pl.armour>=3 ? 'ARMED' : (pl.armour+'/3'); label='ARMOUR'; }
     else { val = bigScore(pl); label = scoreLabel(g.mode); }
     const turnStyle = isTurn ? ` style="border-color:${pl.color};background:linear-gradient(160deg,${hexA(pl.color,.18)},var(--panel))"` : '';
     const legs = (m && m.unit!=='none' && m.target>1) ? `<span class="legs" style="color:${pl.color}">${m.wins[pl.id]||0}</span>` : '';
@@ -1860,11 +1831,12 @@ function renderGame(){
     return `<div class="pcard ${isTurn?'turn':''} ${outCls}"${turnStyle}>
       <div class="toprow">
         <div class="nm" style="color:${pl.color}">● ${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
+        ${g.mode==='killer' ? `<span class="hearts">${'❤'.repeat(Math.max(0,pl.lives))}${pl.out?'<span class="out">OUT</span>':''}</span>` : ''}
         ${legs}
       </div>
       <div class="sc-label" style="color:${isTurn?hexA(pl.color,.9):'var(--muted)'}">${label}</div>
       <div class="sc" style="color:${isTurn?pl.color:'var(--txt)'}">${val}</div>
-      ${g.mode==='killer' ? `<div class="sc-label" style="color:${pl.armour>=3?'var(--gold)':'var(--muted)'};margin-top:2px">NUMBER ${pl.kNum} · ARMOUR ${pl.armour}/3${pl.armour>=3?' · KILLER':''}</div>` : ''}
+      ${g.mode==='killer' ? `<div class="sc-label" style="color:${pl.armour>=3?'var(--gold)':'var(--muted)'};margin-top:2px">NUMBER ${pl.kNum}${pl.armour>=3?' · KILLER':''}</div>` : ''}
       <div class="darts">${[0,1,2].map(i=>`<i class="${i<thrown?'on':''}"></i>`).join('')}</div>
     </div>`;
   }).join('');
@@ -1880,9 +1852,6 @@ function renderGame(){
   if(g.mode==='x01'){
     tl.textContent = ev.bust?'BUST':ev.rem; tl.className = ev.bust?'bust':'';
     $('#turnLeftLbl').textContent = 'LEFT';
-  } else if(g.mode==='killer'){
-    tl.textContent = (g.dartsThrown[p.id]||0)+'/3'; tl.className='';
-    $('#turnLeftLbl').textContent = 'DARTS';
   } else if(g.mode==='target' && p.spec.kind==='checkout' && !p.cleared){
     const rem = (p.tRemain==null?p.spec.num:p.tRemain);
     tl.textContent = p.tBust ? 'BUST' : rem; tl.className = p.tBust?'bust':'';
@@ -2015,7 +1984,7 @@ function renderModePanel(g,p,ev){
 
   if(g.mode==='killer'){
     const order = g.players.slice().sort((a,b)=> (a.out-b.out) || (b.lives-a.lives) || (b.armour-a.armour));
-    box.innerHTML = `<div class="board-wrap" id="killerHost">${boardSVG(false,true)}</div>
+    box.innerHTML = `
       <div class="killer-strip">
         ${order.map(pl=>`<div class="kp ${pl.armour>=3?'armed':''} ${pl.out?'out':''}" style="color:${pl.color}">
           <span class="num">${pl.kNum}</span>
@@ -2024,7 +1993,7 @@ function renderModePanel(g,p,ev){
           <span style="color:${pl.armour>=3?'var(--gold)':'var(--muted)'};font-weight:800">${pl.out?'':('ARM '+pl.armour)}</span>
         </div>`).join('')}
       </div>
-      <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+      <div class="board-wrap" id="killerHost">${boardSVG(false,true)}</div>`;
     paintKillerBoard($('#killerHost'), g, p);
     return;
   }
