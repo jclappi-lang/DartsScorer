@@ -226,6 +226,7 @@
   .target-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:16px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));padding:14px;flex:1;min-height:0}
   .target-box .tlabel{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--muted);text-align:center}
   .target-box .tbig{font-size:clamp(52px,9vw,104px);font-weight:900;letter-spacing:-4px;line-height:.95}
+  .target-box .tsub{font-size:12px;font-weight:800;color:var(--muted);text-align:center}
   .checkout-live{display:flex;flex-direction:column;align-items:center;gap:2px;background:#0b1020;border:1px solid var(--line);border-radius:14px;padding:9px 20px;min-width:min(72%,330px)}
   .checkout-live .cl-num{font-size:clamp(24px,3.8vw,38px);font-weight:900;letter-spacing:-1px;line-height:1.05;font-variant-numeric:tabular-nums;text-align:center}
   .checkout-live .cl-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
@@ -264,6 +265,10 @@
   .modal h2{color:var(--txt)}
   .modal .row{display:flex;gap:10px;margin-top:20px}
   .modal .row .btn{flex:1}
+  .modal table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px}
+  .modal th{font-size:10px;letter-spacing:1.2px;color:var(--muted);font-weight:800;text-align:left;padding:6px 4px;border-bottom:1px solid var(--line)}
+  .modal td{padding:7px 4px;font-weight:700;text-align:left;border-bottom:1px solid rgba(255,255,255,.04)}
+  .modal td.r{text-align:right;font-variant-numeric:tabular-nums}
   .scoretally{display:flex;flex-direction:column;gap:8px;margin-top:16px}
   .tallyrow{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:12px;padding:12px 16px}
   .tallyrow .tn{flex:1;text-align:left;font-weight:900;font-size:16px}
@@ -452,10 +457,10 @@ const MODES=[
   def:'rtc',minPlayers:1,maxPlayers:8,targetRounds:0,
   rules:'Hit numbers in ascending order: 1 → 20, then the bullseye. Completed numbers black out and the next target glows red neon on the board. First to hit the bull wins.'},
  {id:'target',name:'Target Practice',ico:'🎲',tag:'CHALLENGE',unit:'none',defaultMatch:1,
-  desc:'Shared targets, race to clear. Single 1 pt · Double 2 · Checkout 3.',
+  desc:'Shared targets, race to clear. Solo: clear them all in fewest darts.',
   variants:[{id:'target_num',label:'Random number'},{id:'target_double',label:'Random double'},{id:'target_checkout',label:'Random checkout'},{id:'target_mix',label:'Mixed bag'}],
   def:'target_mix',minPlayers:1,maxPlayers:8,targetRounds:10,
-  rules:'Ten targets, shared. A random player throws first each target, and whoever CLEARS it first takes the points: single = 1, double = 2, checkout = 3. Checkouts (11–60) must finish on a double, with three fresh darts. Highest total after 10 targets wins.'},
+  rules:'Ten targets, drawn one at a time. SOLO: you stay on a target until you clear it (or press Skip), and your score is the DARTS USED — try to beat it next session. MULTIPLAYER: everyone faces the same target in turn order, and whoever clears it first takes the round: single = 1 point, double = 2, checkout = 3. Checkouts (11–60) must finish on a double. Highest total after 10 rounds wins.'},
  {id:'quack',name:'Shanghai',ico:'⚡',tag:'CLUTCH',unit:'games',defaultMatch:1,
   desc:'1→20, but a single+double+treble of the number wins instantly.',
   variants:[{id:'quack',label:'Shanghai'}],
@@ -601,9 +606,15 @@ function renderPlayerReport(g,p){
   const st=buildStats(g,p.id); if(!st) return '';
   const rows=Object.keys(st.byNum).map(k=>({k:+k,...st.byNum[k]})).filter(r=>r.hits>0).sort((a,b)=>(b.hits-a.hits)||(b.pts-a.pts));
   const topRow=rows.length?rows[0]:null;
+  const soloTarget=(g.mode==='target'&&g.players.length===1);
   return `
   <div class="rp-card">
     <h3><span style="color:${p.color}">●</span> ${escapeHtml(p.name)}</h3>
+    ${soloTarget?`<div class="rp-grid">
+      ${rpTile('DARTS USED',countDartsUsed(p.id),'teal')}
+      ${rpTile('CLEARED',p.hits+' / '+g.targetRounds)}
+      ${rpTile('3-DART AVG',st.avg3.toFixed(1))}
+    </div>`:`
     <div class="rp-grid">
       ${rpTile('3-DART AVG',st.avg3.toFixed(1),'teal')}
       ${rpTile('DARTS',st.darts)}
@@ -611,7 +622,7 @@ function renderPlayerReport(g,p){
       ${rpTile('AVG / VISIT',st.avgVisit.toFixed(1))}
       ${rpTile('BEST VISIT',st.best,'hi')}
       ${rpTile('FIRST 9 AVG',st.avg9===null?'—':st.avg9.toFixed(1))}
-    </div>
+    </div>`}
     <div class="rp-lab">SCORING BANDS</div>
     <div class="rp-grid g4">${rpTile('180s',st.p180,'hi')}${rpTile('140+',st.p140)}${rpTile('100+',st.p100)}${rpTile('60+',st.p60)}</div>
     <div class="rp-lab">HEADLINE HITS</div>
@@ -642,6 +653,7 @@ function reportText(g){
     lines.push(`T20: ${st.t20} · D16: ${st.d16} · Bullseye: ${st.bull50} · 25s: ${st.bull25}`);
     lines.push(`Doubles: ${st.dblHit}/${st.dblThrown} (${st.dblPct===null?'-':st.dblPct+'%'}) · Misses: ${st.misses}`);
     if(st.isX01) lines.push(`Checkouts: ${st.checkoutHit}/${st.checkoutAtt} (${st.checkoutPct===null?'-':st.checkoutPct+'%'}) · Best finish: ${st.highestFinish||'-'}`);
+    if(g.mode==='target'&&g.players.length===1) lines.push(`Targets cleared: ${p.hits}/${g.targetRounds} · Darts used: ${countDartsUsed(p.id)}`);
     Object.keys(st.byNum).map(k=>({k:+k,...st.byNum[k]})).filter(r=>r.hits>0).sort((a,b)=>(b.hits-a.hits)||(b.pts-a.pts))
       .forEach(r=>lines.push(`  ${numName(r.k)}: S${r.s} D${r.d} T${r.t} · ${r.hits} darts · ${r.pts} pts`));
     lines.push('');
@@ -802,7 +814,7 @@ $('#btnRules').addEventListener('click',()=>{
       ${MODES.map(m=>`<div style="margin-bottom:15px"><div style="font-weight:900;font-size:15px">${m.ico} ${m.name}</div>
       <div style="color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:5px">${m.rules}</div></div>`).join('')}
       <div style="border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:12px;font-weight:600">
-        <b style="color:var(--txt)">Stats.</b> The 📊 button opens a full report at any time in 501 and Free Practice.
+        <b style="color:var(--txt)">Stats.</b> The 📊 button opens a full report at any time.
         A bust counts its darts but not its score, so busts lower your average — standard.
       </div>
     </div>
@@ -848,8 +860,11 @@ function startGame(){
   if(g.mode==='cricket')players.forEach(p=>{p.marks={20:0,19:0,18:0,17:0,16:0,15:0,25:0};p.score=0;});
   if(g.mode==='killer'){assignKillerNumbers(players);players.forEach(p=>{p.armour=0;p.lives=KILLER_LIVES;p.out=false;});}
   if(g.mode==='rtc')players.forEach(p=>{p.target=1;p.hits=0;});
-  if(g.mode==='target'){g.targetRounds=m?m.targetRounds:10;g.round=1;
-    players.forEach(p=>{p.score=0;p.hits=0;p.cleared=false;p.gaveUp=false;p.tRemain=null;p.tBust=false;});setupRound(g);}
+  if(g.mode==='target'){
+    g.targetRounds=m?m.targetRounds:10;g.round=1;
+    players.forEach(p=>{p.score=0;p.hits=0;p.attempts=0;p.cleared=false;p.gaveUp=false;p.tRemain=null;p.tBust=false;});
+    setupRound(g);
+  }
   if(g.mode==='quack')players.forEach(p=>{p.target=1;p.score=0;p._visitNums=[];});
   if(g.mode==='free')players.forEach(p=>{p.score=0;});
   lastDart=null;padMult=1;
@@ -861,7 +876,7 @@ function setupRound(g){
   g.spec=drawTargetSpec();
   g.firstId=g.players[Math.floor(Math.random()*g.players.length)].id;
   g.turn=g.firstId;g.flashFirst=true;
-  g.players.forEach(p=>{p.spec=g.spec;p.cleared=false;p.gaveUp=false;p.tRemain=null;p.tBust=false;});
+  g.players.forEach(p=>{p.spec=g.spec;p.cleared=false;p.gaveUp=false;p.tRemain=null;p.tBust=false;p.attempts=0;});
 }
 
 /* ---------- keypad ---------- */
@@ -1215,6 +1230,12 @@ function targetEndVisit(g,p){
     });
     return;
   }
+  // SOLO: stay on the same target until it is cleared (or skipped)
+  if(g.players.length===1&&!p.gaveUp){
+    p.attempts=(p.attempts||0)+1;
+    p.gaveUp=false;
+    return;                       // same player, same target, fresh 3 darts
+  }
   const pending=g.players.filter(x=>!x.cleared&&!x.gaveUp);
   const onlyMeLeft=(pending.length===1&&pending[0].id===p.id);
   if(pending.length===0||onlyMeLeft){finishRound(g,null);return;}
@@ -1234,7 +1255,11 @@ function finishRound(g,winner){
   if(isLast){
     const sorted=[...g.players].sort((a,b)=>b.score-a.score);
     if(sorted.length>1&&sorted[0].score===sorted[1].score){g.suddenDeath=true;g.round++;setupRound(g);return;}
-    g.over=true;g.winner=sorted[0];g.winReason='POINTS: '+sorted[0].score;return;
+    g.over=true;g.winner=sorted[0];
+    g.winReason=(g.players.length===1)
+      ? ('All '+g.targetRounds+' targets cleared in '+countDartsUsed(sorted[0].id)+' darts')
+      : ('POINTS: '+sorted[0].score);
+    return;
   }
   g.round++;setupRound(g);
 }
@@ -1283,7 +1308,7 @@ function beginTurn(){
     g.aiPending=false;renderGame();
     if(g.hushTurn){g.hushTurn=false;}
     else if(firstThisRound)flashTurn(p,'THROWS FIRST','YOUR TURN');
-    else if(!solo)flashTurn(p,'YOUR TURN',p.colourName); // no per-visit banner in solo play
+    else if(!solo)flashTurn(p,'YOUR TURN',p.colourName);
   }
 }
 
@@ -1299,8 +1324,9 @@ function endGame(){
   const tally=m&&isMatchMode?`<div class="scoretally">${m.players.map(p=>`<div class="tallyrow"><span class="tn" style="color:${p.color}">● ${escapeHtml(p.name)}</span><span class="tv" style="color:${p.color}">${m.wins[p.id]||0}</span></div>`).join('')}</div>`:'';
   let table='';
   if(g.mode==='target'){
-    const sorted=[...g.players].sort((a,b)=>b.score-a.score);
-    table=`<table><tr><th>Player</th><th class="r">Rounds</th><th class="r">Points</th></tr>${sorted.map(p=>`<tr><td style="color:${p.color}">● ${escapeHtml(p.name)}</td><td class="r">${p.hits}</td><td class="r">${p.score}</td></tr>`).join('')}</table>`;
+    const solo=g.players.length===1;
+    const sorted=[...g.players].sort((a,b)=> solo ? (countDartsUsed(a.id)-countDartsUsed(b.id)) : (b.score-a.score));
+    table=`<table><tr><th>Player</th><th class="r">Cleared</th><th class="r">Darts</th><th class="r">Points</th></tr>${sorted.map(p=>`<tr><td style="color:${p.color}">● ${escapeHtml(p.name)}</td><td class="r">${p.hits}</td><td class="r">${countDartsUsed(p.id)}</td><td class="r">${p.score}</td></tr>`).join('')}</table>`;
   } else if(g.mode==='x01'){
     const st=buildStats(g,g.winner.id);
     table=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px">
@@ -1308,7 +1334,7 @@ function endGame(){
   }
   openModal(`
     <div class="trophy">${matchWon?'🏆':'🎯'}</div>
-    <div class="bigwin" style="color:${g.winner.color}">${escapeHtml(g.winner.name)} WINS!</div>
+    <div class="bigwin" style="color:${g.winner.color}">${g.players.length===1?'SESSION COMPLETE':escapeHtml(g.winner.name)+' WINS!'}</div>
     <div class="win">${escapeHtml(g.winReason||'')}</div>
     ${table||`<p>${statsLine(g)}</p>`}
     <div class="row">
@@ -1711,7 +1737,10 @@ function subtitleFor(g){
   const m=state.m;
   const hasCpu=g.players.some(p=>p.cpu);
   const lvl=hasCpu?' · CPU L'+g.level:'';
-  if(g.mode==='target')return 'Target '+g.round+'/'+g.targetRounds+lvl;
+  if(g.mode==='target'){
+    if(g.players.length===1)return 'Target '+g.round+'/'+g.targetRounds+' · '+g.players[0].hits+' cleared · '+countDartsUsed(g.players[0].id)+' darts';
+    return 'Target '+g.round+'/'+g.targetRounds+lvl;
+  }
   if(g.mode==='cricket')return 'Cricket · '+(state.variant==='cricket_noscore'?'No Score':'Standard')+lvl;
   if(g.mode==='killer')return 'Killer · last one standing'+lvl;
   if(g.mode==='free')return 'Free practice · unlimited throws';
@@ -1864,6 +1893,7 @@ function renderModePanel(g,p,ev){
           ${p.cleared?'':`<div class="checkout-live" style="border-color:${hexA(pcol,.6)}">
             <div class="cl-num" style="color:${p.tBust?'var(--red)':pcol}">${subTxt}</div>
             <div class="cl-lbl">${p.tBust?'BUSTED':'ROUTE'}</div></div>`}
+          ${g.players.length===1?`<div class="tsub">Attempt ${(p.attempts||0)+1} · ${countDartsUsed(p.id)} darts so far</div>`:''}
         </div>
         <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
       return;
@@ -1872,6 +1902,7 @@ function renderModePanel(g,p,ev){
       <div class="target-box" style="border-color:${hexA(pcol,.45)}">
         <div class="tlabel">${p.spec.kind==='num'?'HIT THE NUMBER':'HIT THE DOUBLE'} · WORTH ${p.spec.pay} PTS</div>
         <div class="tbig" style="color:${pcol}">${escapeHtml(String(p.spec.text))}</div>
+        ${g.players.length===1?`<div class="tsub">Attempt ${(p.attempts||0)+1} · ${countDartsUsed(p.id)} darts so far</div>`:''}
       </div>
       <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
     return;
