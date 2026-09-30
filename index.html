@@ -94,16 +94,16 @@
   .lvl-card .lv-meta{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:5px;line-height:1.5}
   .lvl-card .lv-meta b{color:var(--txt);font-variant-numeric:tabular-nums}
   #scr-game{flex:1;min-height:0}
-  .game-top{display:flex;align-items:center;gap:8px;padding:8px 14px 4px;flex-shrink:0}
+  .game-top{display:flex;align-items:center;gap:8px;padding:8px 14px 3px;flex-shrink:0}
   .game-top .meta{min-width:0}
   .game-top .meta h2{font-size:17px;font-weight:900;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
   .game-top .meta .sub{font-size:11px;margin-top:0}
   .view-toggle{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:3px}
   .view-toggle button{border:none;background:transparent;color:var(--muted);font-family:inherit;font-weight:800;font-size:10.5px;letter-spacing:.5px;padding:8px 10px;border-radius:8px;cursor:pointer}
   .view-toggle button.on{background:var(--accent2);color:#062018}
-  .board{display:grid;gap:8px;padding:6px 14px 2px;flex-shrink:0;grid-auto-flow:column;grid-auto-columns:minmax(132px,1fr);overflow-x:auto;scrollbar-width:none}
+  .board{display:grid;gap:8px;padding:5px 14px 2px;flex-shrink:0;grid-auto-flow:column;grid-auto-columns:minmax(132px,1fr);overflow-x:auto;scrollbar-width:none}
   .board::-webkit-scrollbar{display:none}
-  .pcard{min-width:132px;border-radius:14px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden;transition:border-color .2s,background .2s}
+  .pcard{min-width:132px;border-radius:14px;padding:7px 12px;background:var(--panel);border:1px solid var(--line);position:relative;overflow:hidden;transition:border-color .2s,background .2s}
   .pcard.turn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--turn)}
   .pcard.out{opacity:.4}
   .pcard .toprow{display:flex;align-items:center;gap:6px}
@@ -111,81 +111,90 @@
   .pcard .hearts{font-size:13px;letter-spacing:1px;color:#ff5d7a;white-space:nowrap}
   .pcard .hearts .out{font-size:10px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
   .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06);color:var(--txt)}
-  .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:3px}
-  .pcard .sc{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02;color:var(--txt)}
-  .pcard .darts{display:flex;gap:4px;margin-top:5px}
+  .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:2px}
+  .pcard .sc{font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02;color:var(--txt)}
+  .pcard .darts{display:flex;gap:4px;margin-top:4px}
   .pcard .darts i{width:100%;height:4px;border-radius:3px;background:rgba(255,255,255,.12)}
   .pcard .darts i.on{background:var(--accent2)}
   .pcard.turn .darts i.on{background:var(--turn)}
-  .play-area{flex:1;min-height:0;display:flex;gap:10px;padding:4px 14px 10px}
-  .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:7px}
-  .keypad-col{width:min(48%,440px);min-height:0;display:flex;flex-direction:column;min-width:0}
-  .turn-banner{border-radius:14px;padding:9px 15px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
+  .play-area{flex:1;min-height:0;display:flex;gap:10px;padding:3px 14px 10px}
+  .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px}
+  .keypad-col{width:min(58%,580px);min-height:0;display:flex;flex-direction:column;min-width:0}
+  /* turn banner now carries the visit darts */
+  .turn-banner{border-radius:14px;padding:7px 12px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
   .turn-banner.active{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 14px 40px -26px var(--turn)}
-  .turn-banner .who{font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
-  .turn-banner .hint{color:var(--muted);font-size:12px;font-weight:700;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .turn-banner .who{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
+  .turn-banner .hint{color:var(--muted);font-size:11.5px;font-weight:700;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .turn-banner .hint.bust{color:var(--red)}
-  .turn-banner .left-count{margin-left:auto;text-align:right;flex-shrink:0}
-  .turn-banner .left-count b{font-size:21px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
-  .turn-banner .left-count b.bust{color:var(--red);font-size:16px}
-  .turn-banner .left-count span{display:block;font-size:9.5px;letter-spacing:1.5px;color:var(--muted);font-weight:800}
-  .slot-row{display:flex;gap:7px;flex-shrink:0}
-  .slot{flex:1;border-radius:13px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
-  .slot.filled{border-style:solid;border-color:var(--accent2);background:rgba(0,224,198,.09)}
-  .slot .big{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
-  .slot .lbl{font-size:9px;font-weight:800;letter-spacing:1.1px;color:var(--muted)}
-  .slot.filled .lbl{color:var(--accent2)}
-  .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px}
+  .turn-banner .left-count{text-align:right;flex-shrink:0}
+  .turn-banner .left-count b{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
+  .turn-banner .left-count b.bust{color:var(--red);font-size:15px}
+  .turn-banner .left-count span{display:block;font-size:9px;letter-spacing:1.4px;color:var(--muted);font-weight:800}
+  .tb-darts{display:flex;gap:5px;flex:none}
+  .tb-darts .tbd{width:47px;height:36px;border-radius:9px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+  .tb-darts .tbd b{font-size:14px;font-weight:900;color:var(--txt);font-variant-numeric:tabular-nums}
+  .tb-darts .tbd span{font-size:9px;font-weight:800;color:var(--muted)}
+  .tb-darts .tbd.on{border-style:solid}
+  .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
   .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
   .finish-card.bogey{border-color:rgba(255,211,92,.35);background:linear-gradient(120deg,rgba(255,211,92,.10),rgba(255,255,255,.02))}
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
   .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1;color:var(--txt)}
   .finish-card.bust .fnum{color:var(--red);font-size:16px;letter-spacing:0}
+  /* hero checkout panel — fills the column so nothing is wasted */
+  .finish-card.hero{flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;text-align:center;border-radius:18px}
+  .finish-card.hero .fnum{min-width:0;font-size:clamp(56px,10vw,104px);letter-spacing:-4px;text-align:center}
+  .finish-card.hero.bust .fnum{font-size:clamp(30px,6vw,50px);letter-spacing:-1px}
+  .finish-card.hero .froute{justify-content:center;gap:6px;margin-top:2px}
+  .finish-card.hero .fchip{font-size:clamp(13px,1.7vw,17px);padding:5px 12px}
+  .finish-card.hero .flabel{font-size:10px}
   .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
   .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
   .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
   .farrow{color:var(--muted);font-size:11px;font-weight:800}
   .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
+  .finish-card.hero .froute .note{font-size:clamp(13px,1.8vw,17px)}
   .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:none}
-  .stat-tile{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:6px 4px;text-align:center}
-  .stat-tile b{display:block;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt);line-height:1.15}
+  .stat-tile{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:8px 4px;text-align:center}
+  .stat-tile b{display:block;font-size:clamp(17px,2vw,22px);font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt);line-height:1.15}
   .stat-tile span{font-size:8px;font-weight:800;letter-spacing:1px;color:var(--muted)}
   .stat-tile.gold b{color:var(--gold)}
   .stat-tile.teal b{color:var(--accent2)}
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .hist.short{flex:none;height:116px}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
-  .hrow{display:flex;align-items:center;gap:10px;padding:6px 6px;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px;color:var(--txt)}
+  .hrow{display:flex;align-items:center;gap:10px;padding:5px 6px;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px;color:var(--txt)}
   .hrow .hn{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hrow .hd{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
   .hrow .hv{font-weight:900;width:48px;text-align:right;font-variant-numeric:tabular-nums;color:var(--txt)}
   .hrow .hv.bust{color:var(--red)}
-  .report-cta{flex:none;border-radius:16px;border:1px solid rgba(0,224,198,.28);background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));padding:14px;text-align:center}
-  .report-cta .rc-big{font-size:clamp(40px,7vw,60px);font-weight:900;letter-spacing:-2px;line-height:1;color:var(--accent2)}
-  .report-cta .rc-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted);margin-top:4px;margin-bottom:12px}
-  .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:9px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0;transition:border-color .25s,box-shadow .25s}
+  .report-cta{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:16px;border:1px solid rgba(0,224,198,.28);background:linear-gradient(150deg,rgba(0,224,198,.10),rgba(255,255,255,.02));padding:14px;text-align:center}
+  .report-cta .rc-big{font-size:clamp(52px,9vw,96px);font-weight:900;letter-spacing:-3px;line-height:1;color:var(--accent2)}
+  .report-cta .rc-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted);margin-bottom:6px}
+  .pad{background:var(--pad);border:1px solid var(--line);border-radius:15px;padding:8px;display:flex;flex-direction:column;gap:6px;flex:1;min-height:0;overflow:hidden;transition:border-color .25s,box-shadow .25s}
   .pad.turn-glow{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 16px 46px -26px var(--turn)}
-  .pad-display{display:flex;align-items:center;gap:10px;background:#0b1020;border-radius:11px;padding:6px 12px;flex-shrink:0}
-  .pad-display .armed{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:19px;color:#062018;background:linear-gradient(135deg,var(--accent2),#29ff8f);transition:background .15s}
+  .pad-display{display:flex;align-items:center;gap:10px;background:#0b1020;border-radius:11px;padding:5px 11px;flex-shrink:0}
+  .pad-display .armed{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:900;font-size:17px;color:#062018;background:linear-gradient(135deg,var(--accent2),#29ff8f);transition:background .15s}
   .pad-display .armed.m2{background:linear-gradient(135deg,var(--gold),#ffb03a)}
   .pad-display .armed.m3{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
-  .pad-display .armed-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.3px;color:var(--muted);line-height:1.35}
-  .pad-display .armed-lbl b{display:block;color:var(--txt);font-size:13px;letter-spacing:.4px}
-  .pad-display .last{margin-left:auto;text-align:right;font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.35}
-  .pad-display .last b{display:block;color:var(--accent2);font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
+  .pad-display .armed-lbl{font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.3}
+  .pad-display .armed-lbl b{display:block;color:var(--txt);font-size:12px;letter-spacing:.4px}
+  .pad-display .last{margin-left:auto;text-align:right;font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.3}
+  .pad-display .last b{display:block;color:var(--accent2);font-size:14px;letter-spacing:0;font-variant-numeric:tabular-nums}
   .mult-row{display:flex;gap:6px;flex-shrink:0}
-  .mult{flex:1;border-radius:10px;padding:8px 0;font-weight:900;font-size:13.5px;cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s}
+  .mult{flex:1;border-radius:10px;padding:7px 0;font-weight:900;font-size:13px;cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s}
   .mult:active{transform:scale(.95)}
   .mult.on{background:linear-gradient(135deg,var(--accent2),#29ff8f);color:#062018;border-color:transparent}
   .mult.on[data-mult="2"]{background:linear-gradient(135deg,var(--gold),#ffb03a)}
   .mult.on[data-mult="3"]{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
   .mult small{display:block;font-size:8px;letter-spacing:1px;font-weight:800;opacity:.7;margin-top:1px}
-  .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:1fr}
-  .key{border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:clamp(14px,1.8vw,19px);font-weight:800;cursor:pointer;font-family:inherit;display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;font-variant-numeric:tabular-nums}
+  .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:minmax(40px,1fr)}
+  .key{border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:clamp(15px,1.9vw,20px);font-weight:800;cursor:pointer;font-family:inherit;display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;font-variant-numeric:tabular-nums}
   .key:active{transform:scale(.93);background:#2b3654}
   .key.locked{opacity:.28;pointer-events:none}
-  .key.bull{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(10px,1.3vw,13px)}
-  .key.zero{background:rgba(255,255,255,.03);color:var(--muted);font-size:clamp(10px,1.3vw,13px)}
-  .key.back{grid-column:span 2;background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;font-size:clamp(10px,1.2vw,12.5px);letter-spacing:.4px}
+  .key.bull{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(11px,1.4vw,14px)}
+  .key.zero{background:rgba(255,255,255,.03);color:var(--muted);font-size:clamp(11px,1.4vw,14px)}
+  .key.back{grid-column:span 2;background:rgba(255,77,109,.14);border-color:rgba(255,77,109,.4);color:#ffb3c1;font-size:clamp(11px,1.3vw,13px);letter-spacing:.4px}
   .enter-sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:14px 16px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(21,28,46,.96),rgba(12,17,30,.99));border-top:1px solid var(--line);border-radius:22px 22px 0 0;box-shadow:0 -20px 50px -16px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.03);transform:translateY(115%);transition:transform .28s cubic-bezier(.2,1.2,.5,1);backdrop-filter:blur(14px)}
   .enter-sheet.show{transform:translateY(0)}
   .enter-sheet.bust{background:linear-gradient(180deg,rgba(60,18,34,.97),rgba(28,10,20,.99));border-top-color:rgba(255,77,109,.5)}
@@ -230,8 +239,8 @@
   .checkout-live{display:flex;flex-direction:column;align-items:center;gap:2px;background:#0b1020;border:1px solid var(--line);border-radius:14px;padding:9px 20px;min-width:min(72%,330px)}
   .checkout-live .cl-num{font-size:clamp(24px,3.8vw,38px);font-weight:900;letter-spacing:-1px;line-height:1.05;font-variant-numeric:tabular-nums;text-align:center}
   .checkout-live .cl-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;color:var(--muted)}
-  .board-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:8px;overflow:hidden;position:relative}
-  #rtcBoard,#cricketBoard,#killerBoard{width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1;display:block}
+  .board-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px;overflow:hidden;position:relative}
+  #rtcBoard,#cricketBoard,#killerBoard{width:100%;height:100%;max-width:100%;max-height:100%;display:block}
   .seg{transition:fill .28s ease,opacity .28s ease,filter .28s ease}
   .seg.hit,.seg.dead{opacity:.13}
   .seg.score{animation:goldPulse 1.9s ease-in-out infinite}
@@ -246,15 +255,9 @@
   .numlabel{font-weight:900;font-family:'Inter',sans-serif;pointer-events:none}
   .numlabel.dull{opacity:.3}
   .cr-tick{transition:fill .3s}
-  .cr-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;flex:none;padding:2px 0 0;font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--muted)}
-  .cr-legend span{display:flex;align-items:center;gap:5px}
-  .cr-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
-  .killer-strip{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;flex:none;padding:2px 0 0}
-  .killer-strip .kp{display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:12px;font-weight:900}
-  .killer-strip .kp.armed{border-color:currentColor}
-  .killer-strip .kp.out{opacity:.4;text-decoration:line-through}
-  .killer-strip .kp .num{font-size:14px}
-  .killer-strip .kp .lives{font-size:12px;letter-spacing:1px}
+  .cr-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;flex:none;font-size:9.5px;font-weight:800;letter-spacing:.4px;color:var(--muted);padding:0}
+  .cr-legend span{display:flex;align-items:center;gap:4px}
+  .cr-legend i{width:8px;height:8px;border-radius:3px;display:inline-block}
   .overlay{position:fixed;inset:0;background:rgba(5,8,14,.86);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}
   .overlay.show{display:flex;animation:fade .2s}
   .modal{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:26px 22px;max-width:460px;width:100%;text-align:center;box-shadow:0 30px 70px -20px #000;animation:pop .3s cubic-bezier(.2,1.4,.5,1);max-height:90vh;overflow-y:auto;color:var(--txt)}
@@ -304,13 +307,16 @@
   body.view-scroll .keypad-col{width:100%;flex:none;height:auto}
   body.view-scroll .side{flex:none}
   body.view-scroll .pad{flex:none;min-height:0}
-  body.view-scroll .keys{grid-auto-rows:52px;flex:none}
+  body.view-scroll .keys{grid-auto-rows:56px;flex:none}
   body.view-scroll .hist{flex:none;max-height:none;height:38vh}
+  body.view-scroll .hist.short{height:38vh}
   body.view-scroll .board-wrap{height:62vh;flex:none}
+  body.view-scroll .finish-card.hero{flex:none;min-height:160px}
+  body.view-scroll .report-cta{flex:none;min-height:200px}
   body.view-scroll .panel-area{flex:none;min-height:0}
   @media (max-aspect-ratio:1/1){
     body.view-fit .play-area{flex-direction:column;gap:8px}
-    body.view-fit .keypad-col{width:100%;flex:0 0 auto;min-height:0;height:48%}
+    body.view-fit .keypad-col{width:100%;flex:0 0 auto;min-height:0;height:50%}
     body.view-fit .side{flex:1 1 auto;min-height:0}
     body.view-fit .hist{max-height:none}
   }
@@ -322,9 +328,11 @@
     body.view-fit .keypad-col{width:100%;flex:none;height:auto}
     body.view-fit .side{flex:none}
     body.view-fit .pad{flex:none}
-    body.view-fit .keys{grid-auto-rows:44px;flex:none}
+    body.view-fit .keys{grid-auto-rows:48px;flex:none}
     body.view-fit .hist{height:30vh}
+    body.view-fit .hist.short{height:30vh}
     body.view-fit .board-wrap{min-height:320px}
+    body.view-fit .finish-card.hero{min-height:150px}
   }
   .hide{display:none !important}
 </style>
@@ -394,13 +402,13 @@
     <div class="play-area">
       <div class="side">
         <div class="turn-banner" id="turnBanner">
-          <div style="min-width:0">
+          <div style="min-width:0;flex:1">
             <div class="who" id="turnWho">–</div>
             <div class="hint" id="turnHint">Throw your darts</div>
           </div>
+          <div class="tb-darts" id="slotRow"></div>
           <div class="left-count"><b id="turnLeft">–</b><span id="turnLeftLbl">DARTS</span></div>
         </div>
-        <div class="slot-row" id="slotRow"></div>
         <div class="panel-area" id="modePanel"></div>
       </div>
       <div class="keypad-col">
@@ -1218,7 +1226,8 @@ function endVisit(){
   renderGame();beginTurn();
 }
 function targetEndVisit(g,p){
-  const cleared=p.cleared&&!p.gaveUp;
+  const solo=(g.players.length<=1);
+  const cleared=(p.cleared===true&&!p.gaveUp);
   if(cleared){
     p.score+=p.spec.pay;p.hits++;
     g.hushTurn=true;
@@ -1230,11 +1239,10 @@ function targetEndVisit(g,p){
     });
     return;
   }
-  // SOLO: stay on the same target until it is cleared (or skipped)
-  if(g.players.length===1&&!p.gaveUp){
+  if(solo){
+    if(p.gaveUp){p.gaveUp=false;finishRound(g,null);return;}
     p.attempts=(p.attempts||0)+1;
-    p.gaveUp=false;
-    return;                       // same player, same target, fresh 3 darts
+    return;
   }
   const pending=g.players.filter(x=>!x.cleared&&!x.gaveUp);
   const onlyMeLeft=(pending.length===1&&pending[0].id===p.id);
@@ -1703,14 +1711,14 @@ function renderGame(){
     tl.textContent=(g.dartsThrown[p.id]||0)+'/3';tl.className='';
     $('#turnLeftLbl').textContent='DARTS';
   }
+  /* visit darts live in the banner now */
   const visit=g._visit[p.id]||[];
   const thrownNow=(g.dartsThrown[p.id]||0);
   $('#slotRow').innerHTML=[0,1,2].map(i=>{
     const d=visit[i];
     const col=i<thrownNow&&p.color?p.color:null;
-    return `<div class="slot ${d?'filled':''}"${col?` style="border-color:${col};background:${hexA(col,.12)}"`:''}>
-      <div class="big">${d?dartLabel(d.v,d.mult):'—'}</div>
-      <div class="lbl">${d?d.score+' PTS':'DART '+(i+1)}</div></div>`;
+    return `<div class="tbd ${d?'on':''}"${col?` style="border-color:${col};background:${hexA(col,.14)}"`:''}>
+      <b>${d?dartLabel(d.v,d.mult):'—'}</b><span>${d?d.score+'' :''}</span></div>`;
   }).join('');
   renderModePanel(g,p,ev);
   const blocked=g.over||p.cpu||g.aiPending||g._locked;
@@ -1813,21 +1821,24 @@ function renderModePanel(g,p,ev){
       <div class="stat-tile"><b>${st.t20}</b><span>T20</span></div>
       <div class="stat-tile"><b>${st.checkoutPct===null?'—':(st.checkoutPct+'%')}</b><span>CHECKOUT</span></div>
     </div>`;
-    let card;
+    let hero;
     if(ev&&ev.bust){
-      card=`<div class="finish-card bust"><div class="fnum">BUST</div>
-        <div><div class="flabel">VISIT VOIDED</div>
-        <div class="froute"><span class="note">Score stays at ${p.score}</span></div></div></div>`;
+      hero=`<div class="finish-card hero bust">
+        <div class="flabel">VISIT VOIDED</div>
+        <div class="fnum">BUST</div>
+        <div class="froute"><span class="note">Score stays at ${p.score}</span></div>
+      </div>`;
     } else {
       const rem=ev?ev.rem:p.score;
       const route=routeFor(rem);
-      card=`<div class="finish-card ${route?'':'bogey'}">
+      hero=`<div class="finish-card hero ${route?'':'bogey'}">
+        <div class="flabel">CHECKOUT</div>
         <div class="fnum">${rem}</div>
-        <div><div class="flabel">CHECKOUT</div>
         <div class="froute">${route?route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')
-          :`<span class="note">${rem>170?'reduce to 170 or less':'set up a double'}</span>`}</div></div></div>`;
+          :`<span class="note">${rem>170?'reduce to 170 or less':'set up a double'}</span>`}</div>
+      </div>`;
     }
-    box.innerHTML=strip+card+`<div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+    box.innerHTML=strip+hero+`<div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
     return;
   }
 
@@ -1838,7 +1849,7 @@ function renderModePanel(g,p,ev){
         <div class="rc-lbl">3-DART AVERAGE · ${st.darts} DARTS · ${st.t20} × T20</div>
         <button class="btn primary wide" id="btnFinish">🏁 Finish &amp; view report</button>
       </div>
-      <div class="hist"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+      <div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
     const b=$('#btnFinish');
     if(b)b.addEventListener('click',openReport);
     return;
@@ -1851,17 +1862,7 @@ function renderModePanel(g,p,ev){
   }
 
   if(g.mode==='killer'){
-    const order=g.players.slice().sort((a,b)=>(a.out-b.out)||(b.lives-a.lives)||(b.armour-a.armour));
-    box.innerHTML=`
-      <div class="killer-strip">
-        ${order.map(pl=>`<div class="kp ${pl.armour>=3?'armed':''} ${pl.out?'out':''}" style="color:${pl.color}">
-          <span class="num">${pl.kNum}</span>
-          <span style="color:var(--muted);font-weight:800">${escapeHtml(pl.name).slice(0,8)}</span>
-          <span class="lives">${'❤'.repeat(Math.max(0,pl.lives))}${pl.out?' OUT':''}</span>
-          <span style="color:${pl.armour>=3?'var(--gold)':'var(--muted)'};font-weight:800">${pl.out?'':('ARM '+pl.armour)}</span>
-        </div>`).join('')}
-      </div>
-      <div class="board-wrap" id="killerHost">${boardSVG(false,true)}</div>`;
+    box.innerHTML=`<div class="board-wrap" id="killerHost">${boardSVG(false,true)}</div>`;
     paintKillerBoard($('#killerHost'),g,p);
     return;
   }
@@ -1869,10 +1870,10 @@ function renderModePanel(g,p,ev){
   if(g.mode==='cricket'){
     box.innerHTML=`<div class="board-wrap" id="cricketHost">${boardSVG(true,false)}</div>
       <div class="cr-legend">
-        <span><i style="background:var(--gold)"></i>You can score</span>
-        <span><i style="background:${p.color}"></i>Your marks (fills)</span>
-        <span><i style="background:#2a3348"></i>Blacked out</span>
-        <span><i style="background:${(g.players.find(o=>o.id!==p.id)||p).color}"></i>Opponent marks (tabs)</span>
+        <span><i style="background:var(--gold)"></i>Can score</span>
+        <span><i style="background:${p.color}"></i>Your marks</span>
+        <span><i style="background:#2a3348"></i>Dead</span>
+        <span><i style="background:${(g.players.find(o=>o.id!==p.id)||p).color}"></i>Opponent (tabs)</span>
       </div>`;
     paintCricketBoard($('#cricketHost'),g,p);
     return;
@@ -1895,7 +1896,7 @@ function renderModePanel(g,p,ev){
             <div class="cl-lbl">${p.tBust?'BUSTED':'ROUTE'}</div></div>`}
           ${g.players.length===1?`<div class="tsub">Attempt ${(p.attempts||0)+1} · ${countDartsUsed(p.id)} darts so far</div>`:''}
         </div>
-        <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+        <div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
       return;
     }
     box.innerHTML=`
@@ -1904,7 +1905,7 @@ function renderModePanel(g,p,ev){
         <div class="tbig" style="color:${pcol}">${escapeHtml(String(p.spec.text))}</div>
         ${g.players.length===1?`<div class="tsub">Attempt ${(p.attempts||0)+1} · ${countDartsUsed(p.id)} darts so far</div>`:''}
       </div>
-      <div class="hist" style="margin-top:7px"><div class="hh">VISIT LOG</div>${histRows(g)}</div>`;
+      <div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
     return;
   }
 
