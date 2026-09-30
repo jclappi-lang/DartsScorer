@@ -108,8 +108,8 @@
   .pcard.out{opacity:.4}
   .pcard .toprow{display:flex;align-items:center;gap:6px}
   .pcard .nm{flex:1;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pcard .hearts{font-size:13px;letter-spacing:1px;color:#ff5d7a;white-space:nowrap}
-  .pcard .hearts .out{font-size:10px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
+  .pcard .hearts{font-size:clamp(20px,2.6vw,30px);letter-spacing:3px;line-height:1;color:#ff5d7a;white-space:nowrap;margin-top:3px;filter:drop-shadow(0 0 8px rgba(255,93,122,.5))}
+  .pcard .hearts .out{font-size:12px;font-weight:900;letter-spacing:1.8px;color:var(--muted);filter:none}
   .pcard .legs{font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;border-radius:7px;padding:2px 7px;background:rgba(255,255,255,.06);color:var(--txt)}
   .pcard .sc-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-top:2px}
   .pcard .sc{font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-1.5px;margin-top:-1px;font-variant-numeric:tabular-nums;line-height:1.02;color:var(--txt)}
@@ -119,8 +119,7 @@
   .pcard.turn .darts i.on{background:var(--turn)}
   .play-area{flex:1;min-height:0;display:flex;gap:10px;padding:3px 14px 10px}
   .side{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px}
-  .keypad-col{width:min(58%,580px);min-height:0;display:flex;flex-direction:column;min-width:0}
-  /* turn banner now carries the visit darts */
+  .keypad-col{width:50%;min-height:0;display:flex;flex-direction:column;min-width:0}
   .turn-banner{border-radius:14px;padding:7px 12px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
   .turn-banner.active{border-color:var(--turn);box-shadow:0 0 0 1px var(--turn),0 14px 40px -26px var(--turn)}
   .turn-banner .who{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
@@ -141,25 +140,22 @@
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
   .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1;color:var(--txt)}
   .finish-card.bust .fnum{color:var(--red);font-size:16px;letter-spacing:0}
-  /* hero checkout panel — fills the column so nothing is wasted */
   .finish-card.hero{flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;text-align:center;border-radius:18px}
   .finish-card.hero .fnum{min-width:0;font-size:clamp(56px,10vw,104px);letter-spacing:-4px;text-align:center}
   .finish-card.hero.bust .fnum{font-size:clamp(30px,6vw,50px);letter-spacing:-1px}
   .finish-card.hero .froute{justify-content:center;gap:6px;margin-top:2px}
   .finish-card.hero .fchip{font-size:clamp(13px,1.7vw,17px);padding:5px 12px}
   .finish-card.hero .flabel{font-size:10px}
+  .finish-card.hero.alt{border-color:rgba(0,224,198,.22);background:linear-gradient(150deg,rgba(0,224,198,.08),rgba(255,255,255,.02))}
+  .finish-card.hero .support{font-size:clamp(11px,1.3vw,13px);font-weight:800;color:var(--muted);margin-top:8px}
+  .finish-card.hero .support b{color:var(--txt);font-variant-numeric:tabular-nums}
+  .finish-card.hero .tsub{font-size:clamp(11px,1.4vw,14px);font-weight:800;color:var(--gold);margin-top:6px}
   .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
   .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
   .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
   .farrow{color:var(--muted);font-size:11px;font-weight:800}
   .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
   .finish-card.hero .froute .note{font-size:clamp(13px,1.8vw,17px)}
-  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:none}
-  .stat-tile{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:8px 4px;text-align:center}
-  .stat-tile b{display:block;font-size:clamp(17px,2vw,22px);font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt);line-height:1.15}
-  .stat-tile span{font-size:8px;font-weight:800;letter-spacing:1px;color:var(--muted)}
-  .stat-tile.gold b{color:var(--gold)}
-  .stat-tile.teal b{color:var(--accent2)}
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .hist.short{flex:none;height:116px}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
@@ -448,7 +444,7 @@ const MODES=[
   desc:'Count down to exactly zero. Finish on a double. 1+ players.',
   variants:[{id:'301',label:'301'},{id:'501',label:'501'},{id:'701',label:'701'}],
   def:'501',minPlayers:1,maxPlayers:8,targetRounds:0,
-  rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST. Play solo as a practice scorer — the stat strip shows 3-dart average, 180s, T20s and checkout success.'},
+  rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST. Play solo as a practice scorer. The big panel shows your checkout route when one is available, and your 3-dart average and key stats the rest of the time.'},
  {id:'cricket',name:'Cricket',ico:'🏏',tag:'TACTIC',unit:'games',defaultMatch:1,
   desc:'Close 20→15 and bull, then pile on the points.',
   variants:[{id:'cricket',label:'Standard'},{id:'cricket_noscore',label:'No Score'}],
@@ -1684,9 +1680,9 @@ function renderGame(){
     return `<div class="pcard ${isTurn?'turn':''} ${outCls}"${turnStyle}>
       <div class="toprow">
         <div class="nm" style="color:${pl.color}">● ${escapeHtml(pl.name)}${pl.cpu?' 🤖':''}</div>
-        ${g.mode==='killer'?`<span class="hearts">${'❤'.repeat(Math.max(0,pl.lives))}${pl.out?'<span class="out">OUT</span>':''}</span>`:''}
         ${legs}
       </div>
+      ${g.mode==='killer'?`<div class="hearts">${'❤'.repeat(Math.max(0,pl.lives))}${pl.out?'<span class="out">OUT</span>':''}</div>`:''}
       <div class="sc-label" style="color:${isTurn?hexA(pl.color,.9):'var(--muted)'}">${label}</div>
       <div class="sc" style="color:${isTurn?pl.color:'var(--txt)'}">${val}</div>
       ${g.mode==='killer'?`<div class="sc-label" style="color:${pl.armour>=3?'var(--gold)':'var(--muted)'};margin-top:2px">NUMBER ${pl.kNum}${pl.armour>=3?' · KILLER':''}</div>`:''}
@@ -1711,14 +1707,13 @@ function renderGame(){
     tl.textContent=(g.dartsThrown[p.id]||0)+'/3';tl.className='';
     $('#turnLeftLbl').textContent='DARTS';
   }
-  /* visit darts live in the banner now */
   const visit=g._visit[p.id]||[];
   const thrownNow=(g.dartsThrown[p.id]||0);
   $('#slotRow').innerHTML=[0,1,2].map(i=>{
     const d=visit[i];
     const col=i<thrownNow&&p.color?p.color:null;
     return `<div class="tbd ${d?'on':''}"${col?` style="border-color:${col};background:${hexA(col,.14)}"`:''}>
-      <b>${d?dartLabel(d.v,d.mult):'—'}</b><span>${d?d.score+'' :''}</span></div>`;
+      <b>${d?dartLabel(d.v,d.mult):'—'}</b><span>${d?d.score:''}</span></div>`;
   }).join('');
   renderModePanel(g,p,ev);
   const blocked=g.over||p.cpu||g.aiPending||g._locked;
@@ -1815,30 +1810,45 @@ function renderModePanel(g,p,ev){
 
   if(g.mode==='x01'){
     const st=buildStats(g,p.id);
-    const strip=`<div class="stat-strip">
-      <div class="stat-tile teal"><b>${st.avg3.toFixed(1)}</b><span>3-DART AVG</span></div>
-      <div class="stat-tile gold"><b>${st.p180}</b><span>180s</span></div>
-      <div class="stat-tile"><b>${st.t20}</b><span>T20</span></div>
-      <div class="stat-tile"><b>${st.checkoutPct===null?'—':(st.checkoutPct+'%')}</b><span>CHECKOUT</span></div>
-    </div>`;
+    const rem=ev?ev.rem:p.score;
+    const route=routeFor(rem);
+    const support=`<div class="support">avg <b>${st.avg3.toFixed(1)}</b> · <b>${st.p180}</b>×180 · <b>${st.t20}</b>×T20 · checkout <b>${st.checkoutPct===null?'—':st.checkoutPct+'%'}</b></div>`;
     let hero;
     if(ev&&ev.bust){
       hero=`<div class="finish-card hero bust">
         <div class="flabel">VISIT VOIDED</div>
         <div class="fnum">BUST</div>
         <div class="froute"><span class="note">Score stays at ${p.score}</span></div>
+        ${support}
+      </div>`;
+    } else if(route){
+      hero=`<div class="finish-card hero">
+        <div class="flabel">CHECKOUT ROUTE</div>
+        <div class="fnum">${rem}</div>
+        <div class="froute">${route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')}</div>
+        ${support}
+      </div>`;
+    } else if(rem<=170){
+      hero=`<div class="finish-card hero bogey">
+        <div class="flabel">NO 3-DART FINISH</div>
+        <div class="fnum">${rem}</div>
+        <div class="froute"><span class="note">set up a double</span></div>
+        ${support}
       </div>`;
     } else {
-      const rem=ev?ev.rem:p.score;
-      const route=routeFor(rem);
-      hero=`<div class="finish-card hero ${route?'':'bogey'}">
-        <div class="flabel">CHECKOUT</div>
-        <div class="fnum">${rem}</div>
-        <div class="froute">${route?route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')
-          :`<span class="note">${rem>170?'reduce to 170 or less':'set up a double'}</span>`}</div>
+      hero=`<div class="finish-card hero alt">
+        <div class="flabel">3-DART AVERAGE</div>
+        <div class="fnum">${st.avg3.toFixed(1)}</div>
+        <div class="froute">
+          <span class="fchip">${st.darts} darts</span>
+          <span class="fchip">${st.p180} × 180</span>
+          <span class="fchip">${st.t20} × T20</span>
+          <span class="fchip">best ${st.best}</span>
+        </div>
+        <div class="tsub">On ${rem} — reduce to 170 to open a checkout</div>
       </div>`;
     }
-    box.innerHTML=strip+hero+`<div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
+    box.innerHTML=hero+`<div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
     return;
   }
 
@@ -1937,11 +1947,12 @@ $('#btnRestart').addEventListener('click',()=>{
   $('#modalBody [data-yes]').addEventListener('click',()=>{closeModal();startGame();});
 });
 $('#btnQuit').addEventListener('click',()=>{
-  openModal(`<div class="trophy">🚪</div><h2>Leave game?</h2><p>Everything is discarded.</p>
+  openModal(`<div class="trophy">🚪</div><h2>Leave game?</h2><p>This game will be discarded and you'll return to the home screen.</p>
     <div class="row"><button class="btn" data-close>Stay</button><button class="btn primary" data-yes>Leave</button></div>`);
   $('#modalBody [data-yes]').addEventListener('click',()=>{
     closeModal();hideEnterSheet();hidePoints();hideHeart();clearScoreChips();closeReport();
-    $('#turnFlash').classList.remove('show');state.g=null;state.m=null;renderPlayers();renderOpp();show('scr-players');
+    $('#turnFlash').classList.remove('show');state.g=null;state.m=null;
+    renderModes();show('scr-home');
   });
 });
 $('#btnUndo').addEventListener('click',()=>{
