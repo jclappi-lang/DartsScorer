@@ -140,15 +140,13 @@
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
   .finish-card .fnum{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;min-width:54px;line-height:1;color:var(--txt)}
   .finish-card.bust .fnum{color:var(--red);font-size:16px;letter-spacing:0}
-  .finish-card.hero{flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;text-align:center;border-radius:18px}
-  .finish-card.hero .fnum{min-width:0;font-size:clamp(56px,10vw,104px);letter-spacing:-4px;text-align:center}
-  .finish-card.hero.bust .fnum{font-size:clamp(30px,6vw,50px);letter-spacing:-1px}
-  .finish-card.hero .froute{justify-content:center;gap:6px;margin-top:2px}
-  .finish-card.hero .fchip{font-size:clamp(13px,1.7vw,17px);padding:5px 12px}
-  .finish-card.hero .flabel{font-size:10px}
+  .finish-card.hero{flex:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px 16px;text-align:center;border-radius:20px}
+  .finish-card.hero .fnum{min-width:0;font-size:clamp(64px,12vw,132px);letter-spacing:-5px;text-align:center;line-height:.92}
+  .finish-card.hero.bust .fnum{font-size:clamp(34px,7vw,58px);letter-spacing:-1px}
+  .finish-card.hero .froute{justify-content:center;gap:7px;margin-top:4px}
+  .finish-card.hero .fchip{font-size:clamp(14px,1.9vw,19px);padding:7px 15px;border-radius:10px}
+  .finish-card.hero .flabel{font-size:10.5px;letter-spacing:2px}
   .finish-card.hero.alt{border-color:rgba(0,224,198,.22);background:linear-gradient(150deg,rgba(0,224,198,.08),rgba(255,255,255,.02))}
-  .finish-card.hero .support{font-size:clamp(11px,1.3vw,13px);font-weight:800;color:var(--muted);margin-top:8px}
-  .finish-card.hero .support b{color:var(--txt);font-variant-numeric:tabular-nums}
   .finish-card.hero .tsub{font-size:clamp(11px,1.4vw,14px);font-weight:800;color:var(--gold);margin-top:6px}
   .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
   .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
@@ -156,6 +154,12 @@
   .farrow{color:var(--muted);font-size:11px;font-weight:800}
   .froute .note{font-size:12px;font-weight:800;color:var(--gold)}
   .finish-card.hero .froute .note{font-size:clamp(13px,1.8vw,17px)}
+  .stat-boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;flex:none}
+  .stat-box{border-radius:14px;padding:10px 6px;text-align:center;border:1px solid rgba(0,224,198,.18);background:linear-gradient(150deg,rgba(0,224,198,.06),rgba(255,255,255,.02))}
+  .stat-box b{display:block;font-size:clamp(20px,3.2vw,34px);font-weight:900;font-variant-numeric:tabular-nums;line-height:1.05;color:var(--txt)}
+  .stat-box span{font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted)}
+  .stat-box.teal b{color:var(--accent2)}
+  .stat-box.gold b{color:var(--gold)}
   .hist{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:4px 10px;flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .hist.short{flex:none;height:116px}
   .hist .hh{font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:800;padding:7px 6px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
@@ -178,12 +182,12 @@
   .pad-display .last{margin-left:auto;text-align:right;font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.3}
   .pad-display .last b{display:block;color:var(--accent2);font-size:14px;letter-spacing:0;font-variant-numeric:tabular-nums}
   .mult-row{display:flex;gap:6px;flex-shrink:0}
-  .mult{flex:1;border-radius:10px;padding:7px 0;font-weight:900;font-size:13px;cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s}
+  .mult{flex:1;border-radius:11px;padding:11px 0;font-weight:900;font-size:16px;cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s}
   .mult:active{transform:scale(.95)}
   .mult.on{background:linear-gradient(135deg,var(--accent2),#29ff8f);color:#062018;border-color:transparent}
   .mult.on[data-mult="2"]{background:linear-gradient(135deg,var(--gold),#ffb03a)}
   .mult.on[data-mult="3"]{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
-  .mult small{display:block;font-size:8px;letter-spacing:1px;font-weight:800;opacity:.7;margin-top:1px}
+  .mult small{display:block;font-size:9.5px;letter-spacing:1px;font-weight:800;opacity:.7;margin-top:1px}
   .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:minmax(40px,1fr)}
   .key{border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:clamp(15px,1.9vw,20px);font-weight:800;cursor:pointer;font-family:inherit;display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;font-variant-numeric:tabular-nums}
   .key:active{transform:scale(.93);background:#2b3654}
@@ -307,7 +311,6 @@
   body.view-scroll .hist{flex:none;max-height:none;height:38vh}
   body.view-scroll .hist.short{height:38vh}
   body.view-scroll .board-wrap{height:62vh;flex:none}
-  body.view-scroll .finish-card.hero{flex:none;min-height:160px}
   body.view-scroll .report-cta{flex:none;min-height:200px}
   body.view-scroll .panel-area{flex:none;min-height:0}
   @media (max-aspect-ratio:1/1){
@@ -328,7 +331,6 @@
     body.view-fit .hist{height:30vh}
     body.view-fit .hist.short{height:30vh}
     body.view-fit .board-wrap{min-height:320px}
-    body.view-fit .finish-card.hero{min-height:150px}
   }
   .hide{display:none !important}
 </style>
@@ -444,7 +446,7 @@ const MODES=[
   desc:'Count down to exactly zero. Finish on a double. 1+ players.',
   variants:[{id:'301',label:'301'},{id:'501',label:'501'},{id:'701',label:'701'}],
   def:'501',minPlayers:1,maxPlayers:8,targetRounds:0,
-  rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST. Play solo as a practice scorer. The big panel shows your checkout route when one is available, and your 3-dart average and key stats the rest of the time.'},
+  rules:'Start from 301/501/701. Each visit is up to 3 darts. Reach exactly 0 on a double (or bullseye) to win the leg. Going below 2, or hitting 0 without a double, is a BUST. Play solo as a practice scorer. The big panel shows your checkout route when one is available, and your running score plus key stats the rest of the time.'},
  {id:'cricket',name:'Cricket',ico:'🏏',tag:'TACTIC',unit:'games',defaultMatch:1,
   desc:'Close 20→15 and bull, then pile on the points.',
   variants:[{id:'cricket',label:'Standard'},{id:'cricket_noscore',label:'No Score'}],
@@ -1812,43 +1814,38 @@ function renderModePanel(g,p,ev){
     const st=buildStats(g,p.id);
     const rem=ev?ev.rem:p.score;
     const route=routeFor(rem);
-    const support=`<div class="support">avg <b>${st.avg3.toFixed(1)}</b> · <b>${st.p180}</b>×180 · <b>${st.t20}</b>×T20 · checkout <b>${st.checkoutPct===null?'—':st.checkoutPct+'%'}</b></div>`;
     let hero;
     if(ev&&ev.bust){
       hero=`<div class="finish-card hero bust">
         <div class="flabel">VISIT VOIDED</div>
         <div class="fnum">BUST</div>
         <div class="froute"><span class="note">Score stays at ${p.score}</span></div>
-        ${support}
       </div>`;
     } else if(route){
       hero=`<div class="finish-card hero">
         <div class="flabel">CHECKOUT ROUTE</div>
         <div class="fnum">${rem}</div>
         <div class="froute">${route.map((d,i)=>`${i?'<span class="farrow">→</span>':''}<span class="fchip">${d.label}</span>`).join('')}</div>
-        ${support}
       </div>`;
     } else if(rem<=170){
       hero=`<div class="finish-card hero bogey">
         <div class="flabel">NO 3-DART FINISH</div>
         <div class="fnum">${rem}</div>
         <div class="froute"><span class="note">set up a double</span></div>
-        ${support}
       </div>`;
     } else {
       hero=`<div class="finish-card hero alt">
-        <div class="flabel">3-DART AVERAGE</div>
-        <div class="fnum">${st.avg3.toFixed(1)}</div>
-        <div class="froute">
-          <span class="fchip">${st.darts} darts</span>
-          <span class="fchip">${st.p180} × 180</span>
-          <span class="fchip">${st.t20} × T20</span>
-          <span class="fchip">best ${st.best}</span>
-        </div>
-        <div class="tsub">On ${rem} — reduce to 170 to open a checkout</div>
+        <div class="flabel">SCORE</div>
+        <div class="fnum">${rem}</div>
+        <div class="froute"><span class="note">reduce to 170 to open a checkout</span></div>
       </div>`;
     }
-    box.innerHTML=hero+`<div class="hist short"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
+    const boxes=`<div class="stat-boxes">
+      <div class="stat-box teal"><b>${st.avg3.toFixed(1)}</b><span>3-DART AVG</span></div>
+      <div class="stat-box gold"><b>${st.p180}</b><span>180s</span></div>
+      <div class="stat-box"><b>${st.t20}</b><span>T20s</span></div>
+    </div>`;
+    box.innerHTML=hero+boxes+`<div class="hist"><div class="hh">RECENT VISITS</div>${histRows(g)}</div>`;
     return;
   }
 
