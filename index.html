@@ -122,7 +122,6 @@
   .keypad-col{width:50%;min-height:0;display:flex;flex-direction:column;min-width:0}
   .panel-area{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
   .hintline{flex:none;font-size:12px;font-weight:800;color:var(--muted);text-align:center;padding:1px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .hintline.bust{color:var(--red)}
   .finish-card{display:flex;align-items:center;gap:12px;border-radius:14px;padding:7px 13px;border:1px solid rgba(0,224,198,.32);background:linear-gradient(120deg,rgba(0,224,198,.10),rgba(255,255,255,.02));flex-shrink:0}
   .finish-card.bogey{border-color:rgba(255,211,92,.35);background:linear-gradient(120deg,rgba(255,211,92,.10),rgba(255,255,255,.02))}
   .finish-card.bust{border-color:rgba(255,77,109,.5);background:linear-gradient(120deg,rgba(255,77,109,.16),rgba(255,255,255,.02))}
@@ -135,7 +134,6 @@
   .finish-card.hero .farrow{font-size:clamp(16px,2.2vw,26px)}
   .finish-card.hero .flabel{font-size:10.5px;letter-spacing:2px}
   .finish-card.hero.alt{border-color:rgba(0,224,198,.22);background:linear-gradient(150deg,rgba(0,224,198,.08),rgba(255,255,255,.02))}
-  .finish-card.hero .tsub{font-size:clamp(11px,1.4vw,14px);font-weight:800;color:var(--gold);margin-top:4px}
   .flabel{font-size:9px;letter-spacing:1.6px;font-weight:800;color:var(--muted)}
   .froute{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
   .fchip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--txt)}
@@ -167,30 +165,32 @@
   .pad-display .armed.m3{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
   .pad-display .armed-lbl{font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--muted);line-height:1.3;flex-shrink:0}
   .pad-display .armed-lbl b{display:block;color:var(--txt);font-size:12px;letter-spacing:.4px}
-  .pad-display .tb-darts{margin-left:auto;display:flex;gap:5px;flex:none}
+  .tb-darts{margin-left:auto;display:flex;gap:5px;flex:none}
   .tb-darts .tbd{width:44px;height:40px;border-radius:9px;border:1.5px dashed var(--line);background:rgba(255,255,255,.02);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
   .tb-darts .tbd b{font-size:14px;font-weight:900;color:var(--txt);font-variant-numeric:tabular-nums}
   .tb-darts .tbd span{font-size:9px;font-weight:800;color:var(--muted)}
   .tb-darts .tbd.on{border-style:solid}
-  .mult-row{display:flex;gap:6px;flex-shrink:0}
-  .mult{flex:1;border-radius:11px;padding:15px 0;font-weight:900;font-size:clamp(15px,2vw,20px);cursor:pointer;background:var(--panel2);border:1px solid var(--line);color:var(--muted);text-align:center;transition:transform .08s,background .15s;font-family:inherit}
-  .mult:active{transform:scale(.95)}
-  .mult.on{background:linear-gradient(135deg,var(--accent2),#29ff8f);color:#062018;border-color:transparent}
-  .mult.on[data-mult="2"]{background:linear-gradient(135deg,var(--gold),#ffb03a)}
-  .mult.on[data-mult="3"]{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff}
-  .mult small{display:block;font-size:9.5px;letter-spacing:1px;font-weight:800;opacity:.75;margin-top:2px}
-  .mult.bullkey{background:rgba(255,45,104,.16);border-color:rgba(255,45,104,.45);color:#ff9ab4;font-size:clamp(14px,1.8vw,18px)}
-  .mult.bullkey:active{background:rgba(255,45,104,.32)}
-  .mult.locked{opacity:.28;pointer-events:none}
-  .keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1;min-height:0;grid-auto-rows:minmax(48px,1fr)}
-  .key{border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:clamp(17px,2.2vw,24px);font-weight:800;cursor:pointer;font-family:inherit;display:grid;place-items:center;min-height:0;transition:transform .07s,background .15s,opacity .15s;font-variant-numeric:tabular-nums}
+  /* 5 x 5 pad — every key the same size */
+  .keys{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:6px;flex:1;min-height:0}
+  .key{border-radius:11px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);
+    font-size:clamp(17px,2.2vw,24px);font-weight:800;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    min-height:0;padding:2px;line-height:1;transition:transform .07s,background .15s,opacity .15s;
+    font-variant-numeric:tabular-nums}
+  .key i{font-style:normal;font-size:8.5px;font-weight:800;letter-spacing:.7px;color:var(--muted);white-space:nowrap}
   .key:active{transform:scale(.93);background:#2b3654}
   .key.locked{opacity:.28;pointer-events:none}
-  .aux-row{display:flex;gap:6px;flex-shrink:0}
-  .aux{flex:1;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font-family:inherit;font-weight:800;font-size:12.5px;letter-spacing:.7px;cursor:pointer;min-height:38px;transition:transform .07s,background .15s}
-  .aux:active{transform:scale(.95);background:#2b3654}
-  .aux.del{flex:1.5;background:rgba(255,77,109,.12);border-color:rgba(255,77,109,.35);color:#ffb3c1}
-  .aux.locked{opacity:.28;pointer-events:none}
+  .key.ob{background:rgba(0,224,198,.10);border-color:rgba(0,224,198,.35);color:#7ff0e0}
+  .key.ob i{color:rgba(127,240,224,.7)}
+  .key.bull{background:rgba(255,45,104,.14);border-color:rgba(255,45,104,.42);color:#ff9ab4}
+  .key.bull i{color:rgba(255,154,180,.75)}
+  .key.zero{background:rgba(255,255,255,.03);color:var(--muted)}
+  .key.mult2{font-size:clamp(12px,1.6vw,16px);letter-spacing:.5px;color:#c9b06a}
+  .key.mult2.on{background:linear-gradient(135deg,var(--gold),#ffb03a);color:#241a02;border-color:transparent}
+  .key.mult2.on i{color:rgba(36,26,2,.7)}
+  .key.mult3{font-size:clamp(12px,1.6vw,16px);letter-spacing:.5px;color:#ff8ea8}
+  .key.mult3.on{background:linear-gradient(135deg,var(--accent),#ff6a3d);color:#fff;border-color:transparent}
+  .key.mult3.on i{color:rgba(255,255,255,.75)}
   .enter-sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:14px 16px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(21,28,46,.96),rgba(12,17,30,.99));border-top:1px solid var(--line);border-radius:22px 22px 0 0;box-shadow:0 -20px 50px -16px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.03);transform:translateY(115%);transition:transform .28s cubic-bezier(.2,1.2,.5,1);backdrop-filter:blur(14px)}
   .enter-sheet.show{transform:translateY(0)}
   .enter-sheet.bust{background:linear-gradient(180deg,rgba(60,18,34,.97),rgba(28,10,20,.99));border-top-color:rgba(255,77,109,.5)}
@@ -303,7 +303,7 @@
   body.view-scroll .keypad-col{width:100%;flex:none;height:auto}
   body.view-scroll .side{flex:none}
   body.view-scroll .pad{flex:none;min-height:0}
-  body.view-scroll .keys{grid-auto-rows:62px;flex:none}
+  body.view-scroll .keys{grid-template-rows:repeat(5,64px);flex:none}
   body.view-scroll .hist{flex:none;max-height:none;height:38vh}
   body.view-scroll .hist.short{height:38vh}
   body.view-scroll .board-wrap{height:62vh;flex:none}
@@ -323,7 +323,7 @@
     body.view-fit .keypad-col{width:100%;flex:none;height:auto}
     body.view-fit .side{flex:none}
     body.view-fit .pad{flex:none}
-    body.view-fit .keys{grid-auto-rows:56px;flex:none}
+    body.view-fit .keys{grid-template-rows:repeat(5,58px);flex:none}
     body.view-fit .hist{height:30vh}
     body.view-fit .hist.short{height:30vh}
     body.view-fit .board-wrap{min-height:320px}
@@ -404,18 +404,7 @@
             <div class="armed-lbl">ARMED<b id="padMultLbl">SINGLE</b></div>
             <div class="tb-darts" id="slotRow"></div>
           </div>
-          <div class="mult-row" id="multRow">
-            <div class="mult" data-mult="1">S<small>SINGLE</small></div>
-            <div class="mult" data-mult="2">D<small>DOUBLE</small></div>
-            <div class="mult on" data-mult="3">T<small>TREBLE</small></div>
-            <div class="mult bullkey" data-bull="25">25<small>OUTER</small></div>
-            <div class="mult bullkey" data-bull="50">BULL<small>50</small></div>
-          </div>
           <div class="keys" id="keys"></div>
-          <div class="aux-row">
-            <button class="aux" id="auxMiss">MISS</button>
-            <button class="aux del" id="auxDel">⌫ DELETE</button>
-          </div>
         </div>
       </div>
     </div>
@@ -807,7 +796,14 @@ $('#btnRules').addEventListener('click',()=>{
   openModal(`
     <div class="trophy">📖</div><h2>How to play</h2>
     <div style="text-align:left">
-      <div style="font-weight:900;font-size:14px;margin-top:10px">🎨 Colour = whose turn</div>
+      <div style="font-weight:900;font-size:14px;margin-top:10px">🎯 Entering darts</div>
+      <div style="color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:5px">
+        Everything defaults to a SINGLE. Tap <b>DOUBLE</b> or <b>TREBLE</b> first, then the number — the multiplier resets to single after every dart.
+        Tap DOUBLE or TREBLE again to cancel it. <b>25</b> is the outer bull, <b>BULL</b> is the bullseye (50), <b>MISS</b> scores nothing.
+        Use ↶ in the top bar to undo the last dart.
+      </div>
+      <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px"></div>
+      <div style="font-weight:900;font-size:14px">🎨 Colour = whose turn</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${SEAT.slice(0,4).map(s=>`<div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--muted)"><i style="width:14px;height:14px;border-radius:5px;display:inline-block;background:${s.color}"></i>${s.name}</div>`).join('')}</div>
       <div style="color:var(--muted);font-size:12.5px;font-weight:600;line-height:1.55;margin-top:8px">A big banner flashes your name and the keypad glows in your colour. In Killer and Cricket, hits record as you throw.</div>
       <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px"></div>
@@ -879,7 +875,7 @@ function setupRound(g){
   g.players.forEach(p=>{p.spec=g.spec;p.cleared=false;p.gaveUp=false;p.tRemain=null;p.tBust=false;p.attempts=0;});
 }
 
-/* ---------- keypad ---------- */
+/* ---------- keypad: 5 x 5, singles by default ---------- */
 let padMult=1, lastDart=null;
 function undoDart(){
   const g=state.g;if(!g||g._locked)return;
@@ -895,12 +891,18 @@ function undoDart(){
 function buildKeypad(){
   let html='';
   for(let n=1;n<=20;n++)html+=`<button class="key num" data-num="${n}">${n}</button>`;
+  html+=`<button class="key ob" data-num="25">25<i>OUTER BULL</i></button>`;
+  html+=`<button class="key bull" data-num="50">BULL<i>50</i></button>`;
+  html+=`<button class="key zero" data-num="0">MISS<i>NO SCORE</i></button>`;
+  html+=`<button class="key mult2" data-mult="2">DOUBLE<i>TAP TO ARM</i></button>`;
+  html+=`<button class="key mult3" data-mult="3">TREBLE<i>TAP TO ARM</i></button>`;
   $('#keys').innerHTML=html;
   $$('#keys .key[data-num]').forEach(k=>k.addEventListener('click',()=>{enterDart(+k.dataset.num,padMult);}));
-  $$('#multRow .mult[data-mult]').forEach(m=>m.addEventListener('click',()=>{padMult=+m.dataset.mult;renderPad();vibrate(6);}));
-  $$('#multRow .mult[data-bull]').forEach(m=>m.addEventListener('click',()=>{enterDart(+m.dataset.bull,1);}));
-  $('#auxMiss').addEventListener('click',()=>{enterDart(0,1);});
-  $('#auxDel').addEventListener('click',undoDart);
+  $$('#keys .key[data-mult]').forEach(m=>m.addEventListener('click',()=>{
+    const want=+m.dataset.mult;
+    padMult=(padMult===want)?1:want;   // tap again to go back to single
+    renderPad();vibrate(6);
+  }));
 }
 function renderPad(){
   const g=state.g;const p=g?g.players[g.turn]:null;
@@ -910,13 +912,9 @@ function renderPad(){
   el.textContent=padMult===1?'S':padMult===2?'D':'T';
   el.className='armed m'+padMult;
   $('#padMultLbl').textContent=padMult===1?'SINGLE':padMult===2?'DOUBLE':'TREBLE';
-  $$('#multRow .mult[data-mult]').forEach(m=>m.classList.toggle('on',+m.dataset.mult===padMult));
   const blocked=!g||g.over||(p&&p.cpu)||g.aiPending||g._locked;
-  const lockNums=blocked||full;
-  $$('#keys .key').forEach(k=>k.classList.toggle('locked',lockNums));
-  $$('#multRow .mult[data-bull]').forEach(k=>k.classList.toggle('locked',lockNums));
-  $('#auxMiss').classList.toggle('locked',lockNums);
-  $('#auxDel').classList.toggle('locked',blocked||darts.length===0);
+  $$('#keys .key[data-num]').forEach(k=>k.classList.toggle('locked',blocked||full));
+  $$('#keys .key[data-mult]').forEach(k=>k.classList.toggle('on',+k.dataset.mult===padMult));
 }
 function dartScore(v,mult){if(v===0)return 0;if(v===50)return 50;return v*mult;}
 function dartLabel(v,mult){if(v===0)return '–';if(v===25)return 'OB';if(v===50)return 'BULL';return (mult===1?'S':mult===2?'D':'T')+v;}
