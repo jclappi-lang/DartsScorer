@@ -170,7 +170,6 @@
   .tb-darts .tbd b{font-size:14px;font-weight:900;color:var(--txt);font-variant-numeric:tabular-nums}
   .tb-darts .tbd span{font-size:9px;font-weight:800;color:var(--muted)}
   .tb-darts .tbd.on{border-style:solid}
-  /* 5 x 5 pad — every key the same size */
   .keys{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:6px;flex:1;min-height:0}
   .key{border-radius:11px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);
     font-size:clamp(17px,2.2vw,24px);font-weight:800;cursor:pointer;font-family:inherit;
@@ -242,7 +241,7 @@
   .seg.score{animation:goldPulse 1.9s ease-in-out infinite}
   .seg.closed_own{filter:drop-shadow(0 0 5px currentColor)}
   .seg.lit1{animation:oneAway 1.35s ease-in-out infinite}
-  .seg.dull{opacity:.2}
+  .seg.dull{opacity:.18}
   .seg.armour{filter:drop-shadow(0 0 8px currentColor)}
   @keyframes oneAway{0%,100%{filter:brightness(1)}50%{filter:brightness(1.65) drop-shadow(0 0 5px currentColor)}}
   @keyframes neonPulse{0%,100%{filter:drop-shadow(0 0 2px #ff1447) drop-shadow(0 0 6px #ff1447) brightness(1.05)}50%{filter:drop-shadow(0 0 7px #ff1447) drop-shadow(0 0 18px #ff3d68) brightness(1.6)}}
@@ -434,12 +433,12 @@ const MODES=[
   desc:'Close 20→15 and bull, then pile on the points.',
   variants:[{id:'cricket',label:'Standard'},{id:'cricket_noscore',label:'No Score'}],
   def:'cricket',minPlayers:2,maxPlayers:8,targetRounds:0,
-  rules:'Close 20, 19, 18, 17, 16, 15 and the bull. Marks are private but scoring rights are shared: you score on a number you have closed while an opponent is still open. Closing it yourself never loses marks. The board blacks out once everyone has closed it. Gold = you can score. The outer tabs show your OPPONENTS’ marks.'},
+  rules:'Close 20, 19, 18, 17, 16, 15 and the bull. A single is 1 mark, a double 2 and a treble 3 — so three trebles close a number. Marks are private but scoring rights are shared: you score on a number you have closed while an opponent is still open. Closing it yourself never loses marks. The board blacks out once everyone has closed it. Gold = you can score. The outer tabs show your OPPONENTS’ marks.'},
  {id:'killer',name:'Killer',ico:'💀',tag:'PVP',unit:'games',defaultMatch:1,
   desc:'Build 3 marks of armour, then hunt the others.',
   variants:[{id:'killer',label:'Last one standing'}],
   def:'killer',minPlayers:2,maxPlayers:8,targetRounds:0,
-  rules:'Everyone gets a RANDOM number (1–20). Hit your own number 3 times to build your armour and become a KILLER. Only a killer can damage others: hit an opponent’s number to knock their armour down. While they have ANY armour, hits remove armour first — knock it to 0 to take a life. If they rebuild even one level, you must strip that before you can take another life. 3 lives each. Last player standing wins. Darts are recorded as you throw them — no ENTER step.'},
+  rules:'Everyone gets a RANDOM number (1–20). Hit your own number 3 times to build your armour and become a KILLER. Only a killer can damage others: hit an opponent’s number to knock their armour down. While they have ANY armour, hits remove armour first — knock it to 0 to take a life. If they rebuild even one level, you must strip that before you can take another life. 3 lives each. Last player standing wins. In Killer any hit on a number counts as ONE, whatever the ring, so it always takes 3 separate hits to arm and one hit per life. Darts are recorded as you throw them — no ENTER step.'},
  {id:'rtc',name:'Round the Clock',ico:'🕐',tag:'TRAINING',unit:'games',defaultMatch:1,
   desc:'Hit 1 through 20 in order, finishing on bull.',
   variants:[{id:'rtc',label:'Any segment'},{id:'rtc_double',label:'Doubles only'}],
@@ -894,13 +893,13 @@ function buildKeypad(){
   html+=`<button class="key ob" data-num="25">25<i>OUTER BULL</i></button>`;
   html+=`<button class="key bull" data-num="50">BULL<i>50</i></button>`;
   html+=`<button class="key zero" data-num="0">MISS<i>NO SCORE</i></button>`;
-  html+=`<button class="key mult2" data-mult="2">DOUBLE<i>TAP TO ARM</i></button>`;
-  html+=`<button class="key mult3" data-mult="3">TREBLE<i>TAP TO ARM</i></button>`;
+  html+=`<button class="key mult2" data-mult="2">DOUBLE<i>ARM</i></button>`;
+  html+=`<button class="key mult3" data-mult="3">TREBLE<i>ARM</i></button>`;
   $('#keys').innerHTML=html;
   $$('#keys .key[data-num]').forEach(k=>k.addEventListener('click',()=>{enterDart(+k.dataset.num,padMult);}));
   $$('#keys .key[data-mult]').forEach(m=>m.addEventListener('click',()=>{
     const want=+m.dataset.mult;
-    padMult=(padMult===want)?1:want;   // tap again to go back to single
+    padMult=(padMult===want)?1:want;
     renderPad();vibrate(6);
   }));
 }
@@ -930,7 +929,10 @@ function cricketWouldScore(g,p,v,m){
   return key*(v===50?2:m);
 }
 
-/* ---------- killer combat ---------- */
+/* ---------- killer combat ----------
+   Killer is NOT cricket: any hit on a number counts as ONE mark,
+   whatever the ring. Arm with 3 separate hits; 1 hit takes 1 life.
+   Damage always strips ARMOUR first, and only reaches lives when armour is 0. */
 function killerResolve(g,p,key,hits){
   const ev={kind:null,target:null,lostLife:false,key};
   const me=p;
@@ -958,8 +960,7 @@ function killerApply(p,v,m){
   const g=state.g;if(v===0)return;
   const key=(v>=25?25:v);
   if(!KILLER_KEYS.includes(key))return;
-  const hits=(v===50?2:(v===25?1:m));
-  const ev=killerResolve(g,p,key,hits);
+  const ev=killerResolve(g,p,key,1);   // Killer: any hit on a number counts as ONE, whatever the ring
   if(ev.kind==='life'&&ev.target){flashHeart(ev.target,ev.target.lives);if(ev.target.out)checkKillerEnd();}
   else if(ev.kind==='armed')flashScore('ARMED');
   if(g.over)setTimeout(()=>{if(state.g===g)endGame();},700);
@@ -1098,8 +1099,7 @@ function rebuildAll(){
       if(d.v===0)return;
       const key=(d.v>=25?25:d.v);
       if(!KILLER_KEYS.includes(key))return;
-      const hits=(d.v===50?2:(d.v===25?1:d.mult));
-      killerResolve(g,p,key,hits);
+      killerResolve(g,p,key,1);   // Killer: always one mark per hit
     });
     replay(allDarts);replay(currentDarts);
   }
@@ -1398,14 +1398,12 @@ function chooseCpuDart(p){
   }
   if(g.mode==='killer'){
     if(p.armour<3){
-      const need=3-p.armour;const mr=rnd();
-      const mult=need>=3?3:(need===2?(mr<.5?2:3):(mr<.6?1:2));
-      return landedDart({v:p.kNum,mult:mult>3?3:mult},lvl);
+      const need=3-p.armour;
+      return landedDart({v:p.kNum,mult:need>=3?1:1},lvl);
     }
     const prey=g.players.filter(o=>o.id!==p.id&&!o.out).sort((a,b)=>(a.lives-b.lives)||(a.armour-b.armour));
     const t=prey[0]||{kNum:20};
-    const mr=rnd();const mult=mr<.55?1:(mr<.85?2:3);
-    return landedDart({v:t.kNum,mult},lvl);
+    return landedDart({v:t.kNum,mult:1},lvl);
   }
   if(g.mode==='rtc'){
     const t=p.target;
@@ -1616,6 +1614,9 @@ function paintCricketBoard(host,g,p){
     el.setAttribute('fill',k<oc.n?oc.color:'rgba(255,255,255,.07)');
   });
 }
+/* KILLER board: only the numbers actually in play stay bright.
+   Un-owned numbers fade right down; owned numbers carry the owner's colour,
+   with a faint tint at 0 armour and a full glow once armed. */
 function paintKillerBoard(host,g,p){
   const byNum={};
   g.players.forEach(pl=>{if(pl.kNum)byNum[pl.kNum]=pl;});
@@ -1624,7 +1625,8 @@ function paintKillerBoard(host,g,p){
     if(!num||num>20){if(el.dataset.bull==='1'){el.style.fill='';el.style.opacity='';el.style.filter='';}return;}
     el.classList.remove('hit','next','dead','score','closed_own','lit1','lit2','armour');
     el.style.fill='';el.style.opacity='';el.style.filter='';el.style.color='';
-    const owner=byNum[num];if(!owner)return;
+    const owner=byNum[num];
+    if(!owner){el.classList.add('dull');return;}          // nobody owns this number -> fade it out
     const a=Math.min(3,owner.armour||0);
     if(owner.out){el.classList.add('dead');return;}
     const ring=el.dataset.ring,band=el.dataset.band;
@@ -1634,6 +1636,8 @@ function paintKillerBoard(host,g,p){
       else el.style.fill=hexA(owner.color,.4);
     } else if(a===1){
       if(ring==='single'&&band==='inner'){el.style.fill=hexA(owner.color,.9);el.classList.add('lit1');}
+    } else {
+      el.style.fill=hexA(owner.color,.17);                // in play, no armour built yet
     }
   });
   host.querySelectorAll('.numlabel').forEach(el=>{
@@ -1641,10 +1645,11 @@ function paintKillerBoard(host,g,p){
     if(num>20||!num)return;
     const owner=byNum[num];
     el.style.filter='none';el.style.opacity='1';
-    if(!owner){el.setAttribute('fill','#5a6478');return;}
-    if(owner.out){el.setAttribute('fill','#3a445c');el.style.opacity='.4';return;}
+    if(!owner){el.setAttribute('fill','#5a6478');el.setAttribute('font-size','15');el.style.opacity='.28';return;}
+    if(owner.out){el.setAttribute('fill','#3a445c');el.setAttribute('font-size','22');el.style.opacity='.4';return;}
     el.setAttribute('fill',owner.color);
-    if(owner.armour>=3)el.style.filter=`drop-shadow(0 0 6px ${owner.color})`;
+    el.setAttribute('font-size','22');
+    if(owner.armour>=3)el.style.filter=`drop-shadow(0 0 8px ${owner.color})`;
   });
 }
 
@@ -1735,15 +1740,15 @@ function bigScore(p){
 function hintFor(g,p,ev){
   if(g.over)return g.winReason||'';
   if(p.cpu)return 'CPU throwing…';
+  const th=g.dartsThrown[p.id]||0;
   if(g.mode==='x01'){
-    if(ev&&ev.bust)return 'Bust — tap ENTER to void this visit';
+    if(ev&&ev.bust)return 'Bust — void this visit';
     const rem=ev?ev.rem:p.score;
     const route=routeFor(rem);
     if(route)return 'Finish: '+route.map(d=>d.label).join(' → ');
     if(rem<=170)return 'No 3-dart finish from '+rem+' — set up a double';
     return 'Aim T20 to bring it down';
   }
-  const th=g.dartsThrown[p.id]||0;
   if(g.mode==='cricket'){
     const mine=k=>liveMarks(g,p,k);
     const scoring=CRICKET_KEYS.filter(k=>mine(k)>=3&&g.players.some(o=>o.id!==p.id&&(o.marks[k]||0)<3));
